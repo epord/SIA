@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
         State state = fm.readStateFromFile(Paths.get("board"));
-        System.out.println(state.getRepresentation());
+        System.out.println(state.getRepresentation() + state.getRepresentation());
     }
 
 }
