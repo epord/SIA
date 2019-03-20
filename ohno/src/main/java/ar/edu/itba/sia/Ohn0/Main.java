@@ -8,7 +8,8 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
-        State state = fm.readStateFromFile(Paths.get("board"));
+//        State state = fm.readStateFromFile(Paths.get("board"));
+        State state = fm.readStateFromFile(Paths.get(args[0]));
         System.out.println(state.getRepresentation() + state.getRepresentation());
     }
 
