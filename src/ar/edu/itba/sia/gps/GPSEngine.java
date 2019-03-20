@@ -1,17 +1,11 @@
 package ar.edu.itba.sia.gps;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import ar.edu.itba.sia.gps.api.Heuristic;
+import ar.edu.itba.sia.gps.api.Problem;
+import ar.edu.itba.sia.gps.api.Rule;
+import ar.edu.itba.sia.gps.api.State;
 
-import gps.api.Heuristic;
-import gps.api.Problem;
-import gps.api.Rule;
-import gps.api.State;
+import java.util.*;
 
 public class GPSEngine {
 
