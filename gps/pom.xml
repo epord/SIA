@@ -10,8 +10,8 @@
         <version>1.0</version>
     </parent>
 
-    <artifactId>GPS</artifactId>
-    <name>GPS</name>
+    <artifactId>gps</artifactId>
+    <name>gps</name>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
 

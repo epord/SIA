@@ -32,7 +32,7 @@
     </dependency>
     <dependency>
       <groupId>ar.edu.itba.sia</groupId>
-      <artifactId>GPS</artifactId>
+      <artifactId>gps</artifactId>
       <version>1.0</version>
       <scope>compile</scope>
     </dependency>
