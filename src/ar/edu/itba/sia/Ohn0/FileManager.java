@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class FileManager {
 
-    public State readStateFromFile(Path path) throws IOException {
+    public Board readStateFromFile(Path path) throws IOException {
         Scanner sc = new Scanner(path);
         if (!sc.hasNextLine()) throw new IllegalStateException("No lines to read.");
         String firstLine = sc.nextLine().trim();
@@ -22,7 +22,7 @@ public class FileManager {
                 cells[i][j++] = createCell(value);
             }
         }
-        return new State(cells, size);
+        return new Board(cells, size);
     }
 
     private Cell createCell(String value) {

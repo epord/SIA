@@ -1,6 +1,6 @@
 package ar.edu.itba.sia.Ohn0.Heuristics;
 
-import ar.edu.itba.sia.Ohn0.State;
+import ar.edu.itba.sia.Ohn0.Board;
 import ar.edu.itba.sia.gps.api.Heuristic;
 
 public class MissingRedsHeuristics implements Heuristic {
@@ -13,12 +13,12 @@ public class MissingRedsHeuristics implements Heuristic {
             throw new IllegalArgumentException();
         }
 
-        State currentState = (State) state;
-        for (int i = 0; i < currentState.getSize(); i++) {
-            for (int j = 0; j < currentState.getSize(); j++) {
-                cumulated += currentState.getCell(i, j).getValue();
+        Board currentBoard = (Board) state;
+        for (int i = 0; i < currentBoard.getSize(); i++) {
+            for (int j = 0; j < currentBoard.getSize(); j++) {
+                cumulated += currentBoard.getCell(i, j).getValue();
             }
         }
-        return currentState.getSize() * currentState.getSize() - cumulated;
+        return currentBoard.getSize() * currentBoard.getSize() - cumulated;
     }
 }
