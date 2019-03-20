@@ -1,6 +1,5 @@
 package ar.edu.itba.sia.Ohn0;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 
 public class State implements ar.edu.itba.sia.gps.api.State {
 
@@ -28,7 +27,7 @@ public class State implements ar.edu.itba.sia.gps.api.State {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                builder.append(cells[i][j].toString());
+                builder.append(cells[i][j].toString() + " ");
             }
             builder.append("\n");
         }

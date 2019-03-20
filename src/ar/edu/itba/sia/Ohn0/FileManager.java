@@ -1,46 +1,43 @@
 package ar.edu.itba.sia.Ohn0;
 
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Scanner;
 
 public class FileManager {
 
-    /// TODO: separador entre celdas para leer numeros de más de una cifra
-    public State readStateFromFile(String path) throws IOException {
-        FileReader fr = new FileReader(path);
-        int size = readNumber(fr);
-        if (size == -1) throw new IllegalStateException();
+    public State readStateFromFile(Path path) throws IOException {
+        Scanner sc = new Scanner(path);
+        if (!sc.hasNextLine()) throw new IllegalStateException("No lines to read.");
+        String firstLine = sc.nextLine().trim();
+        if (!firstLine.matches("\\d+")) throw  new IllegalStateException("First line must be the size.");
+        int size = Integer.parseInt(firstLine);
         Cell cells[][] = new Cell[size][size];
         for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                int value = fr.read();
-                if (value == -1) throw new IllegalStateException();
-                cells[i][j] = createCell(value);
+            if (!sc.hasNext()) throw new IllegalStateException();
+            String[] row = sc.nextLine().trim().split(" ");
+            if (row.length != size) throw new IllegalStateException("Column size do not match decalred size.");
+            int j = 0;
+            for (String value: row) {
+                cells[i][j++] = createCell(value);
             }
-            fr.read();
         }
         return new State(cells, size);
     }
 
-    private int readNumber(FileReader fr) throws IOException {
-        int number = 0;
-        int value;
-        while ((value = fr.read()) != '\n') {
-            number = number * 10 + value - '0';
+    private Cell createCell(String value) {
+        if (value.matches("\\d+")){
+            return new Cell(true, Integer.parseInt(value), Color.BLUE);
         }
-        return number;
-    }
-
-    private Cell createCell(int value) {
         switch (value) {
-            case '.':
+            case ".":
                 return new Cell(false, 0, Color.WHITE);
-            case 'X':
+            case "X":
                 return new Cell(true, 0, Color.RED);
-            case 'O':
+            case "O":
                 return new Cell(true, 0, Color.BLUE);
             default:
-                return new Cell(true, value - '0', Color.BLUE);
+                throw new IllegalStateException("Invalid board symbol.");
         }
     }
 
