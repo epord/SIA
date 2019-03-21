@@ -36,7 +36,8 @@ public class Board implements ar.edu.itba.sia.gps.api.State {
     }
 
     public Board switchColor(int row, int col, Color newColor) {
-        if(row < 0 || row >= size || col < 0 || col >= size || cells[row][col].getFixed()) {
+        if(row < 0 || row >= size || col < 0 || col >= size || cells[row][col].getFixed() ||
+                newColor.equals(cells[row][col].getColor())) {
             return null;
         }
         Board newBoard = new Board(cells, size);
