@@ -26,5 +26,10 @@ public class Ohn0Rule implements ar.edu.itba.sia.gps.api.Rule {
     public Optional<ar.edu.itba.sia.gps.api.State> apply(ar.edu.itba.sia.gps.api.State state) {
         return function.apply(state);
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }
 
