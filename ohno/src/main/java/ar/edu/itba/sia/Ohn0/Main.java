@@ -20,7 +20,7 @@ public class Main {
         List<ar.edu.itba.sia.gps.api.Rule> problemRules = generateRulesFilling(board.getSize());
         ProblemImpl OhN0 = new ProblemImpl(board, problemRules);
         FillingBlanksHeuristic heuristic = new FillingBlanksHeuristic();
-        GPSEngine engine = new GPSEngine(OhN0, SearchStrategy.BFS, heuristic);
+        GPSEngine engine = new GPSEngine(OhN0, SearchStrategy.DFS, heuristic);
         engine.findSolution();
     }
 
@@ -70,6 +70,7 @@ public class Main {
                 rules.add(new Ohn0Rule("blue:" + i +"," + j, state -> {
                     Board currentBoard = (Board) state;
                     Board newBoard;
+                    if (!currentBoard.getCell(I, J).isBlank()) return Optional.empty();
                     newBoard = currentBoard.switchColor(I, J, Color.BLUE);
                     if(newBoard == null) {
                         return Optional.empty();
@@ -82,6 +83,7 @@ public class Main {
                 rules.add(new Ohn0Rule("red:" + i + "," + j, state -> {
                     Board currentBoard = (Board) state;
                     Board newBoard;
+                    if (!currentBoard.getCell(I, J).isBlank()) return Optional.empty();
                     newBoard = currentBoard.switchColor(I, J, Color.RED);
                     if(newBoard == null || !newBoard.isChangeValid(I,J)) {
                         return Optional.empty();
