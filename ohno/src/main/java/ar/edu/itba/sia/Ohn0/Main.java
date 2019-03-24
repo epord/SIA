@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.Ohn0;
 
 import ar.edu.itba.sia.Ohn0.Heuristics.FillingBlanksHeuristic;
+import ar.edu.itba.sia.Ohn0.Heuristics.MissingRedsHeuristics;
 import ar.edu.itba.sia.gps.GPSEngine;
 import ar.edu.itba.sia.gps.SearchStrategy;
 
@@ -15,13 +16,17 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
-        Board board = fm.readStateFromFile(Paths.get("board4X4"));
-//        System.out.println(board.isNumberCorrect(4, 0));
+        Board board = fm.readStateFromFile(Paths.get("board6X6")).fillRandomly();
 
         List<ar.edu.itba.sia.gps.api.Rule> problemRules = generateRulesFilling(board.getSize());
-        ProblemImpl OhN0 = new ProblemImpl(board, problemRules);
+        List<ar.edu.itba.sia.gps.api.Rule> reparationRules = generateRulesReparation(board.getSize());
+
         FillingBlanksHeuristic heuristic = new FillingBlanksHeuristic();
-        GPSEngine engine = new GPSEngine(OhN0, SearchStrategy.GREEDY, heuristic);
+        MissingRedsHeuristics reparationHeuristic = new MissingRedsHeuristics();
+
+        ProblemImpl OhN0 = new ProblemImpl(board, reparationRules);
+        GPSEngine engine = new GPSEngine(OhN0, SearchStrategy.ASTAR, reparationHeuristic);
+
         engine.findSolution();
     }
 

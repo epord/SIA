@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.Ohn0;
 
 
+import java.util.Random;
 
 public class Board implements ar.edu.itba.sia.gps.api.State {
 
@@ -108,6 +109,20 @@ public class Board implements ar.edu.itba.sia.gps.api.State {
             }
         }
         return value == 0 || (value > 0 && blanks > 0 && value <= blanks);
+    }
+
+    public Board fillRandomly() {
+        Board newBoard = new Board(cells, size);
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (newBoard.getCell(i, j).isBlank()) {
+                    Random r = new Random();
+                    Color randomColor = r.nextBoolean() ? Color.RED : Color.BLUE;
+                    newBoard.cells[i][j] = new Cell(false, 0, randomColor);
+                }
+            }
+        }
+        return newBoard;
     }
 
     @Override
