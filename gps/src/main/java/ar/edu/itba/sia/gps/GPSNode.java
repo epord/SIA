@@ -45,7 +45,18 @@ public class GPSNode {
 		if (this.parent == null) {
 			return this.state.toString();
 		}
-		return this.parent.getSolution() + "\n\n" + this.state.toString();
+		// Run iteratively instead of recursively to prevent stack overflow errors as well as instantiation of many Strings
+		GPSNode currentNode = this;
+		StringBuilder result = new StringBuilder();
+		do {
+			result
+                    .insert(0, "\n\n")
+                    .insert(0, currentNode.state.toString());
+			currentNode = currentNode.parent;
+		} while (currentNode != null);
+        return result
+                .toString()
+                .trim(); // Remove trailing \n\n
 	}
 
 	@Override
