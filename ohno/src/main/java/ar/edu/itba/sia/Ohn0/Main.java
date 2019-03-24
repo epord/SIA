@@ -16,11 +16,12 @@ public class Main {
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
         Board board = fm.readStateFromFile(Paths.get("testBoard"));
-        //System.out.println(board.getRepresentation() + board.getRepresentation());
+//        System.out.println(board.isNumberCorrect(4, 0));
+
         List<ar.edu.itba.sia.gps.api.Rule> problemRules = generateRulesFilling(board.getSize());
         ProblemImpl OhN0 = new ProblemImpl(board, problemRules);
         FillingBlanksHeuristic heuristic = new FillingBlanksHeuristic();
-        GPSEngine engine = new GPSEngine(OhN0, SearchStrategy.DFS, heuristic);
+        GPSEngine engine = new GPSEngine(OhN0, SearchStrategy.ASTAR, heuristic);
         engine.findSolution();
     }
 
@@ -72,7 +73,7 @@ public class Main {
                     Board newBoard;
                     if (!currentBoard.getCell(I, J).isBlank()) return Optional.empty();
                     newBoard = currentBoard.switchColor(I, J, Color.BLUE);
-                    if(newBoard == null) {
+                    if(newBoard == null || !newBoard.isChangeValid(I,J)) {
                         return Optional.empty();
                     }
                     else {

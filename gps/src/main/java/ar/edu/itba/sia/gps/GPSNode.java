@@ -42,7 +42,6 @@ public class GPSNode {
 	}
 
 	public String getSolution() {
-		System.out.println("printing solution");
 		if (this.parent == null) {
 			return this.state.toString();
 		}

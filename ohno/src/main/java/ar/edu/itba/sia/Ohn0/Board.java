@@ -40,10 +40,23 @@ public class Board implements ar.edu.itba.sia.gps.api.State {
         return builder.toString();
     }
 
+    private int adjacentReds(int row, int col) {
+        int redCount = 0;
+        if (row - 1 < 0 || row - 1 >= size || getCell(row - 1, col).getColor() == Color.RED) redCount++;
+        if (row + 1 < 0 || row + 1 >= size || getCell(row + 1, col).getColor() == Color.RED) redCount++;
+        if (col - 1 < 0 || col - 1 >= size || getCell(row, col - 1).getColor() == Color.RED) redCount++;
+        if (col + 1 < 0 || col + 1 >= size || getCell(row, col + 1).getColor() == Color.RED) redCount++;
+        return redCount;
+    }
+
     public Board switchColor(int row, int col, Color newColor) {
         if(row < 0 || row >= size || col < 0 || col >= size || cells[row][col].getFixed() ||
                 newColor.equals(cells[row][col].getColor())) {
             return null;
+        }
+        if(newColor == Color.BLUE) {
+            int redCounter = adjacentReds(row, col);
+            if (redCounter == 4) return null;
         }
         Board newBoard = new Board(cells, size);
         newBoard.cells[row][col] = new Cell(false, 0, newColor);
@@ -60,7 +73,7 @@ public class Board implements ar.edu.itba.sia.gps.api.State {
         };
 
         for (int i = 0; i < 4; i++) {
-            for (int j = row, k = col; j < getSize() && j >= 0 && k < getSize() && k >= 0
+            for (int j = row + directions[i][0], k = col + directions[i][1]; j < getSize() && j >= 0 && k < getSize() && k >= 0
                     && !getCell(j, k).isBlank() && !getCell(j, k).getColor().equals(Color.RED); j += directions[i][0], k += directions[i][1]) {
                 if (getCell(j, k).getValue() > 0) {
                     value = isNumberCorrect(j,k);
@@ -74,9 +87,9 @@ public class Board implements ar.edu.itba.sia.gps.api.State {
         return true;
     }
 
-    private boolean isNumberCorrect(int row, int col) {
+    public boolean isNumberCorrect(int row, int col) {
         int value = getCell(row, col).getValue();
-        boolean blankFound = false;
+        int blanks = 0;
         int directions[][] = new int[][]{
                 {-1, 0},
                 {1, 0},
@@ -84,18 +97,17 @@ public class Board implements ar.edu.itba.sia.gps.api.State {
                 {0, 1}
         };
         for (int i = 0; i < 4; i++) {
-            for (int j = row, k = col; j < getSize() && j >= 0 && k < getSize() && k >= 0
+            for (int j = row + directions[i][0], k = col + directions[i][1]; j < getSize() && j >= 0 && k < getSize() && k >= 0
                      && !getCell(j, k).getColor().equals(Color.RED); j += directions[i][0], k += directions[i][1]) {
                 if(getCell(j, k).isBlank()) {
-                    blankFound = true;
-                    break;
+                    blanks++;
                 }
-                else if (j != row || k != col) {
+                else {
                     value -= 1;
                 }
             }
         }
-        return value == 0 || (value > 0 && blankFound);
+        return value == 0 || (value > 0 && blanks > 0 && value <= blanks);
     }
 
     @Override

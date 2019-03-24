@@ -68,6 +68,7 @@ public class GPSEngine {
 		}
 		failed = true;
 		finished = true;
+		System.out.println("FAILED");
 
 	}
 
@@ -80,7 +81,7 @@ public class GPSEngine {
 			}
 			newCandidates = new ArrayList<>();
 			addCandidates(node, newCandidates);
-			newCandidates.forEach(gpsNode -> open.offer(gpsNode ));
+			newCandidates.forEach(gpsNode -> open.offer(gpsNode));
 			break;
 
 		case DFS:
