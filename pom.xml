@@ -24,7 +24,6 @@
   </properties>
 
   <build>
-    <finalName>0hn0</finalName>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -59,6 +58,8 @@
           <descriptorRefs>
             <descriptorRef>jar-with-dependencies</descriptorRef>
           </descriptorRefs>
+          <finalName>gps-1.0</finalName>
+          <appendAssemblyId>false</appendAssemblyId>
         </configuration>
       </plugin>
 
