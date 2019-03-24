@@ -26,6 +26,9 @@ public class ProblemImpl implements ar.edu.itba.sia.gps.api.Problem {
         for (int i = 0; i < currentBoard.getSize(); i++) {
             for (int j = 0; j < currentBoard.getSize(); j++) {
                 Cell cell = currentBoard.getCell(i, j);
+                if(currentBoard.getCell(i, j).isBlank()) {
+                    return false;
+                }
                 int value = cell.getValue();
                 if (value > 0) {
                     if (!checkValidCell(i, j, currentBoard)) {
