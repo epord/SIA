@@ -87,7 +87,7 @@ public class Board implements ar.edu.itba.sia.gps.api.State {
         return true;
     }
 
-    public boolean isNumberCorrect(int row, int col) {
+    private boolean isNumberCorrect(int row, int col) {
         int value = getCell(row, col).getValue();
         int blanks = 0;
         int directions[][] = new int[][]{
