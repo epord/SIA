@@ -125,6 +125,19 @@ public class Board implements ar.edu.itba.sia.gps.api.State {
         return newBoard;
     }
 
+    public Board fillBlue() {
+        Board newBoard = new Board(cells, size);
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (newBoard.getCell(i, j).isBlank()) {
+                    Random r = new Random();
+                    newBoard.cells[i][j] = new Cell(false, 0, Color.BLUE);
+                }
+            }
+        }
+        return newBoard;
+    }
+
     @Override
     public String toString() {
         return  getRepresentation();

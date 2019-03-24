@@ -16,7 +16,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
-        Board board = fm.readStateFromFile(Paths.get("board6X6")).fillRandomly();
+        Board board = fm.readStateFromFile(Paths.get("board6X6")).fillBlue();
 
         List<ar.edu.itba.sia.gps.api.Rule> problemRules = generateRulesFilling(board.getSize());
         List<ar.edu.itba.sia.gps.api.Rule> reparationRules = generateRulesReparation(board.getSize());
@@ -27,7 +27,10 @@ public class Main {
         ProblemImpl OhN0 = new ProblemImpl(board, reparationRules);
         GPSEngine engine = new GPSEngine(OhN0, SearchStrategy.ASTAR, reparationHeuristic);
 
+
+        Long startTime = System.currentTimeMillis();
         engine.findSolution();
+        System.out.println(System.currentTimeMillis() - startTime + " ms");
     }
 
     private static List<ar.edu.itba.sia.gps.api.Rule> generateRulesReparation(int size) {
