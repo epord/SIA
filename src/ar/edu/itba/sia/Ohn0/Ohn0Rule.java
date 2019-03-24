@@ -3,11 +3,11 @@ package ar.edu.itba.sia.Ohn0;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class Rule implements ar.edu.itba.sia.gps.api.Rule {
+public class Ohn0Rule implements ar.edu.itba.sia.gps.api.Rule {
     private String name;
     private Function<ar.edu.itba.sia.gps.api.State, Optional<ar.edu.itba.sia.gps.api.State>> function;
 
-    public Rule(String name, Function<ar.edu.itba.sia.gps.api.State, Optional<ar.edu.itba.sia.gps.api.State>> function) {
+    public Ohn0Rule(String name, Function<ar.edu.itba.sia.gps.api.State, Optional<ar.edu.itba.sia.gps.api.State>> function) {
         this.name = name;
         this.function = function;
     }
@@ -27,3 +27,4 @@ public class Rule implements ar.edu.itba.sia.gps.api.Rule {
         return function.apply(state);
     }
 }
+

@@ -1,7 +1,7 @@
 package ar.edu.itba.sia.gps.api;
 
 /**
- * State interface.
+ * Board interface.
  */
 public interface State {
 
