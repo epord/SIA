@@ -15,13 +15,13 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
-        Board board = fm.readStateFromFile(Paths.get("board6X6"));
+        Board board = fm.readStateFromFile(Paths.get("board4X4"));
 //        System.out.println(board.isNumberCorrect(4, 0));
 
         List<ar.edu.itba.sia.gps.api.Rule> problemRules = generateRulesFilling(board.getSize());
         ProblemImpl OhN0 = new ProblemImpl(board, problemRules);
         FillingBlanksHeuristic heuristic = new FillingBlanksHeuristic();
-        GPSEngine engine = new GPSEngine(OhN0, SearchStrategy.ASTAR, heuristic);
+        GPSEngine engine = new GPSEngine(OhN0, SearchStrategy.GREEDY, heuristic);
         engine.findSolution();
     }
 
