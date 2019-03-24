@@ -15,7 +15,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
-        Board board = fm.readStateFromFile(Paths.get("board7X7"));
+        Board board = fm.readStateFromFile(Paths.get("board6X6"));
 //        System.out.println(board.isNumberCorrect(4, 0));
 
         List<ar.edu.itba.sia.gps.api.Rule> problemRules = generateRulesFilling(board.getSize());
