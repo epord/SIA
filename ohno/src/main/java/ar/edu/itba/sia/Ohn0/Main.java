@@ -1,5 +1,9 @@
 package ar.edu.itba.sia.Ohn0;
 
+import ar.edu.itba.sia.Ohn0.Heuristics.FillingBlanksHeuristic;
+import ar.edu.itba.sia.gps.GPSEngine;
+import ar.edu.itba.sia.gps.SearchStrategy;
+
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -11,10 +15,13 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
-        Board board = fm.readStateFromFile(Paths.get("board"));
-        System.out.println(board.getRepresentation() + board.getRepresentation());
-        List<ar.edu.itba.sia.gps.api.Rule> problemRules = generateRulesReparation(board.getSize());
+        Board board = fm.readStateFromFile(Paths.get("testBoard"));
+        //System.out.println(board.getRepresentation() + board.getRepresentation());
+        List<ar.edu.itba.sia.gps.api.Rule> problemRules = generateRulesFilling(board.getSize());
         ProblemImpl OhN0 = new ProblemImpl(board, problemRules);
+        FillingBlanksHeuristic heuristic = new FillingBlanksHeuristic();
+        GPSEngine engine = new GPSEngine(OhN0, SearchStrategy.BFS, heuristic);
+        engine.findSolution();
     }
 
     private static List<ar.edu.itba.sia.gps.api.Rule> generateRulesReparation(int size) {

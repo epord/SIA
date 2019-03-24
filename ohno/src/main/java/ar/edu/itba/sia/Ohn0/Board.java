@@ -8,7 +8,12 @@ public class Board implements ar.edu.itba.sia.gps.api.State {
     private Integer size;
 
     public Board(Cell[][] cells, Integer size) {
-        this.cells = cells;
+        this.cells = new Cell[size][size];
+        for(int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                this.cells[i][j] = cells[i][j];
+            }
+        }
         this.size = size;
     }
 
