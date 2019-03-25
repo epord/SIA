@@ -2,10 +2,11 @@ package ar.edu.itba.sia.Ohn0.Heuristics;
 
 import ar.edu.itba.sia.Ohn0.Board;
 import ar.edu.itba.sia.gps.api.Heuristic;
+import ar.edu.itba.sia.gps.api.State;
 
 public class MissingRedsHeuristics implements Heuristic {
     @Override
-    public Integer getValue(ar.edu.itba.sia.gps.api.State state) {
+    public Integer getValue(State state) {
         int cumulated = 0;
         int fixedBlueCount = 0;
 

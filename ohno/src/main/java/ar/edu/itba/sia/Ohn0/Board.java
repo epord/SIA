@@ -1,11 +1,12 @@
 package ar.edu.itba.sia.Ohn0;
 
 
-import java.util.Objects;
 import java.util.Random;
+
+import ar.edu.itba.sia.gps.api.State;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class Board implements ar.edu.itba.sia.gps.api.State {
+public class Board implements State {
 
     private Cell[][] cells;
     private Integer size;

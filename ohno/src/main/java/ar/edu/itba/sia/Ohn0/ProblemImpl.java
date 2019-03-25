@@ -1,24 +1,27 @@
 package ar.edu.itba.sia.Ohn0;
 
+import ar.edu.itba.sia.gps.api.Problem;
+import ar.edu.itba.sia.gps.api.Rule;
+import ar.edu.itba.sia.gps.api.State;
+
 import java.util.List;
 
-public class ProblemImpl implements ar.edu.itba.sia.gps.api.Problem {
+public class ProblemImpl implements Problem {
     private Board initialBoard;
-    private List<ar.edu.itba.sia.gps.api.Rule> rules;
+    private List<Rule> rules;
 
-    public ProblemImpl(Board initialBoard, List<ar.edu.itba.sia.gps.api.Rule> rules) {
+    public ProblemImpl(Board initialBoard, List<Rule> rules) {
         this.initialBoard = initialBoard;
         this.rules = rules;
     }
 
     @Override
-    public ar.edu.itba.sia.gps.api.State getInitState() {
+    public State getInitState() {
         return initialBoard;
     }
 
     @Override
-    public boolean isGoal(ar.edu.itba.sia.gps.api.State state) {
-        /// TODO: preguntar si está bien
+    public boolean isGoal(State state) {
         if (!state.getClass().equals(Board.class)) {
             throw new IllegalArgumentException();
         }
@@ -63,7 +66,7 @@ public class ProblemImpl implements ar.edu.itba.sia.gps.api.Problem {
     }
 
     @Override
-    public List<ar.edu.itba.sia.gps.api.Rule> getRules() {
+    public List<Rule> getRules() {
         return rules;
     }
 }

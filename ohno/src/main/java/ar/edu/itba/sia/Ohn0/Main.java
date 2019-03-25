@@ -4,6 +4,7 @@ import ar.edu.itba.sia.Ohn0.Heuristics.FillingBlanksHeuristic;
 import ar.edu.itba.sia.Ohn0.Heuristics.MissingRedsHeuristics;
 import ar.edu.itba.sia.gps.GPSEngine;
 import ar.edu.itba.sia.gps.SearchStrategy;
+import ar.edu.itba.sia.gps.api.Rule;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -16,10 +17,10 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
-        Board board = fm.readStateFromFile(Paths.get("board5X5")).fillBlue();
+        Board board = fm.readStateFromFile(Paths.get("board5X5")).fillRandomly();
 
-        List<ar.edu.itba.sia.gps.api.Rule> problemRules = generateRulesFilling(board.getSize());
-        List<ar.edu.itba.sia.gps.api.Rule> reparationRules = generateRulesReparation(board.getSize());
+        List<Rule> problemRules = generateRulesFilling(board.getSize());
+        List<Rule> reparationRules = generateRulesReparation(board.getSize());
 
         FillingBlanksHeuristic heuristic = new FillingBlanksHeuristic();
         MissingRedsHeuristics reparationHeuristic = new MissingRedsHeuristics();
@@ -33,9 +34,9 @@ public class Main {
         System.out.println(System.currentTimeMillis() - startTime + " ms");
     }
 
-    private static List<ar.edu.itba.sia.gps.api.Rule> generateRulesReparation(int size) {
+    private static List<Rule> generateRulesReparation(int size) {
         int i, j;
-        List<ar.edu.itba.sia.gps.api.Rule> rules = new ArrayList<>();
+        List<Rule> rules = new ArrayList<>();
 
         for(i = 0; i < size; i++) {
             for(j = 0; j < size; j++) {
@@ -69,9 +70,9 @@ public class Main {
         return rules;
     }
 
-    private static List<ar.edu.itba.sia.gps.api.Rule> generateRulesFilling(int size) {
+    private static List<Rule> generateRulesFilling(int size) {
         int i, j;
-        List<ar.edu.itba.sia.gps.api.Rule> rules = new ArrayList<>();
+        List<Rule> rules = new ArrayList<>();
 
         for(i = 0; i < size; i++) {
             for(j = 0; j < size; j++) {

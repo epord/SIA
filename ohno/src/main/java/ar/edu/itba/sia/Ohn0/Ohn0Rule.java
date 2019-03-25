@@ -1,13 +1,16 @@
 package ar.edu.itba.sia.Ohn0;
 
+import ar.edu.itba.sia.gps.api.Rule;
+import ar.edu.itba.sia.gps.api.State;
+
 import java.util.Optional;
 import java.util.function.Function;
 
-public class Ohn0Rule implements ar.edu.itba.sia.gps.api.Rule {
+public class Ohn0Rule implements Rule {
     private String name;
-    private Function<ar.edu.itba.sia.gps.api.State, Optional<ar.edu.itba.sia.gps.api.State>> function;
+    private Function<State, Optional<State>> function;
 
-    public Ohn0Rule(String name, Function<ar.edu.itba.sia.gps.api.State, Optional<ar.edu.itba.sia.gps.api.State>> function) {
+    public Ohn0Rule(String name, Function<State, Optional<State>> function) {
         this.name = name;
         this.function = function;
     }
@@ -23,7 +26,7 @@ public class Ohn0Rule implements ar.edu.itba.sia.gps.api.Rule {
     }
 
     @Override
-    public Optional<ar.edu.itba.sia.gps.api.State> apply(ar.edu.itba.sia.gps.api.State state) {
+    public Optional<State> apply(State state) {
         return function.apply(state);
     }
 
