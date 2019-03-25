@@ -12,11 +12,10 @@ function setup() {
     createCanvas(windowSize, windowSize);
     noStroke();
     frameRate(fps);
-    console.log(file)
     boardSize = parseInt(file[0].trim());
     file.filter((content, line) => content && line !== 0)
         .forEach((content, line) => {
-            if ((line % 4) === 0) {
+            if ((line % boardSize) === 0) {
                 states.push([])
             }
             states[Math.floor(line/boardSize)].push(content);
