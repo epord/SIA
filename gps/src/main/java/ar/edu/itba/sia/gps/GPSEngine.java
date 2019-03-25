@@ -31,12 +31,12 @@ public class GPSEngine {
 		else {
 			Objects.requireNonNull(heuristic);
 			if(strategy.equals(SearchStrategy.ASTAR)) {
-				open = new PriorityQueue<GPSNode>(10, Comparator.comparingInt(
+				open = new PriorityQueue<>(10, Comparator.comparingInt(
 						node -> heuristic.getValue(node.getState()) + node.getCost())
 				);
 			}
 			else {
-				open = new PriorityQueue<GPSNode>(10, Comparator.comparingInt(
+				open = new PriorityQueue<>(10, Comparator.comparingInt(
 						node -> heuristic.getValue(node.getState()))
 				);
 			}
