@@ -1,7 +1,9 @@
 package ar.edu.itba.sia.Ohn0;
 
 
+import java.util.Objects;
 import java.util.Random;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Board implements ar.edu.itba.sia.gps.api.State {
 
@@ -34,7 +36,7 @@ public class Board implements ar.edu.itba.sia.gps.api.State {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                builder.append(cells[i][j].toString() + " ");
+                builder.append(cells[i][j].toString()).append(" ");
             }
             builder.append("\n");
         }
@@ -161,6 +163,14 @@ public class Board implements ar.edu.itba.sia.gps.api.State {
 
     @Override
     public int hashCode() {
-        return getRepresentation().hashCode();
+        //Objects.hashCode(cells);
+        HashCodeBuilder hashBuilder = new HashCodeBuilder(17, 37);
+        for(int i = 0; i < size; i++) {
+            for(int j = 0; j < size; j++) {
+                hashBuilder.append(cells[i][j].getColor()).append(cells[i][j].getValue());
+            }
+        }
+        //return getRepresentation().hashCode();
+        return hashBuilder.toHashCode();
     }
 }
