@@ -24,7 +24,7 @@ public class Main {
 //        Heuristic heuristic = new MissingVisibleBlueHeuristics();
         Heuristic heuristic = new MissingRedsHeuristics();
 //        runFillBlanks(board, SearchStrategy.ASTAR, heuristic);
-        runHeuristicRepair(board, SearchStrategy.ASTAR, heuristic);
+        runHeuristicRepair(board, SearchStrategy.GREEDY, heuristic);
     }
 
     private static void runFillBlanks(Board board, SearchStrategy strategy, Heuristic heuristic) {

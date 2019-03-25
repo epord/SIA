@@ -133,6 +133,9 @@ public class GPSEngine {
 			break;
 
 		case GREEDY:
+			if (!isBest(node.getState(), node.getCost())) {
+				return;
+			}
 			newCandidates = new ArrayList<>();
 			addCandidates(node, newCandidates);
 			open.addAll(newCandidates);
