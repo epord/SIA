@@ -11,6 +11,7 @@ public class GPSEngine {
 
 	Queue<GPSNode> open;
 	Map<State, Integer> bestCosts;
+	Set<State> generatedStates = new HashSet<>();
 	Problem problem;
 	long explosionCounter;
 	boolean finished;
@@ -150,12 +151,18 @@ public class GPSEngine {
 	private void addCandidates(GPSNode node, Collection<GPSNode> candidates) {
 		explosionCounter++;
 		updateBest(node);
+		generatedStates.remove(node.getState());
 		for (Rule rule : problem.getRules()) {
 			Optional<State> newState = rule.apply(node.getState());
 			if (newState.isPresent()) {
-				GPSNode newNode = new GPSNode(newState.get(), node.getCost() + rule.getCost(), rule);
-				newNode.setParent(node);
-				candidates.add(newNode);
+				int newCost = node.getCost() + rule.getCost();
+				State state = newState.get();
+				if (!generatedStates.contains(state) || (bestCosts.containsKey(state) && newCost < bestCosts.get(state))) {
+					generatedStates.add(newState.get());
+					GPSNode newNode = new GPSNode(state, newCost, rule);
+					newNode.setParent(node);
+					candidates.add(newNode);
+				}
 			}
 		}
 	}

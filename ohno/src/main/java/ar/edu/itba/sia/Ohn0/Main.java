@@ -18,27 +18,27 @@ public class Main {
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
         Board board = fm.readStateFromFile(Paths.get("board5X5"));
-        runFillBlanks(board);
-        runHeuristicRepair(board);
+//        runFillBlanks(board, SearchStrategy.BFS);
+        runHeuristicRepair(board, SearchStrategy.BFS);
     }
 
-    private static void runFillBlanks(Board board) {
-        board.fillBlue();
+    private static void runFillBlanks(Board board, SearchStrategy strategy) {
         List<Rule> problemRules = generateRulesFilling(board.getSize());
         FillingBlanksHeuristic heuristic = new FillingBlanksHeuristic();
         ProblemImpl OhN0 = new ProblemImpl(board, problemRules);
-        GPSEngine engine = new GPSEngine(OhN0, SearchStrategy.GREEDY, heuristic);
+        GPSEngine engine = new GPSEngine(OhN0, strategy, heuristic);
 
         Long startTime = System.currentTimeMillis();
         engine.findSolution();
         System.out.println(System.currentTimeMillis() - startTime + " ms");
     }
 
-    private static void runHeuristicRepair(Board board) {
+    private static void runHeuristicRepair(Board board, SearchStrategy strategy) {
+        board.fillBlue();
         List<Rule> reparationRules = generateRulesReparation(board.getSize());
         MissingRedsHeuristics reparationHeuristic = new MissingRedsHeuristics();
         ProblemImpl OhN0 = new ProblemImpl(board, reparationRules);
-        GPSEngine engine = new GPSEngine(OhN0, SearchStrategy.GREEDY, reparationHeuristic);
+        GPSEngine engine = new GPSEngine(OhN0, strategy, reparationHeuristic);
 
         Long startTime = System.currentTimeMillis();
         engine.findSolution();
