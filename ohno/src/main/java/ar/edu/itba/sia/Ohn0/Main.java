@@ -1,9 +1,12 @@
 package ar.edu.itba.sia.Ohn0;
 
+import ar.edu.itba.sia.Ohn0.Heuristics.AverageRedsHeuristic;
 import ar.edu.itba.sia.Ohn0.Heuristics.FillingBlanksHeuristic;
 import ar.edu.itba.sia.Ohn0.Heuristics.MissingRedsHeuristics;
+import ar.edu.itba.sia.Ohn0.Heuristics.MissingVisibleBlueHeuristics;
 import ar.edu.itba.sia.gps.GPSEngine;
 import ar.edu.itba.sia.gps.SearchStrategy;
+import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.api.Rule;
 
 import java.io.IOException;
@@ -18,13 +21,14 @@ public class Main {
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
         Board board = fm.readStateFromFile(Paths.get("board5X5"));
-//        runFillBlanks(board, SearchStrategy.BFS);
-        runHeuristicRepair(board, SearchStrategy.IDDFS);
+//        Heuristic heuristic = new MissingVisibleBlueHeuristics();
+        Heuristic heuristic = new MissingRedsHeuristics();
+//        runFillBlanks(board, SearchStrategy.ASTAR, heuristic);
+        runHeuristicRepair(board, SearchStrategy.ASTAR, heuristic);
     }
 
-    private static void runFillBlanks(Board board, SearchStrategy strategy) {
+    private static void runFillBlanks(Board board, SearchStrategy strategy, Heuristic heuristic) {
         List<Rule> problemRules = generateRulesFilling(board.getSize());
-        FillingBlanksHeuristic heuristic = new FillingBlanksHeuristic();
         ProblemImpl OhN0 = new ProblemImpl(board, problemRules);
         GPSEngine engine = new GPSEngine(OhN0, strategy, heuristic);
 
@@ -33,12 +37,11 @@ public class Main {
         System.out.println(System.currentTimeMillis() - startTime + " ms");
     }
 
-    private static void runHeuristicRepair(Board board, SearchStrategy strategy) {
+    private static void runHeuristicRepair(Board board, SearchStrategy strategy, Heuristic heuristic) {
         board.fillBlue();
         List<Rule> reparationRules = generateRulesReparation(board.getSize());
-        MissingRedsHeuristics reparationHeuristic = new MissingRedsHeuristics();
         ProblemImpl OhN0 = new ProblemImpl(board, reparationRules);
-        GPSEngine engine = new GPSEngine(OhN0, strategy, reparationHeuristic);
+        GPSEngine engine = new GPSEngine(OhN0, strategy, heuristic);
 
         Long startTime = System.currentTimeMillis();
         engine.findSolution();

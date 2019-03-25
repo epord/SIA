@@ -5,11 +5,10 @@ import ar.edu.itba.sia.Ohn0.Color;
 import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.api.State;
 
-public class MissingRedsHeuristics implements Heuristic {
+public class MissingVisibleBlueHeuristics implements Heuristic {
     @Override
     public Integer getValue(State state) {
         int cumulated = 0;
-        int fixedCount = 0;
 
         /// TODO: preguntar si está bien
         if (!state.getClass().equals(Board.class)) {
@@ -19,11 +18,9 @@ public class MissingRedsHeuristics implements Heuristic {
         Board currentBoard = (Board) state;
         for (int i = 0; i < currentBoard.getSize(); i++) {
             for (int j = 0; j < currentBoard.getSize(); j++) {
-                int value = currentBoard.getCell(i, j).getValue();
-                cumulated += value;
-                if (value > 0 || currentBoard.getCell(i, j).getColor() == Color.RED) fixedCount++;
+                cumulated += currentBoard.missingVisibleBlues(i, j);
             }
         }
-        return Math.max(currentBoard.getSize() * currentBoard.getSize() - cumulated - fixedCount, 0);
+        return cumulated;
     }
 }

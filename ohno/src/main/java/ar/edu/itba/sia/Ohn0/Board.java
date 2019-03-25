@@ -91,6 +91,50 @@ public class Board implements State {
         return true;
     }
 
+    public int missingBlues(int row, int col) {
+        int value = getCell(row, col).getValue();
+        int directions[][] = new int[][]{
+                {-1, 0},
+                {1, 0},
+                {0, -1},
+                {0, 1}
+        };
+        for (int i = 0; i < 4; i++) {
+            for (int j = row + directions[i][0], k = col + directions[i][1]; j < getSize() && j >= 0 && k < getSize() && k >= 0
+                    && getCell(j, k).getColor().equals(Color.BLUE); j += directions[i][0], k += directions[i][1]) {
+                value -= 1;
+            }
+        }
+        return value;
+    }
+
+    /**
+     * Get missing blues inside the cell's range (its value)
+     * @param row
+     * @param col
+     * @return
+     */
+    public int missingVisibleBlues(int row, int col) {
+        int value = getCell(row, col).getValue();
+        int distance = value;
+        int directions[][] = new int[][]{
+                {-1, 0},
+                {1, 0},
+                {0, -1},
+                {0, 1}
+        };
+        for (int i = 0; i < 4; i++) {
+            for (int j = row + directions[i][0], k = col + directions[i][1]; j < getSize() && j >= 0 && k < getSize() && k >= 0
+                    && !getCell(j, k).getColor().equals(Color.RED) && distance > 0; j += directions[i][0], k += directions[i][1], distance--) {
+                if (getCell(j, k).getColor() == Color.BLUE) {
+                    value -= 1;
+                }
+            }
+            distance = getCell(row, col).getValue();
+        }
+        return value;
+    }
+
     private boolean isNumberCorrect(int row, int col) {
         int value = getCell(row, col).getValue();
         int blanks = 0;
