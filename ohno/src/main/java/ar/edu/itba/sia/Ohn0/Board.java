@@ -134,7 +134,23 @@ public class Board implements State {
         }
         return value;
     }
+    public boolean isNumberCorrectHeuristicReparation(int row, int col) {
+        int value = getCell(row, col).getValue();
+        int directions[][] = new int[][]{
+                {-1, 0},
+                {1, 0},
+                {0, -1},
+                {0, 1}
+        };
 
+        for (int i = 0; i < 4; i++) {
+            for (int j = row + directions[i][0], k = col + directions[i][1]; j < getSize() && j >= 0 && k < getSize() && k >= 0
+                    && !getCell(j, k).getColor().equals(Color.RED); j += directions[i][0], k += directions[i][1]) {
+                    value -= 1;
+            }
+        }
+        return value == 0;
+    }
     private boolean isNumberCorrect(int row, int col) {
         int value = getCell(row, col).getValue();
         int blanks = 0;
