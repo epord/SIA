@@ -17,7 +17,7 @@ public class GPSEngine {
 	boolean failed;
 	GPSNode solutionNode;
 	Optional<Heuristic> heuristic;
-	private int iddfsDepth;
+	private int iddfsDepth, depthReachedCurrentRun, depthReachedPreviousRun;
 
 	// Use this variable in open set order.
 	protected SearchStrategy strategy;
@@ -47,6 +47,8 @@ public class GPSEngine {
 		this.heuristic = Optional.ofNullable(heuristic);
 		explosionCounter = 0;
 		iddfsDepth = 0;
+		depthReachedCurrentRun = 0;
+		depthReachedPreviousRun = -1;
 		finished = false;
 		failed = false;
 	}
@@ -68,18 +70,20 @@ public class GPSEngine {
 				explode(currentNode);
 			}
 			if (strategy == SearchStrategy.IDDFS && open.isEmpty()) {
-				// Reset and try again with increased depth
-				iddfsDepth++;
-				bestCosts.clear();
-				explosionCounter = 0;
-				open.add(rootNode);
-				done = false;
+				if (depthReachedPreviousRun != -1 && depthReachedCurrentRun == depthReachedPreviousRun) {
+					done = true;
+				} else {
+					// Reset and try again with increased depth
+					iddfsDepth++;
+					bestCosts.clear();
+					explosionCounter = 0;
+					depthReachedPreviousRun = depthReachedCurrentRun;
+					depthReachedCurrentRun = 0;
+					open.add(rootNode);
+					done = false;
+				}
+
 //				System.out.format("Increased IDDFS depth to %d\n", iddfsDepth);
-				/*
-				FIXME: This never ends if the problem doesn't have a solution. We have to check whether there are any
-					remaining nodes while iterating, and if we have already covered the entire tree, stop the loop and
-					fail.
-				 */
 			} else {
 				done = finished || open.isEmpty();
 			}
@@ -119,6 +123,10 @@ public class GPSEngine {
 			}
 			newCandidates = new ArrayList<>();
 			addCandidates(node, newCandidates);
+			depthReachedCurrentRun = Math.max(
+					depthReachedCurrentRun,
+					newCandidates.stream().map(GPSNode::getDepth).max(Comparator.naturalOrder()).orElse(depthReachedCurrentRun)
+			);
 			newCandidates.forEach(((Deque<GPSNode>) open)::addFirst);
 			break;
 
