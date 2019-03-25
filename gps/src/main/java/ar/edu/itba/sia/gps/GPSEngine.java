@@ -17,6 +17,7 @@ public class GPSEngine {
 	boolean failed;
 	GPSNode solutionNode;
 	Optional<Heuristic> heuristic;
+	private int iddfsDepth;
 
 	// Use this variable in open set order.
 	protected SearchStrategy strategy;
@@ -45,6 +46,7 @@ public class GPSEngine {
 		this.strategy = strategy;
 		this.heuristic = Optional.ofNullable(heuristic);
 		explosionCounter = 0;
+		iddfsDepth = 0;
 		finished = false;
 		failed = false;
 	}
@@ -52,8 +54,8 @@ public class GPSEngine {
 	public void findSolution() {
 		GPSNode rootNode = new GPSNode(problem.getInitState(), 0, null);
 		open.add(rootNode);
-		// TODO: ¿Lógica de IDDFS?
-		while (open.size() > 0) {
+		boolean done;
+		do {
 			GPSNode currentNode = open.remove();
 			if (problem.isGoal(currentNode.getState())) {
 				finished = true;
@@ -65,11 +67,26 @@ public class GPSEngine {
 			} else {
 				explode(currentNode);
 			}
-		}
+			if (strategy == SearchStrategy.IDDFS && open.isEmpty()) {
+				// Reset and try again with increased depth
+				iddfsDepth++;
+				bestCosts.clear();
+				explosionCounter = 0;
+				open.add(rootNode);
+				done = false;
+//				System.out.format("Increased IDDFS depth to %d\n", iddfsDepth);
+				/*
+				FIXME: This never ends if the problem doesn't have a solution. We have to check whether there are any
+					remaining nodes while iterating, and if we have already covered the entire tree, stop the loop and
+					fail.
+				 */
+			} else {
+				done = finished || open.isEmpty();
+			}
+		} while (!done);
 		failed = true;
 		finished = true;
 		System.out.println("FAILED");
-
 	}
 
 	private void explode(GPSNode node) {
@@ -97,9 +114,12 @@ public class GPSEngine {
 			if (bestCosts.containsKey(node.getState())) {//TODO: add comparison of costs.
 				return;
 			}
+			if (node.getDepth() >= iddfsDepth) {
+				return;
+			}
 			newCandidates = new ArrayList<>();
 			addCandidates(node, newCandidates);
-			// TODO: ¿Cómo se agregan los nodos a open en IDDFS?
+			newCandidates.forEach(((Deque<GPSNode>) open)::addFirst);
 			break;
 
 		case GREEDY:

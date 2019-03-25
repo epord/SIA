@@ -4,6 +4,8 @@ package ar.edu.itba.sia.gps;
 import ar.edu.itba.sia.gps.api.Rule;
 import ar.edu.itba.sia.gps.api.State;
 
+import java.util.Optional;
+
 public class GPSNode {
 
 	private State state;
@@ -13,6 +15,8 @@ public class GPSNode {
 	private Integer cost;
 
 	private Rule generationRule;
+
+	private int depth = 0;
 
 	public GPSNode(State state, Integer cost, Rule generationRule) {
 		this.state = state;
@@ -26,6 +30,7 @@ public class GPSNode {
 
 	public void setParent(GPSNode parent) {
 		this.parent = parent;
+		this.depth = Optional.ofNullable(parent).map(p -> p.depth + 1).orElse(0);
 	}
 
 	public State getState() {
@@ -84,4 +89,7 @@ public class GPSNode {
 		this.generationRule = generationRule;
 	}
 
+	public int getDepth() {
+		return depth;
+	}
 }
