@@ -77,6 +77,7 @@ public class GPSEngine {
 					// Reset and try again with increased depth
 					iddfsDepth++;
 					bestCosts.clear();
+					generatedStates.clear();
 					explosionCounter = 0;
 					depthReachedPreviousRun = depthReachedCurrentRun;
 					depthReachedCurrentRun = 0;

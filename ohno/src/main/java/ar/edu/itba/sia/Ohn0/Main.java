@@ -19,7 +19,7 @@ public class Main {
         FileManager fm = new FileManager();
         Board board = fm.readStateFromFile(Paths.get("board5X5"));
 //        runFillBlanks(board, SearchStrategy.BFS);
-        runHeuristicRepair(board, SearchStrategy.BFS);
+        runHeuristicRepair(board, SearchStrategy.IDDFS);
     }
 
     private static void runFillBlanks(Board board, SearchStrategy strategy) {
