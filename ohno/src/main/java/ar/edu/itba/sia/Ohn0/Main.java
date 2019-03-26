@@ -1,9 +1,6 @@
 package ar.edu.itba.sia.Ohn0;
 
-import ar.edu.itba.sia.Ohn0.Heuristics.AverageRedsHeuristic;
-import ar.edu.itba.sia.Ohn0.Heuristics.FillingBlanksHeuristic;
-import ar.edu.itba.sia.Ohn0.Heuristics.MissingRedsHeuristics;
-import ar.edu.itba.sia.Ohn0.Heuristics.MissingVisibleBlueHeuristics;
+import ar.edu.itba.sia.Ohn0.Heuristics.*;
 import ar.edu.itba.sia.gps.GPSEngine;
 import ar.edu.itba.sia.gps.SearchStrategy;
 import ar.edu.itba.sia.gps.api.Heuristic;
@@ -20,11 +17,11 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
-        Board board = fm.readStateFromFile(Paths.get("board5X5"));
+        Board board = fm.readStateFromFile(Paths.get("board9X9"));
 //        Heuristic heuristic = new MissingVisibleBlueHeuristics();
-        Heuristic heuristic = new MissingRedsHeuristics();
-//        runFillBlanks(board, SearchStrategy.ASTAR, heuristic);
-        runHeuristicRepair(board, SearchStrategy.ASTAR, heuristic);
+        Heuristic heuristic = new ConflictingNumbersHeuristic();
+//        runFillBlanks(board, SearchStrategy.GREEDY, heuristic);
+      runHeuristicRepair(board, SearchStrategy.GREEDY, heuristic);
     }
 
     private static void runFillBlanks(Board board, SearchStrategy strategy, Heuristic heuristic) {
