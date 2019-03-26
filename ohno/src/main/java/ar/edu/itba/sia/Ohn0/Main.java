@@ -17,11 +17,11 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
-        Board board = fm.readStateFromFile(Paths.get("board9X9"));
+        Board board = fm.readStateFromFile(Paths.get("board5X5"));
 //        Heuristic heuristic = new MissingVisibleBlueHeuristics();
-        Heuristic heuristic = new ConflictingNumbersHeuristic();
-//        runFillBlanks(board, SearchStrategy.GREEDY, heuristic);
-      runHeuristicRepair(board, SearchStrategy.GREEDY, heuristic);
+        Heuristic heuristic = new MissingRedsHeuristics();
+        runFillBlanks(board, SearchStrategy.ASTAR, heuristic);
+//      runHeuristicRepair(board, SearchStrategy.ASTAR, heuristic);
     }
 
     private static void runFillBlanks(Board board, SearchStrategy strategy, Heuristic heuristic) {
@@ -35,7 +35,7 @@ public class Main {
     }
 
     private static void runHeuristicRepair(Board board, SearchStrategy strategy, Heuristic heuristic) {
-        board.fillBlue();
+        board = board.fillBlue();
         List<Rule> reparationRules = generateRulesReparation(board.getSize());
         ProblemImpl OhN0 = new ProblemImpl(board, reparationRules);
         GPSEngine engine = new GPSEngine(OhN0, strategy, heuristic);
