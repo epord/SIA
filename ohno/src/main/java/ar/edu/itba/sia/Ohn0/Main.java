@@ -19,9 +19,9 @@ public class Main {
         FileManager fm = new FileManager();
         Board board = fm.readStateFromFile(Paths.get("board5X5"));
 //        Heuristic heuristic = new MissingVisibleBlueHeuristics();
-        Heuristic heuristic = new MissingRedsHeuristics();
-        runFillBlanks(board, SearchStrategy.ASTAR, heuristic);
-//      runHeuristicRepair(board, SearchStrategy.ASTAR, heuristic);
+        Heuristic heuristic = new ConflictingNumbersHeuristic();
+//        runFillBlanks(board, SearchStrategy.GREEDY, heuristic);
+      runHeuristicRepair(board, SearchStrategy.ASTAR, heuristic);
     }
 
     private static void runFillBlanks(Board board, SearchStrategy strategy, Heuristic heuristic) {
@@ -36,44 +36,23 @@ public class Main {
 
     private static void runHeuristicRepair(Board board, SearchStrategy strategy, Heuristic heuristic) {
         board = board.fillBlue();
-        List<Rule> reparationRules = generateRulesReparation(board.getSize());
+        List<Rule> reparationRules = generateRulesReparation(board.getSize(), false);
         ProblemImpl OhN0 = new ProblemImpl(board, reparationRules);
         GPSEngine engine = new GPSEngine(OhN0, strategy, heuristic);
 
         Long startTime = System.currentTimeMillis();
         engine.findSolution();
-        System.out.println(System.currentTimeMillis() - startTime + " ms");    }
+        System.out.println(System.currentTimeMillis() - startTime + " ms");
+    }
 
-    private static List<Rule> generateRulesReparation(int size) {
+    private static List<Rule> generateRulesReparation(int size, Boolean onlyBlue) {
         int i, j;
         List<Rule> rules = new ArrayList<>();
 
         for(i = 0; i < size; i++) {
             for(j = 0; j < size; j++) {
-                final int I = i, J = j;
-                rules.add(new Ohn0Rule("blue:" + i +"," + j, state -> {
-                    Board currentBoard = (Board) state;
-                    Board newBoard;
-                    newBoard = currentBoard.switchColor(I, J, Color.BLUE);
-                    if(newBoard == null) {
-                        return Optional.empty();
-                    }
-                    else {
-                        return Optional.of(newBoard);
-                    }
-                }));
-
-                rules.add(new Ohn0Rule("red:" + i + "," + j, state -> {
-                    Board currentBoard = (Board) state;
-                    Board newBoard;
-                    newBoard = currentBoard.switchColor(I, J, Color.RED);
-                    if(newBoard == null) {
-                        return Optional.empty();
-                    }
-                    else {
-                        return Optional.of(newBoard);
-                    }
-                }));
+                if (!onlyBlue) rules.add(generateRule(i, j, Color.BLUE, true));
+                rules.add(generateRule(i, j, Color.RED, true));
             }
         }
 
@@ -86,8 +65,8 @@ public class Main {
 
         for(i = 0; i < size; i++) {
             for(j = 0; j < size; j++) {
-                rules.add(generateRule(i, j, Color.BLUE));
-                rules.add(generateRule(i, j, Color.RED));
+                rules.add(generateRule(i, j, Color.BLUE, false));
+                rules.add(generateRule(i, j, Color.RED, false));
             }
         }
 
@@ -102,12 +81,12 @@ public class Main {
      * @param color Color to fill if not empty
      * @return The corresponding rule
      */
-    private static Ohn0Rule generateRule(final int i, final int j, Color color) {
+    private static Ohn0Rule generateRule(final int i, final int j, Color color, Boolean heuristicReparation) {
         return new Ohn0Rule(String.format("%s @ (%d,%d)", color.name(), i, j), state -> {
             Board currentBoard = (Board) state;
-            if (!currentBoard.getCell(i, j).isBlank()) return Optional.empty();
+            if (!heuristicReparation && !currentBoard.getCell(i, j).isBlank()) return Optional.empty();
             Board newBoard = currentBoard.switchColor(i, j, color);
-            if (newBoard == null || !newBoard.isChangeValid(i,j)) {
+            if (newBoard == null || (!heuristicReparation && !newBoard.isChangeValid(i,j))) {
                 return Optional.empty();
             }
             else {
