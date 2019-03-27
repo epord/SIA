@@ -43,7 +43,6 @@ public class IddfsGPSEngine extends GPSEngine {
 					iddfsDepth++;
 					bestCosts.clear();
 					generatedStates.clear();
-					explosionCounter = 0;
 					depthReachedPreviousRun = depthReachedCurrentRun;
 					depthReachedCurrentRun = 0;
 					open.add(rootNode);
