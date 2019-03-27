@@ -7,12 +7,12 @@ import ar.edu.itba.sia.gps.api.State;
 
 import java.util.*;
 
+/**
+ * GPS engine specific for Iterative Deepening Depth-First Search (IDDFS) strategy.
+ */
 public class IddfsGPSEngine extends GPSEngine {
 
 	private int iddfsDepth, depthReachedCurrentRun, depthReachedPreviousRun;
-
-	// Use this variable in open set order.
-	protected SearchStrategy strategy;
 
 	public IddfsGPSEngine(Problem problem, Heuristic heuristic) {
 		super(problem, SearchStrategy.IDDFS, heuristic);
@@ -21,7 +21,8 @@ public class IddfsGPSEngine extends GPSEngine {
 		depthReachedPreviousRun = -1;
 	}
 
-	public void findSolution() {
+    @SuppressWarnings("Duplicates")
+    public void findSolution() {
 		GPSNode rootNode = new GPSNode(problem.getInitState(), 0, null);
 		open.add(rootNode);
 		boolean done = false;
@@ -41,6 +42,7 @@ public class IddfsGPSEngine extends GPSEngine {
 					// Reset and try again with increased depth
 					iddfsDepth++;
 					bestCosts.clear();
+					generatedStates.clear();
 					explosionCounter = 0;
 					depthReachedPreviousRun = depthReachedCurrentRun;
 					depthReachedCurrentRun = 0;
