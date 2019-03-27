@@ -2,10 +2,11 @@ package ar.edu.itba.sia.gps;
 
 import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.api.Problem;
-import ar.edu.itba.sia.gps.api.Rule;
-import ar.edu.itba.sia.gps.api.State;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.Deque;
 
 /**
  * GPS engine specific for Iterative Deepening Depth-First Search (IDDFS) strategy.
