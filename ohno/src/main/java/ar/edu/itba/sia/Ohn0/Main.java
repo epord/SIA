@@ -18,13 +18,13 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
-        Board board = fm.readStateFromFile(Paths.get("board9X9"));
+        Board board = fm.readStateFromFile(Paths.get("board8X8_2"));
 //        Heuristic heuristic = new MissingVisibleBlueHeuristics();
         Heuristic heuristic = new ConflictingNumbersHeuristic();
 //        runFillBlanks(board, SearchStrategy.GREEDY, heuristic);
         GPSEngine engine;
-        engine = getFillBlanksEngine(board, SearchStrategy.IDDFS, heuristic);
-//        engine = getHeuristicRepairEngine(board, SearchStrategy.ASTAR, heuristic);
+//        engine = getFillBlanksEngine(board, SearchStrategy.IDDFS, heuristic);
+        engine = getHeuristicRepairEngine(board, SearchStrategy.ASTAR, heuristic);
 
         long startTime = System.currentTimeMillis();
         engine.findSolution();

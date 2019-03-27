@@ -46,7 +46,7 @@ public class IddfsGPSEngine extends GPSEngine {
 					depthReachedPreviousRun = depthReachedCurrentRun;
 					depthReachedCurrentRun = 0;
 					open.add(rootNode);
-					generatedStates.add(rootNode.getState());
+					generatedStates.put(rootNode.getState(), 0);
 					done = false;
 				}
 //				System.out.format("Increased IDDFS depth to %d\n", iddfsDepth);

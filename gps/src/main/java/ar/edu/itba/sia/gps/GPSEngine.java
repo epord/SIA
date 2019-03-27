@@ -11,7 +11,7 @@ public class GPSEngine {
 
 	Queue<GPSNode> open;
 	Map<State, Integer> bestCosts;
-	Set<State> generatedStates = new HashSet<>();
+	Map<State, Integer> generatedStates;
 	Problem problem;
 	long explosionCounter;
 	boolean finished;
@@ -41,7 +41,8 @@ public class GPSEngine {
 				);
 			}
 		}
-		bestCosts = new HashMap<>();
+        bestCosts = new HashMap<>();
+        generatedStates = new HashMap<>();
 		this.problem = problem;
 		this.strategy = strategy;
 		this.heuristic = Optional.ofNullable(heuristic);
@@ -54,7 +55,7 @@ public class GPSEngine {
     public void findSolution() {
 		GPSNode rootNode = new GPSNode(problem.getInitState(), 0, null);
 		open.add(rootNode);
-        generatedStates.add(problem.getInitState());
+		generatedStates.put(problem.getInitState(), 0);
         while (!open.isEmpty()) {
 			GPSNode currentNode = open.remove();
             if (problem.isGoal(currentNode.getState())) {
@@ -112,15 +113,17 @@ public class GPSEngine {
 	protected void addCandidates(GPSNode node, Collection<GPSNode> candidates) {
 		explosionCounter++;
 		updateBest(node);
-//		generatedStates.remove(node.getState());
+		generatedStates.remove(node.getState());
 		for (Rule rule : problem.getRules()) {
 			Optional<State> newState = rule.apply(node.getState());
 			if (newState.isPresent()) {
 				int newCost = node.getCost() + rule.getCost();
 				State state = newState.get();
-				if (!generatedStates.contains(state) || (bestCosts.containsKey(state) && newCost < bestCosts.get(state))) {
+				if ((!bestCosts.containsKey(state) && !generatedStates.containsKey(state))
+                        || (bestCosts.containsKey(state) && newCost < bestCosts.get(state))
+                        || (generatedStates.containsKey(state) && newCost < generatedStates.get(state))) {
 					GPSNode newNode = new GPSNode(state, newCost, rule);
-					generatedStates.add(newState.get());
+					generatedStates.put(newState.get(), newCost);
 					newNode.setParent(node);
 					candidates.add(newNode);
 				}
