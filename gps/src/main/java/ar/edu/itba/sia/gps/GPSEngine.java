@@ -57,6 +57,7 @@ public class GPSEngine {
 	public void findSolution() {
 		GPSNode rootNode = new GPSNode(problem.getInitState(), 0, null);
 		open.add(rootNode);
+		generatedStates.add(problem.getInitState());
 		boolean done;
 		do {
 			GPSNode currentNode = open.remove();
@@ -82,6 +83,7 @@ public class GPSEngine {
 					depthReachedPreviousRun = depthReachedCurrentRun;
 					depthReachedCurrentRun = 0;
 					open.add(rootNode);
+					generatedStates.add(rootNode.getState());
 					done = false;
 				}
 
@@ -155,15 +157,15 @@ public class GPSEngine {
 	private void addCandidates(GPSNode node, Collection<GPSNode> candidates) {
 		explosionCounter++;
 		updateBest(node);
-		generatedStates.remove(node.getState());
+//		generatedStates.remove(node.getState());
 		for (Rule rule : problem.getRules()) {
 			Optional<State> newState = rule.apply(node.getState());
 			if (newState.isPresent()) {
 				int newCost = node.getCost() + rule.getCost();
 				State state = newState.get();
 				if (!generatedStates.contains(state) || (bestCosts.containsKey(state) && newCost < bestCosts.get(state))) {
-					generatedStates.add(newState.get());
 					GPSNode newNode = new GPSNode(state, newCost, rule);
+					generatedStates.add(newState.get());
 					newNode.setParent(node);
 					candidates.add(newNode);
 				}
