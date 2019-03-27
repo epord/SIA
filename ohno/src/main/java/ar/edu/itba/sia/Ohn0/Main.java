@@ -28,13 +28,14 @@ public class Main {
 
         long startTime = System.currentTimeMillis();
         engine.findSolution();
-        System.out.println(System.currentTimeMillis() - startTime + " ms");
+        long endTime = System.currentTimeMillis();
 
         if (engine.isFailed()) {
             System.out.println("FAILED");
         } else {
             engine.printSolution();
         }
+        System.out.println("\n" + (endTime - startTime) + " ms");
     }
 
     private static GPSEngine getFillBlanksEngine(Board board, SearchStrategy strategy, Heuristic heuristic) {

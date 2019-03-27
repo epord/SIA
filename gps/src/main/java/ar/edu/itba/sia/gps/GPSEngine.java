@@ -58,7 +58,6 @@ public class GPSEngine {
 			GPSNode currentNode = open.remove();
             if (problem.isGoal(currentNode.getState())) {
 			    setSolution(currentNode);
-				printSolution();
 				return;
 			}  else {
                 explode(currentNode);
