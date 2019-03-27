@@ -1,5 +1,6 @@
 package ar.edu.itba.sia.Ohn0;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Scanner;
@@ -39,6 +40,12 @@ public class FileManager {
             default:
                 throw new IllegalStateException("Invalid board symbol.");
         }
+    }
+
+    private void writeStringToFile(String path, String string) throws IOException{
+        FileWriter fw = new FileWriter(path);
+        fw.write(string);
+        fw.close();
     }
 
 }
