@@ -18,7 +18,6 @@ public class GPSEngine {
 	boolean failed;
 	GPSNode solutionNode;
 	Optional<Heuristic> heuristic;
-	private int iddfsDepth, depthReachedCurrentRun, depthReachedPreviousRun;
 
 	// Use this variable in open set order.
 	protected SearchStrategy strategy;
@@ -47,57 +46,29 @@ public class GPSEngine {
 		this.strategy = strategy;
 		this.heuristic = Optional.ofNullable(heuristic);
 		explosionCounter = 0;
-		iddfsDepth = 0;
-		depthReachedCurrentRun = 0;
-		depthReachedPreviousRun = -1;
 		finished = false;
 		failed = false;
 	}
 
-	public void findSolution() {
+	@SuppressWarnings("Duplicates")
+    public void findSolution() {
 		GPSNode rootNode = new GPSNode(problem.getInitState(), 0, null);
 		open.add(rootNode);
-		generatedStates.add(problem.getInitState());
-		boolean done;
-		do {
+        generatedStates.add(problem.getInitState());
+        while (!open.isEmpty()) {
 			GPSNode currentNode = open.remove();
-			if (problem.isGoal(currentNode.getState())) {
-				finished = true;
-				solutionNode = currentNode;
-				System.out.println("\n");
-				System.out.println(solutionNode.getSolution());
-				System.out.println("\n");
+            if (problem.isGoal(currentNode.getState())) {
+			    setSolution(currentNode);
 				return;
-			} else {
-				explode(currentNode);
-			}
-			if (strategy == SearchStrategy.IDDFS && open.isEmpty()) {
-				if (depthReachedPreviousRun != -1 && depthReachedCurrentRun == depthReachedPreviousRun) {
-					done = true;
-				} else {
-					// Reset and try again with increased depth
-					iddfsDepth++;
-					bestCosts.clear();
-					generatedStates.clear();
-					explosionCounter = 0;
-					depthReachedPreviousRun = depthReachedCurrentRun;
-					depthReachedCurrentRun = 0;
-					open.add(rootNode);
-					generatedStates.add(rootNode.getState());
-					done = false;
-				}
-
-//				System.out.format("Increased IDDFS depth to %d\n", iddfsDepth);
-			} else {
-				done = finished || open.isEmpty();
-			}
-		} while (!done);
-		failed = true;
-		finished = true;
-		System.out.println("FAILED");
+			}  else {
+                explode(currentNode);
+            }
+		}
+        failed = true;
+        finished = true;
 	}
 
-	private void explode(GPSNode node) {
+    private void explode(GPSNode node) {
 		Collection<GPSNode> newCandidates;
 		switch (strategy) {
 		case BFS:
@@ -115,22 +86,6 @@ public class GPSEngine {
 			}
 			newCandidates = new ArrayList<>();
 			addCandidates(node, newCandidates);
-			newCandidates.forEach(((Deque<GPSNode>) open)::addFirst);
-			break;
-
-		case IDDFS:
-			if (bestCosts.containsKey(node.getState())) {//TODO: add comparison of costs.
-				return;
-			}
-			if (node.getDepth() >= iddfsDepth) {
-				return;
-			}
-			newCandidates = new ArrayList<>();
-			addCandidates(node, newCandidates);
-			depthReachedCurrentRun = Math.max(
-					depthReachedCurrentRun,
-					newCandidates.stream().map(GPSNode::getDepth).max(Comparator.naturalOrder()).orElse(depthReachedCurrentRun)
-			);
 			newCandidates.forEach(((Deque<GPSNode>) open)::addFirst);
 			break;
 
@@ -154,7 +109,7 @@ public class GPSEngine {
 		}
 	}
 
-	private void addCandidates(GPSNode node, Collection<GPSNode> candidates) {
+	protected void addCandidates(GPSNode node, Collection<GPSNode> candidates) {
 		explosionCounter++;
 		updateBest(node);
 //		generatedStates.remove(node.getState());
@@ -180,6 +135,20 @@ public class GPSEngine {
 	private void updateBest(GPSNode node) {
 		bestCosts.put(node.getState(), node.getCost());
 	}
+
+    /**
+     * Sets {@link #solutionNode} to the specified node and sets {@link #finished} to true.
+     *
+     * @param solutionNode Solution node
+     */
+	protected void setSolution(GPSNode solutionNode) {
+	    this.solutionNode = solutionNode;
+	    this.finished = true;
+    }
+
+    public void printSolution() {
+        System.out.println(solutionNode.getSolution());
+    }
 
 	// GETTERS FOR THE PEOPLE!
 

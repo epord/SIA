@@ -2,6 +2,7 @@ package ar.edu.itba.sia.Ohn0;
 
 import ar.edu.itba.sia.Ohn0.Heuristics.*;
 import ar.edu.itba.sia.gps.GPSEngine;
+import ar.edu.itba.sia.gps.GPSEngineFactory;
 import ar.edu.itba.sia.gps.SearchStrategy;
 import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.api.Rule;
@@ -21,28 +22,34 @@ public class Main {
 //        Heuristic heuristic = new MissingVisibleBlueHeuristics();
         Heuristic heuristic = new ConflictingNumbersHeuristic();
 //        runFillBlanks(board, SearchStrategy.GREEDY, heuristic);
-      runHeuristicRepair(board, SearchStrategy.ASTAR, heuristic);
+        GPSEngine engine;
+        engine = getFillBlanksEngine(board, SearchStrategy.IDDFS, heuristic);
+//        engine = getHeuristicRepairEngine(board, SearchStrategy.ASTAR, heuristic);
+
+        long startTime = System.currentTimeMillis();
+        engine.findSolution();
+        long endTime = System.currentTimeMillis();
+
+        if (engine.isFailed()) {
+            System.out.println("FAILED");
+        } else {
+            engine.printSolution();
+        }
+        System.out.println("\n" + (endTime - startTime) + " ms");
     }
 
-    private static void runFillBlanks(Board board, SearchStrategy strategy, Heuristic heuristic) {
+    private static GPSEngine getFillBlanksEngine(Board board, SearchStrategy strategy, Heuristic heuristic) {
         List<Rule> problemRules = generateRulesFilling(board.getSize());
         ProblemImpl OhN0 = new ProblemImpl(board, problemRules);
-        GPSEngine engine = new GPSEngine(OhN0, strategy, heuristic);
-
-        Long startTime = System.currentTimeMillis();
-        engine.findSolution();
-        System.out.println(System.currentTimeMillis() - startTime + " ms");
+        return GPSEngineFactory.getEngineForStrategy(OhN0, strategy, heuristic);
     }
 
-    private static void runHeuristicRepair(Board board, SearchStrategy strategy, Heuristic heuristic) {
+    private static GPSEngine getHeuristicRepairEngine(Board board, SearchStrategy strategy, Heuristic heuristic) {
         board = board.fillBlue();
         List<Rule> reparationRules = generateRulesReparation(board.getSize(), false);
         ProblemImpl OhN0 = new ProblemImpl(board, reparationRules);
-        GPSEngine engine = new GPSEngine(OhN0, strategy, heuristic);
+        return GPSEngineFactory.getEngineForStrategy(OhN0, strategy, heuristic);
 
-        Long startTime = System.currentTimeMillis();
-        engine.findSolution();
-        System.out.println(System.currentTimeMillis() - startTime + " ms");
     }
 
     private static List<Rule> generateRulesReparation(int size, Boolean onlyBlue) {
