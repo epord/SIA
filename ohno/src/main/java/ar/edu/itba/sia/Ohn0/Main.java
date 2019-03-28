@@ -14,16 +14,15 @@ import java.util.Optional;
 
 
 public class Main {
-
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
-        Board board = fm.readStateFromFile(Paths.get("board9X9"));
+        Board board = fm.readStateFromFile(Paths.get("boards", "board5X5_1"));
 //        Heuristic heuristic = new MissingVisibleBlueHeuristics();
         Heuristic heuristic = new ConflictingNumbersHeuristic();
 //        runFillBlanks(board, SearchStrategy.GREEDY, heuristic);
         GPSEngine engine;
-        engine = getFillBlanksEngine(board, SearchStrategy.IDDFS, heuristic);
-//        engine = getHeuristicRepairEngine(board, SearchStrategy.ASTAR, heuristic);
+//        engine = getFillBlanksEngine(board, SearchStrategy.DFS, heuristic);
+        engine = getHeuristicRepairEngine(board, SearchStrategy.ASTAR, heuristic, Color.RED);
 
         long startTime = System.currentTimeMillis();
         engine.findSolution();
@@ -46,36 +45,35 @@ public class Main {
 
     private static GPSEngine getHeuristicRepairEngine(Board board, SearchStrategy strategy, Heuristic heuristic,
                                                       Color fillColor) {
-        if(fillColor.equals(Color.BLUE)) {
+        if(fillColor == Color.BLUE) {
             board = board.fillBlue();
         }
-        else if(fillColor.equals(Color.RED)){
+        else if(fillColor == Color.RED) {
             board = board.fillRed();
         }
         else {
             board = board.fillRandomly();
         }
 
-        List<Rule> reparationRules = generateRulesReparation(board.getSize(), false, true);
+        List<Rule> reparationRules = generateRulesReparation(board.getSize(), fillColor == Color.RED, fillColor == Color.BLUE);
         ProblemImpl OhN0 = new ProblemImpl(board, reparationRules);
         return new GPSEngine(OhN0, strategy, heuristic);
 
     }
 
-    private static List<Rule> generateRulesReparation(int size, Boolean onlyBlue,
-                                                      Boolean onlyRed) {
+    private static List<Rule> generateRulesReparation(int size, Boolean onlyBlueRules, Boolean onlyRedRules) {
         int i, j;
         List<Rule> rules = new ArrayList<>();
-        if(onlyBlue && onlyRed) {
+        if(onlyBlueRules && onlyRedRules) {
             throw new IllegalArgumentException();
         }
 
         for(i = 0; i < size; i++) {
             for(j = 0; j < size; j++) {
-                if (!onlyBlue) {
+                if (!onlyRedRules) {
                     rules.add(generateRule(i, j, Color.BLUE, true));
                 }
-                if(!onlyRed) {
+                if(!onlyBlueRules) {
                     rules.add(generateRule(i, j, Color.RED, true));
                 }
             }

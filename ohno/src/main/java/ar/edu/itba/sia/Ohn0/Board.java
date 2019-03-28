@@ -82,7 +82,6 @@ public class Board implements State {
                 if (getCell(j, k).getValue() > 0) {
                     value = isNumberCorrect(j,k);
                     if (!value) {
-                        System.out.println("Dio false para el numero:" + getCell(j, k).getValue());//evans
                         return false;
                     }
                 }
@@ -135,6 +134,7 @@ public class Board implements State {
         }
         return value;
     }
+
     public boolean isNumberCorrectHeuristicReparation(int row, int col) {
         int value = getCell(row, col).getValue();
         int directions[][] = new int[][]{
@@ -152,6 +152,7 @@ public class Board implements State {
         }
         return value == 0;
     }
+
     private boolean isNumberCorrect(int row, int col) {
         int value = getCell(row, col).getValue();
         int distance = value;
@@ -175,7 +176,6 @@ public class Board implements State {
             }
             distance = getCell(row, col).getValue();
         }
-        System.out.println("value = " + value + "\n blanks = " + blanks);//evans
         return value == 0 || (value > 0 && blanks > 0 && value <= blanks);
     }
 
@@ -217,8 +217,6 @@ public class Board implements State {
         }
         return newBoard;
     }
-
-
 
     @Override
     public String toString() {
