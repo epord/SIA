@@ -1,8 +1,7 @@
 package ar.edu.itba.sia.Ohn0;
 
-import ar.edu.itba.sia.Ohn0.Heuristics.*;
+import ar.edu.itba.sia.Ohn0.Heuristics.ConflictingNumbersHeuristic;
 import ar.edu.itba.sia.gps.GPSEngine;
-import ar.edu.itba.sia.gps.GPSEngineFactory;
 import ar.edu.itba.sia.gps.SearchStrategy;
 import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.api.Rule;
@@ -42,7 +41,7 @@ public class Main {
     private static GPSEngine getFillBlanksEngine(Board board, SearchStrategy strategy, Heuristic heuristic) {
         List<Rule> problemRules = generateRulesFilling(board.getSize());
         ProblemImpl OhN0 = new ProblemImpl(board, problemRules);
-        return GPSEngineFactory.getEngineForStrategy(OhN0, strategy, heuristic);
+        return new GPSEngine(OhN0, strategy, heuristic);
     }
 
     private static GPSEngine getHeuristicRepairEngine(Board board, SearchStrategy strategy, Heuristic heuristic,
@@ -59,7 +58,7 @@ public class Main {
 
         List<Rule> reparationRules = generateRulesReparation(board.getSize(), false, true);
         ProblemImpl OhN0 = new ProblemImpl(board, reparationRules);
-        return GPSEngineFactory.getEngineForStrategy(OhN0, strategy, heuristic);
+        return new GPSEngine(OhN0, strategy, heuristic);
 
     }
 
