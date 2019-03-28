@@ -18,13 +18,13 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
-        Board board = fm.readStateFromFile(Paths.get("boards", "board5x5_1"));
+        Board board = fm.readStateFromFile(Paths.get("boards", "board9x9_3"));
 //        Heuristic heuristic = new MissingVisibleBlueHeuristics();
         Heuristic heuristic = new ConflictingNumbersHeuristic();
 //        runFillBlanks(board, SearchStrategy.GREEDY, heuristic);
         GPSEngine engine;
 //        engine = getFillBlanksEngine(board, SearchStrategy.IDDFS, heuristic);
-        engine = getHeuristicRepairEngine(board, SearchStrategy.ASTAR, heuristic);
+        engine = getHeuristicRepairEngine(board, SearchStrategy.ASTAR, heuristic, true);
 
         long startTime = System.currentTimeMillis();
         engine.findSolution();
@@ -34,6 +34,7 @@ public class Main {
             System.out.println("FAILED");
         } else {
             engine.printSolution();
+            fm.writeStringToFile("p5/solution.out", board.getSize() + "\n" + engine.getSolutionNode().getSolution());
         }
         System.out.println("\n" + (endTime - startTime) + " ms");
     }
@@ -44,21 +45,22 @@ public class Main {
         return GPSEngineFactory.getEngineForStrategy(OhN0, strategy, heuristic);
     }
 
-    private static GPSEngine getHeuristicRepairEngine(Board board, SearchStrategy strategy, Heuristic heuristic) {
-        board = board.fillBlue();
-        List<Rule> reparationRules = generateRulesReparation(board.getSize(), false);
+    private static GPSEngine getHeuristicRepairEngine(Board board, SearchStrategy strategy, Heuristic heuristic, boolean fillBlue) {
+        if (fillBlue) board = board.fillBlue();
+        else board = board.fillRandomly();
+        List<Rule> reparationRules = generateRulesReparation(board.getSize(), fillBlue);
         ProblemImpl OhN0 = new ProblemImpl(board, reparationRules);
         return GPSEngineFactory.getEngineForStrategy(OhN0, strategy, heuristic);
 
     }
 
-    private static List<Rule> generateRulesReparation(int size, Boolean onlyBlue) {
+    private static List<Rule> generateRulesReparation(int size, Boolean onlyRedRules) {
         int i, j;
         List<Rule> rules = new ArrayList<>();
 
         for(i = 0; i < size; i++) {
             for(j = 0; j < size; j++) {
-                if (!onlyBlue) rules.add(generateRule(i, j, Color.BLUE, true));
+                if (!onlyRedRules) rules.add(generateRule(i, j, Color.BLUE, true));
                 rules.add(generateRule(i, j, Color.RED, true));
             }
         }

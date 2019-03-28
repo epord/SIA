@@ -42,7 +42,7 @@ public class FileManager {
         }
     }
 
-    private void writeStringToFile(String path, String string) throws IOException{
+    public void writeStringToFile(String path, String string) throws IOException{
         FileWriter fw = new FileWriter(path);
         fw.write(string);
         fw.close();
