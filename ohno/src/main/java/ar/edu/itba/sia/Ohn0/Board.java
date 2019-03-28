@@ -82,6 +82,7 @@ public class Board implements State {
                 if (getCell(j, k).getValue() > 0) {
                     value = isNumberCorrect(j,k);
                     if (!value) {
+                        System.out.println("Dio false para el numero:" + getCell(j, k).getValue());//evans
                         return false;
                     }
                 }
@@ -153,6 +154,7 @@ public class Board implements State {
     }
     private boolean isNumberCorrect(int row, int col) {
         int value = getCell(row, col).getValue();
+        int distance = value;
         int blanks = 0;
         int directions[][] = new int[][]{
                 {-1, 0},
@@ -162,15 +164,18 @@ public class Board implements State {
         };
         for (int i = 0; i < 4; i++) {
             for (int j = row + directions[i][0], k = col + directions[i][1]; j < getSize() && j >= 0 && k < getSize() && k >= 0
-                     && !getCell(j, k).getColor().equals(Color.RED); j += directions[i][0], k += directions[i][1]) {
+                     && !getCell(j, k).getColor().equals(Color.RED) && distance > 0; j += directions[i][0], k += directions[i][1]) {
                 if(getCell(j, k).isBlank()) {
                     blanks++;
                 }
                 else {
                     value -= 1;
                 }
+                distance--;
             }
+            distance = getCell(row, col).getValue();
         }
+        System.out.println("value = " + value + "\n blanks = " + blanks);//evans
         return value == 0 || (value > 0 && blanks > 0 && value <= blanks);
     }
 
@@ -200,6 +205,20 @@ public class Board implements State {
         }
         return newBoard;
     }
+
+    public Board fillRed() {
+        Board newBoard = new Board(cells, size);
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (newBoard.getCell(i, j).isBlank()) {
+                    newBoard.cells[i][j] = new Cell(false, 0, Color.RED);
+                }
+            }
+        }
+        return newBoard;
+    }
+
+
 
     @Override
     public String toString() {
