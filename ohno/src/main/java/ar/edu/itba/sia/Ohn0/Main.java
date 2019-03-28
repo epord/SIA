@@ -18,13 +18,13 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
-        Board board = fm.readStateFromFile(Paths.get("boards", "board5x5_3"));
+        Board board = fm.readStateFromFile(Paths.get("board9X9"));
 //        Heuristic heuristic = new MissingVisibleBlueHeuristics();
         Heuristic heuristic = new ConflictingNumbersHeuristic();
 //        runFillBlanks(board, SearchStrategy.GREEDY, heuristic);
         GPSEngine engine;
-//        engine = getFillBlanksEngine(board, SearchStrategy.IDDFS, heuristic);
-        engine = getHeuristicRepairEngine(board, SearchStrategy.ASTAR, heuristic, true);
+        engine = getFillBlanksEngine(board, SearchStrategy.IDDFS, heuristic);
+//        engine = getHeuristicRepairEngine(board, SearchStrategy.ASTAR, heuristic);
 
         long startTime = System.currentTimeMillis();
         engine.findSolution();
@@ -45,23 +45,40 @@ public class Main {
         return GPSEngineFactory.getEngineForStrategy(OhN0, strategy, heuristic);
     }
 
-    private static GPSEngine getHeuristicRepairEngine(Board board, SearchStrategy strategy, Heuristic heuristic, boolean fillBlue) {
-        if (fillBlue) board = board.fillBlue();
-        else board = board.fillRandomly();
-        List<Rule> reparationRules = generateRulesReparation(board.getSize(), fillBlue);
+    private static GPSEngine getHeuristicRepairEngine(Board board, SearchStrategy strategy, Heuristic heuristic,
+                                                      Color fillColor) {
+        if(fillColor.equals(Color.BLUE)) {
+            board = board.fillBlue();
+        }
+        else if(fillColor.equals(Color.RED)){
+            board = board.fillRed();
+        }
+        else {
+            board = board.fillRandomly();
+        }
+
+        List<Rule> reparationRules = generateRulesReparation(board.getSize(), false, true);
         ProblemImpl OhN0 = new ProblemImpl(board, reparationRules);
         return GPSEngineFactory.getEngineForStrategy(OhN0, strategy, heuristic);
 
     }
 
-    private static List<Rule> generateRulesReparation(int size, Boolean onlyRedRules) {
+    private static List<Rule> generateRulesReparation(int size, Boolean onlyBlue,
+                                                      Boolean onlyRed) {
         int i, j;
         List<Rule> rules = new ArrayList<>();
+        if(onlyBlue && onlyRed) {
+            throw new IllegalArgumentException();
+        }
 
         for(i = 0; i < size; i++) {
             for(j = 0; j < size; j++) {
-                if (!onlyRedRules) rules.add(generateRule(i, j, Color.BLUE, true));
-                rules.add(generateRule(i, j, Color.RED, true));
+                if (!onlyBlue) {
+                    rules.add(generateRule(i, j, Color.BLUE, true));
+                }
+                if(!onlyRed) {
+                    rules.add(generateRule(i, j, Color.RED, true));
+                }
             }
         }
 
