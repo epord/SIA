@@ -40,8 +40,28 @@ public class OhnoBoardTest
         assertTrue(board.isChangeValid(0, 2) );
         assertTrue(board.isChangeValid(2, 2) );
         assertTrue(board.isChangeValid(3, 3) );
-
-
-
     }
+
+    @Test
+    public void isChangeValidWithInvalidPosition() throws IOException{
+        Board board = fm.readStateFromFile(Paths.get("src","test","testBoards","InvalidBoard"));
+        System.out.println(board);
+        assertFalse(board.isChangeValid(3, 0) );
+        assertFalse(board.isChangeValid(2, 0) );
+        assertFalse(board.isChangeValid(1, 3) );
+        assertFalse(board.isChangeValid(3, 3) );
+        assertFalse(board.isChangeValid(1, 8) );
+        assertFalse(board.isChangeValid(5, 8) );
+        assertFalse(board.isChangeValid(5, 0) );
+        assertFalse(board.isChangeValid(5, 3) );
+    }
+
+    @Test
+    public void isChangeValidWithBlanks() throws IOException{
+        Board board = fm.readStateFromFile(Paths.get("src","test","testBoards","GoalBoard"));
+        //System.out.println(board);
+        assertTrue(board.isChangeValid(2, 1) );
+        assertTrue(board.isChangeValid(4, 3) );
+    }
+
 }
