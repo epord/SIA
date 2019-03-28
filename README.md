@@ -14,4 +14,4 @@
 With:
 * **size** *[int]*: the width and heigth of the boards to generate.
 * **amount** *[int]*: the amount of boards to generate.
-* **baseFilename** *[string]*: the base filename for each generated board. The boards will have the following names: *\<baseFilename>\<size>x\<size>_\<number>* (e.g.: board5X5_1, board5x5_2, board5x5_3, etc.)
+* **baseFilename** *[string]*: the base filename for each generated board. The boards will have the following names: *\<baseFilename>\<size>x\<size>_\<number>* (e.g.: board5x5_1, board5x5_2, board5x5_3, etc.)

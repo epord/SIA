@@ -12,7 +12,7 @@ fi
 echo "Generating boards..."
 for i in $(seq 1 $2)
     do
-        node ./boardGenerator.js $1 "$3$1X$1_$i";
+        node ./boardGenerator.js $1 "$3$1x$1_$i";
         echo "Board nº$i generated"
 done
 echo "Boards generated successfully!"

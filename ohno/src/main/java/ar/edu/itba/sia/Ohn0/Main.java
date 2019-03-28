@@ -16,7 +16,7 @@ import java.util.Optional;
 public class Main {
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
-        Board board = fm.readStateFromFile(Paths.get("boards", "board5X5_1"));
+        Board board = fm.readStateFromFile(Paths.get("boards", "board5x5_1"));
 //        Heuristic heuristic = new MissingVisibleBlueHeuristics();
         Heuristic heuristic = new ConflictingNumbersHeuristic();
 //        runFillBlanks(board, SearchStrategy.GREEDY, heuristic);
