@@ -10,6 +10,7 @@ import java.util.*;
 public class GPSEngine {
 
 	Queue<GPSNode> open;
+	List<GPSNode> tiedNodes;
 	Map<State, Integer> bestCosts;
 	Map<State, Integer> generatedStates;
 	Problem problem;
@@ -43,8 +44,10 @@ public class GPSEngine {
 				);
 			}
 		}
+
         bestCosts = new HashMap<>();
-        generatedStates = new HashMap<>();
+		generatedStates = new HashMap<>();
+		tiedNodes = new ArrayList<>();
 		this.problem = problem;
 		this.strategy = strategy;
 		this.heuristic = Optional.ofNullable(heuristic);
@@ -95,6 +98,8 @@ public class GPSEngine {
 
     private void explode(GPSNode node) {
 		Collection<GPSNode> newCandidates;
+		double number;
+
 		switch (strategy) {
 		case BFS:
 			if (bestCosts.containsKey(node.getState())) {//TODO: add comparison of costs.
@@ -131,6 +136,26 @@ public class GPSEngine {
 			break;
 
 		case GREEDY:
+			number = Math.random();
+			if(number >= 0.5) {
+				if (open.size() > 0) {
+					tiedNodes.add(node);
+					GPSNode aux = open.remove();
+
+					while (!open.isEmpty() && heuristic.get().getValue(aux.getState()) ==
+							heuristic.get().getValue(node.getState())) {
+						tiedNodes.add(aux);
+						if (open.size() > 0) {
+							aux = open.remove();
+						}
+					}
+
+					Collections.shuffle(tiedNodes);
+					node = tiedNodes.remove(0);
+					open.addAll(tiedNodes);
+				}
+			}
+
 			if (!isBest(node.getState(), node.getCost())) {
 				return;
 			}
@@ -140,9 +165,31 @@ public class GPSEngine {
 			break;
 
 		case ASTAR:
+
+			number = Math.random();
+			if(number >= 0.5) {
+				if (open.size() > 0) {
+					tiedNodes.add(node);
+					GPSNode aux = open.remove();
+
+					while (!open.isEmpty() && heuristic.get().getValue(aux.getState()) ==
+							heuristic.get().getValue(node.getState())) {
+						tiedNodes.add(aux);
+						if (open.size() > 0) {
+							aux = open.remove();
+						}
+					}
+
+					Collections.shuffle(tiedNodes);
+					node = tiedNodes.remove(0);
+					open.addAll(tiedNodes);
+				}
+			}
+
 			if (!isBest(node.getState(), node.getCost())) {
 				return;
 			}
+
 			newCandidates = new ArrayList<>();
 			addCandidates(node, newCandidates);
 			open.addAll(newCandidates);
