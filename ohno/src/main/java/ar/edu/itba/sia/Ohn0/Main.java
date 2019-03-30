@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.Ohn0;
 
 import ar.edu.itba.sia.Ohn0.Heuristics.ConflictingNumbersHeuristic;
+import ar.edu.itba.sia.Ohn0.Heuristics.HeuristicReparationAdmisibleHeuristic;
 import ar.edu.itba.sia.gps.GPSEngine;
 import ar.edu.itba.sia.gps.SearchStrategy;
 import ar.edu.itba.sia.gps.api.Heuristic;
@@ -16,16 +17,18 @@ import java.util.Optional;
 public class Main {
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
-        Board board = fm.readStateFromFile(Paths.get("board3X3"));
+        Board board = fm.readStateFromFile(Paths.get("boards", "board9X9_1"));
 
        // System.out.println(board.bruteForceSolution());
       //  System.exit(0);
-//        Heuristic heuristic = new MissingVisibleBlueHeuristics();
-        Heuristic heuristic = new ConflictingNumbersHeuristic();
+//       Heuristic heuristic = new MissingVisibleBlueHeuristics();
+         Heuristic heuristic = new HeuristicReparationAdmisibleHeuristic();
+
+       // Heuristic heuristic = new ConflictingNumbersHeuristic();
 //        runFillBlanks(board, SearchStrategy.GREEDY, heuristic);
         GPSEngine engine;
 //        engine = getFillBlanksEngine(board, SearchStrategy.DFS, heuristic);
-        engine = getHeuristicRepairEngine(board, SearchStrategy.ASTAR, heuristic, Color.RED);
+        engine = getHeuristicRepairEngine(board, SearchStrategy.ASTAR, heuristic, Color.BLUE);
 
         long startTime = System.currentTimeMillis();
         engine.findSolution();

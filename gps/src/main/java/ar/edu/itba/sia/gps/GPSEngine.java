@@ -166,25 +166,28 @@ public class GPSEngine {
 
 		case ASTAR:
 
-			number = Math.random();
-			if(number >= 0.5) {
-				if (open.size() > 0) {
-					tiedNodes.add(node);
-					GPSNode aux = open.remove();
-
-					while (!open.isEmpty() && heuristic.get().getValue(aux.getState()) ==
-							heuristic.get().getValue(node.getState())) {
-						tiedNodes.add(aux);
-						if (open.size() > 0) {
-							aux = open.remove();
-						}
-					}
-
-					Collections.shuffle(tiedNodes);
-					node = tiedNodes.remove(0);
-					open.addAll(tiedNodes);
-				}
-			}
+//			number = Math.random();
+//			if(number >= 0.5) {
+//				if (open.size() > 0) {
+//					tiedNodes.add(node);
+//					GPSNode aux = open.remove();
+//					if (heuristic.get().getValue(aux.getState()) ==
+//							heuristic.get().getValue(node.getState())) {
+//
+//						while (!open.isEmpty() && heuristic.get().getValue(aux.getState()) ==
+//								heuristic.get().getValue(node.getState())) {
+//							tiedNodes.add(aux);
+//							if (open.size() > 0) {
+//								aux = open.remove();
+//							}
+//						}
+//
+//						Collections.shuffle(tiedNodes);
+//						node = tiedNodes.remove(0);
+//						open.addAll(tiedNodes);
+//					}
+//				}
+//			}
 
 			if (!isBest(node.getState(), node.getCost())) {
 				return;

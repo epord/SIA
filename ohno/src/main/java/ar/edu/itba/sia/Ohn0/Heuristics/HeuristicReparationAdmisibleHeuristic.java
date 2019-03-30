@@ -25,7 +25,8 @@ import java.util.Set;
 */
 public class HeuristicReparationAdmisibleHeuristic implements Heuristic {
     Set<Position> conflictingNumbers;
-    HeuristicReparationAdmisibleHeuristic() {
+
+    public HeuristicReparationAdmisibleHeuristic() {
         conflictingNumbers = new HashSet<>();
     }
 
@@ -33,6 +34,7 @@ public class HeuristicReparationAdmisibleHeuristic implements Heuristic {
     public Integer getValue(State state) {
         conflictingNumbers.clear();
         int conflictCount = getConflictingNumbers(state);
+        int islandCount = 0;
         int maxConflictQuantity = 0;
         int aux;
         Board currentBoard = (Board) state;
@@ -44,20 +46,20 @@ public class HeuristicReparationAdmisibleHeuristic implements Heuristic {
                     if(aux > 0 && aux > maxConflictQuantity) {
                         maxConflictQuantity = aux;
                     }
+                    else if(aux < 0) {
+                        islandCount++;
+                    }
                 }
             }
         }
 
-        if(maxConflictQuantity > 0) {
-            return Math.max(conflictCount/maxConflictQuantity, 1);
-        }
 
-        return 1;
+        return maxConflictQuantity > 0 ? conflictCount-maxConflictQuantity + 1 + islandCount : conflictCount - maxConflictQuantity + islandCount;
     }
 
     private int getConflictingNeighbours(Board board, int row, int col) {
         int conflictingNeighboursCount = 0;
-        int numberSeenCount = 0;
+        int bluesSeen = 0;
         int directions[][] = new int[][]{
                 {-1, 0},
                 {1, 0},
@@ -65,11 +67,17 @@ public class HeuristicReparationAdmisibleHeuristic implements Heuristic {
                 {0, 1}
         };
 
+        if(board.getCell(row, col).getColor() == Color.RED) {
+            bluesSeen = 1;
+        }
+
         for (int i = 0; i < 4; i++) {
             for (int j = row + directions[i][0], k = col + directions[i][1]; j < board.getSize() && j >= 0 && k < board.getSize() && k >= 0
                     && board.getCell(j,k).getColor().equals(Color.BLUE); j += directions[i][0], k += directions[i][1]) {
+                if(board.getCell(j,k).getColor() == Color.BLUE) {
+                    bluesSeen++;
+                }
                 if(board.getCell(i, j).getValue() > 0) {
-                    numberSeenCount++;
                     if(conflictingNumbers.contains(new Position(i, j))) {
                         conflictingNeighboursCount++;
                     }
@@ -77,7 +85,11 @@ public class HeuristicReparationAdmisibleHeuristic implements Heuristic {
             }
         }
 
-        return numberSeenCount == 0 ? -1 : conflictingNeighboursCount;
+        if(bluesSeen == 0) {
+            return -1;
+        }
+
+        return conflictingNeighboursCount;
     }
 
     private int getConflictingNumbers(State state) {

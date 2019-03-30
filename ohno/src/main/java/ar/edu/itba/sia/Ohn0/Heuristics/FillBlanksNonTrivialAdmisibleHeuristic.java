@@ -31,7 +31,8 @@ import java.util.Set;
 public class FillBlanksNonTrivialAdmisibleHeuristic implements Heuristic {
 
     Set<Position> conflictingNumbers;
-    FillBlanksNonTrivialAdmisibleHeuristic() {
+
+    public FillBlanksNonTrivialAdmisibleHeuristic() {
         conflictingNumbers = new HashSet<>();
     }
 
@@ -58,10 +59,10 @@ public class FillBlanksNonTrivialAdmisibleHeuristic implements Heuristic {
         }
 
         if(maxConflictQuantity > 0) {
-            return Math.max(conflictCount/maxConflictQuantity, 1) + nonVisiblePieces;
+            return conflictCount - maxConflictQuantity + 1 + nonVisiblePieces;
         }
 
-        return 1 + nonVisiblePieces;
+        return conflictCount - maxConflictQuantity + nonVisiblePieces;
     }
 
     private int getConflictingNeighbours(Board board, int row, int col) {
