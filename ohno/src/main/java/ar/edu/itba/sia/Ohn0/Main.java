@@ -17,7 +17,7 @@ import java.util.Optional;
 public class Main {
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
-        Board board = fm.readStateFromFile(Paths.get("boards", "board9X9_1"));
+        Board board = fm.readStateFromFile(Paths.get("boards", "board6X6_1"));
 
        // System.out.println(board.bruteForceSolution());
       //  System.exit(0);

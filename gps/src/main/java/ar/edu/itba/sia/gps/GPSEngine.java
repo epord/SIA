@@ -136,29 +136,34 @@ public class GPSEngine {
 			break;
 
 		case GREEDY:
-			number = Math.random();
-			if(number >= 0.5) {
-				if (open.size() > 0) {
-					tiedNodes.add(node);
-					GPSNode aux = open.remove();
-
-					while (!open.isEmpty() && heuristic.get().getValue(aux.getState()) ==
-							heuristic.get().getValue(node.getState())) {
-						tiedNodes.add(aux);
-						if (open.size() > 0) {
-							aux = open.remove();
-						}
-					}
-
-					Collections.shuffle(tiedNodes);
-					node = tiedNodes.remove(0);
-					open.addAll(tiedNodes);
-				}
-			}
+//			number = Math.random();
+//			if(number >= 0.5) {
+//				if (open.size() > 0) {
+//					tiedNodes.add(node);
+//					GPSNode aux = open.remove();
+//
+//					while (!open.isEmpty() && heuristic.get().getValue(aux.getState()) ==
+//							heuristic.get().getValue(node.getState())) {
+//						tiedNodes.add(aux);
+//						if (open.size() > 0) {
+//                            aux = open.remove();
+//                            if (heuristic.get().getValue(aux.getState()) !=
+//                                    heuristic.get().getValue(node.getState())) {
+//                                open.add(aux);
+//                            }
+//						}
+//					}
+//
+//					Collections.shuffle(tiedNodes);
+//					node = tiedNodes.remove(0);
+//					open.addAll(tiedNodes);
+//				}
+//			}
 
 			if (!isBest(node.getState(), node.getCost())) {
 				return;
 			}
+
 			newCandidates = new ArrayList<>();
 			addCandidates(node, newCandidates);
 			open.addAll(newCandidates);
@@ -166,26 +171,30 @@ public class GPSEngine {
 
 		case ASTAR:
 
-//			number = Math.random();
+			number = Math.random();
 //			if(number >= 0.5) {
 //				if (open.size() > 0) {
 //					tiedNodes.add(node);
 //					GPSNode aux = open.remove();
-//					if (heuristic.get().getValue(aux.getState()) ==
-//							heuristic.get().getValue(node.getState())) {
+//					if (heuristic.get().getValue(aux.getState()) + aux.getCost() ==
+//							heuristic.get().getValue(node.getState()) + node.getCost()) {
 //
-//						while (!open.isEmpty() && heuristic.get().getValue(aux.getState()) ==
-//								heuristic.get().getValue(node.getState())) {
-//							tiedNodes.add(aux);
-//							if (open.size() > 0) {
-//								aux = open.remove();
-//							}
-//						}
+//                        while (!open.isEmpty() && heuristic.get().getValue(aux.getState()) ==
+//                                heuristic.get().getValue(node.getState())) {
+//                            tiedNodes.add(aux);
+//                            if (open.size() > 0) {
+//                                aux = open.remove();
+//                                if (heuristic.get().getValue(aux.getState()) + aux.getCost() !=
+//                                        heuristic.get().getValue(node.getState()) + node.getCost()) {
+//                                    open.add(aux);
+//                                }
+//                            }
 //
-//						Collections.shuffle(tiedNodes);
-//						node = tiedNodes.remove(0);
-//						open.addAll(tiedNodes);
-//					}
+//                            Collections.shuffle(tiedNodes);
+//                            node = tiedNodes.remove(0);
+//                            open.addAll(tiedNodes);
+//                        }
+//                    }
 //				}
 //			}
 
