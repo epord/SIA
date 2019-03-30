@@ -9,10 +9,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.HashSet;
 import java.util.Set;
 
-public class FillBlanksNonTrivialAdmisibleHeuristic implements Heuristic {
-
+public class HeuristicReparationAdmisibleHeuristic implements Heuristic {
     Set<Position> conflictingNumbers;
-    FillBlanksNonTrivialAdmisibleHeuristic() {
+    HeuristicReparationAdmisibleHeuristic() {
         conflictingNumbers = new HashSet<>();
     }
 
@@ -26,7 +25,7 @@ public class FillBlanksNonTrivialAdmisibleHeuristic implements Heuristic {
 
         for(int i = 0; i < currentBoard.getSize(); i++) {
             for(int j = 0; j < currentBoard.getSize(); j++) {
-                if(currentBoard.getCell(i, j).isBlank()) {
+                if(!currentBoard.getCell(i, j).getFixed()) {
                     aux = getConflictingNeighbours(currentBoard, i, j);
                     if(aux < 0) {
                         nonVisiblePieces++;
@@ -116,7 +115,7 @@ public class FillBlanksNonTrivialAdmisibleHeuristic implements Heuristic {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o != null && o.getClass() != this.getClass()) return false;
-            Position obj = (Position) o;
+           Position obj = (Position) o;
             return (obj.row == this.row) && (obj.col == this.col);
         }
 
@@ -127,5 +126,4 @@ public class FillBlanksNonTrivialAdmisibleHeuristic implements Heuristic {
             return hashBuilder.toHashCode();
         }
     }
-
 }
