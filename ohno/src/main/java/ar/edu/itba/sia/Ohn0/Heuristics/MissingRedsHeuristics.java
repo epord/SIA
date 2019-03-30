@@ -4,7 +4,18 @@ import ar.edu.itba.sia.Ohn0.Board;
 import ar.edu.itba.sia.Ohn0.Color;
 import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.api.State;
-
+/*
+**  Works with heuristic reparation and filling the blanks
+**
+**  Description: Sums all blue with numbers and substracts that
+**  value to the board size, also substracts fixed counts and red
+**  dots, giving this a minimum of non visible pieces that the player
+**  needs to complete.
+**
+**  Is a really bad heuristic because it generates a lots of ties and also
+**  when boards are big board size - cumulated gives less than zero, so
+**  heuristic value on that case would be zero always even in non goal states.
+ */
 public class MissingRedsHeuristics implements Heuristic {
     @Override
     public Integer getValue(State state) {

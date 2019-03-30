@@ -7,6 +7,15 @@ import ar.edu.itba.sia.gps.api.State;
 
 /**
  *  Only for filling blanks
+ *
+ *  Description: Calculates aproximately how many blues are missing
+ *  for each number on the board and add them together, count how many
+ *  blanks spaces are currently on the board and substracts to it the
+ *  previous sum giving this an average quantity of reds.
+ *
+ *  The problem with this approach is that missing blues is not accurate,
+ *  because adding one blue piece can count as more than one missing blue
+ *  if it is reached by more than one number.
  */
 public class AverageRedsHeuristic implements Heuristic {
     @Override

@@ -3,7 +3,14 @@ package ar.edu.itba.sia.Ohn0.Heuristics;
 import ar.edu.itba.sia.Ohn0.Board;
 import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.api.State;
-
+/*
+* Only for filling the blanks
+*
+* Description: It returns the number of blank spaces currently on the board.
+*
+* It is a trivial admisible heuristic.
+*
+ */
 public class FillingBlanksHeuristic implements Heuristic {
 
     @Override

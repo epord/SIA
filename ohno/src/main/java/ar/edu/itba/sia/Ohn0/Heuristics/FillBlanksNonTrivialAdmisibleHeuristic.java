@@ -9,6 +9,25 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.HashSet;
 import java.util.Set;
 
+/*
+* Only for Filling the blanks
+*
+*  Description: First it counts all numbers on the board that doesn't
+*  satisfy its restriction(conflicting numbers), then for each blank
+*  space it calculate how many of these conflicting numbers are reachable
+*  by a blue path from the blank space on the same direction, it keeps
+*  the greatest number of neighbours and also calculate how many of the
+*  blank spaces are non-visible pieces and returns the number of conflicts
+*  divided by the maximum of conflicting neighbours(in case this operation
+*  is greater than zero) plus the quantity of blanks that are non visible
+*  pieces, if the operation is zero it returns one plus the quantity of
+*  blanks that are non visible pieces
+*
+* Should sum also one for each isla de un azul rodeado de rojo TODO
+*
+*  This heuristic seems to be admisible
+*/
+
 public class FillBlanksNonTrivialAdmisibleHeuristic implements Heuristic {
 
     Set<Position> conflictingNumbers;
@@ -37,11 +56,12 @@ public class FillBlanksNonTrivialAdmisibleHeuristic implements Heuristic {
                 }
             }
         }
+
         if(maxConflictQuantity > 0) {
             return Math.max(conflictCount/maxConflictQuantity, 1) + nonVisiblePieces;
         }
 
-        return maxConflictQuantity + nonVisiblePieces;
+        return 1 + nonVisiblePieces;
     }
 
     private int getConflictingNeighbours(Board board, int row, int col) {

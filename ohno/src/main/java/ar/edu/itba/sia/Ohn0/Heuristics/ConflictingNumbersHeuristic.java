@@ -4,6 +4,17 @@ import ar.edu.itba.sia.Ohn0.Board;
 import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.api.State;
 
+/*
+ *   Works for heuristic reparation, can be implemented on fill in the blanks making
+ *   an implementation of isNumberCorrect suitable for that purpose.
+ *
+ *  Description: Calculates how many conflicts are currently on the board
+ *  and it returns thar.
+ *
+ *  The problem with this heuristic is that one move may solve one or more
+ *  conflicts so this heuristic is not admisible, even though it seems to be
+ *  a good heuristic
+ */
 public class ConflictingNumbersHeuristic implements Heuristic {
     @Override
     public Integer getValue(State state) {

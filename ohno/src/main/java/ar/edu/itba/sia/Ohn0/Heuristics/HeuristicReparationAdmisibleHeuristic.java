@@ -8,7 +8,21 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.util.HashSet;
 import java.util.Set;
+/*
+*  Only for heuristic reparation
+*
+*  Description: First it counts all numbers on the board that doesn't
+*  satisfy its restriction(conflicting numbers), then for each non-fixed
+*  dot it calculate how many of these conflicting numbers are reachable
+*  by a blue path from the dot on the same direction, it keeps
+*  the greatest number of neighbours and returns the number of conflicts
+*  divided by the maximum of conflicting neighbours(in case this operation
+*  is greater than zero) or one
+*
+* Should sum also one for each isla de un azul rodeado de rojo TODO
+*  This heuristic seems to be admisible
 
+*/
 public class HeuristicReparationAdmisibleHeuristic implements Heuristic {
     Set<Position> conflictingNumbers;
     HeuristicReparationAdmisibleHeuristic() {
@@ -20,27 +34,25 @@ public class HeuristicReparationAdmisibleHeuristic implements Heuristic {
         conflictingNumbers.clear();
         int conflictCount = getConflictingNumbers(state);
         int maxConflictQuantity = 0;
-        int nonVisiblePieces = 0, aux;
+        int aux;
         Board currentBoard = (Board) state;
 
         for(int i = 0; i < currentBoard.getSize(); i++) {
             for(int j = 0; j < currentBoard.getSize(); j++) {
                 if(!currentBoard.getCell(i, j).getFixed()) {
                     aux = getConflictingNeighbours(currentBoard, i, j);
-                    if(aux < 0) {
-                        nonVisiblePieces++;
-                    }
-                    else if(aux > 0 && aux > maxConflictQuantity) {
+                    if(aux > 0 && aux > maxConflictQuantity) {
                         maxConflictQuantity = aux;
                     }
                 }
             }
         }
+
         if(maxConflictQuantity > 0) {
-            return Math.max(conflictCount/maxConflictQuantity, 1) + nonVisiblePieces;
+            return Math.max(conflictCount/maxConflictQuantity, 1);
         }
 
-        return maxConflictQuantity + nonVisiblePieces;
+        return 1;
     }
 
     private int getConflictingNeighbours(Board board, int row, int col) {
