@@ -105,12 +105,11 @@ public class GPSEngine {
 					if (depthReachedPreviousRun != -1 && depthReachedCurrentRun == depthReachedPreviousRun) {
 						done = true;
 					} else {
+						depthReachedPreviousRun = depthReachedCurrentRun;
 						// Reset and try again with increased depth
 						iddfsReset(rootNode);
 						iddfsDepth += iddfsDeltaDepth;
-						depthReachedPreviousRun = depthReachedCurrentRun;
 						iddfsDepthFloor = depthReachedPreviousRun;
-						depthReachedCurrentRun = 0;
 						done = false;
 					}
 				} else {
@@ -330,6 +329,7 @@ public class GPSEngine {
 		depthReachedCurrentRun = 0;
 		open.add(rootNode);
 		generatedStates.put(rootNode.getState(), 0);
+		analizedStates = 0;
 	}
 
 	protected void addCandidates(GPSNode node, Collection<GPSNode> candidates) {
