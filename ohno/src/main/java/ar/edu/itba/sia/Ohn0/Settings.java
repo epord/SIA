@@ -71,7 +71,7 @@ public class Settings {
         try {
             board = fm.readStateFromFile(Paths.get(inputBoardPath));
         } catch (Exception e) {
-            throw new InvalidPathException(Paths.get(inputBoardPath)`.toAbsolutePath().toString(), "File does not exist.");
+            throw new InvalidPathException(Paths.get(inputBoardPath).toAbsolutePath().toString(), "File does not exist.");
         }
 
         switch (inputResolveMethod) {
