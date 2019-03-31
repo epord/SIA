@@ -37,9 +37,9 @@ The program receives a *.properties* file with the following properties:
 * **resolveMethod [int: *0-1*]**: 0 for fill blanks, 1 for heuristic repair.
 * **heuristic [int: *1-7*]**: which heuristic will be used. The heuristics are:
     * 0 -> FillingBlanksHeuristic (only with fill blanks resolve method)
-    * 1 -> ConflictingNumbersHeuristic 
+    * 1 -> ConflictingNumbersHeuristic (only heuristic reparation)
     * 2 -> FillBlanksNonTrivialAdmisibleHeuristic (only with fill blanks resolve method)
-    * 3 -> HeuristicReparationAdmisibleHeuristic 
+    * 3 -> HeuristicReparationAdmisibleHeuristic (only heuristic reparation)
     * 4 -> AverageRedsHeuristic (only with fill blanks resolve method)
     * 5 -> MissingRedsHeuristics (fill blanks and heuristic reparation resolve methods)
     * 6 -> MissingVisibleBlueHeuristics (fill blanks and heuristic reparation resolve methods)
