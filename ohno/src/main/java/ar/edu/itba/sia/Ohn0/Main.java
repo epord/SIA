@@ -17,18 +17,18 @@ import java.util.Optional;
 public class Main {
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
-        Board board = fm.readStateFromFile(Paths.get("boards", "board6X6_1"));
+        Board board = fm.readStateFromFile(Paths.get("boards", "board6x6_2"));
 
        // System.out.println(board.bruteForceSolution());
       //  System.exit(0);
 //       Heuristic heuristic = new MissingVisibleBlueHeuristics();
-         Heuristic heuristic = new HeuristicReparationAdmisibleHeuristic();
+         Heuristic heuristic = new ConflictingNumbersHeuristic();
 
        // Heuristic heuristic = new ConflictingNumbersHeuristic();
 //        runFillBlanks(board, SearchStrategy.GREEDY, heuristic);
         GPSEngine engine;
 //        engine = getFillBlanksEngine(board, SearchStrategy.DFS, heuristic);
-        engine = getHeuristicRepairEngine(board, SearchStrategy.ASTAR, heuristic, Color.BLUE);
+        engine = getHeuristicRepairEngine(board, SearchStrategy.DFS, heuristic, Color.BLUE);
 
         long startTime = System.currentTimeMillis();
         engine.findSolution();

@@ -18,10 +18,27 @@ public class GPSNode {
 
 	private int depth = 0;
 
+	private int heuristicValue = -1;
+
 	public GPSNode(State state, Integer cost, Rule generationRule) {
 		this.state = state;
 		this.cost = cost;
 		this.generationRule = generationRule;
+	}
+
+	public GPSNode(State state, Integer cost, Rule generationRule, int heursiticValue) {
+		this.state = state;
+		this.cost = cost;
+		this.generationRule = generationRule;
+		this.heuristicValue = heursiticValue;
+	}
+
+	public int getHeuristicValue() {
+		return heuristicValue;
+	}
+
+	public void setHeuristicValue(int heuristicValue) {
+		this.heuristicValue = heuristicValue;
 	}
 
 	public GPSNode getParent() {

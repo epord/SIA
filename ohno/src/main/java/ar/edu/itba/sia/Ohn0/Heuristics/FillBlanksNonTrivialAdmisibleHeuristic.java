@@ -41,6 +41,7 @@ public class FillBlanksNonTrivialAdmisibleHeuristic implements Heuristic {
         conflictingNumbers.clear();
         int conflictCount = getConflictingNumbers(state);
         int maxConflictQuantity = 0;
+        int otherBlanks = 0;
         int nonVisiblePieces = 0, aux;
         Board currentBoard = (Board) state;
 
@@ -48,21 +49,24 @@ public class FillBlanksNonTrivialAdmisibleHeuristic implements Heuristic {
             for(int j = 0; j < currentBoard.getSize(); j++) {
                 if(currentBoard.getCell(i, j).isBlank()) {
                     aux = getConflictingNeighbours(currentBoard, i, j);
-                    if(aux < 0) {
+                    if(aux == -1) {
                         nonVisiblePieces++;
                     }
                     else if(aux > 0 && aux > maxConflictQuantity) {
                         maxConflictQuantity = aux;
+                    }
+                    else if (aux == -2) {
+                        otherBlanks++;
                     }
                 }
             }
         }
 
         if(maxConflictQuantity > 0) {
-            return conflictCount - maxConflictQuantity + 1 + nonVisiblePieces;
+            return Math.max(conflictCount - maxConflictQuantity + nonVisiblePieces + otherBlanks, 1);
         }
 
-        return conflictCount - maxConflictQuantity + nonVisiblePieces;
+        return conflictCount + nonVisiblePieces + otherBlanks;
     }
 
     private int getConflictingNeighbours(Board board, int row, int col) {
@@ -87,7 +91,9 @@ public class FillBlanksNonTrivialAdmisibleHeuristic implements Heuristic {
             }
         }
 
-        return numberSeenCount == 0 ? -1 : conflictingNeighboursCount;
+        if (numberSeenCount == 0) return -1;
+        else if (numberSeenCount > 0 && conflictingNeighboursCount == 0) return -2;
+        else return conflictingNeighboursCount;
     }
 
     private int getConflictingNumbers(State state) {
