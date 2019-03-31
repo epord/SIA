@@ -1,12 +1,8 @@
 # SIA TP 1
 
-## Building
-1. `mvn package`
-1. Output file is under `ohno/target/gps-1.0.jar`, relative to projet root
-
 ## Boards
 The boards are read from a file with the following format:
-* N \<int\>: size of the board. This number is in a single line
+* N [int]: size of the board. This number is in a single line
 * N lines with N space-separated characters from the following list:
     * **n**: a blue circle with an initial value *n*
     * **O**: a blue circle with no value 
@@ -31,11 +27,15 @@ With:
 * **amount** *[int]*: the amount of boards to generate.
 * **baseFilename** *[string]*: the base filename for each generated board. The boards will have the following names: *\<baseFilename>\<size>x\<size>_\<number>* (e.g.: board5x5_1, board5x5_2, board5x5_3, etc.)
 
+## Building
+1. `mvn package`
+1. Output file is under `ohno/target/gps-1.0.jar`, relative to projet root
+
 ## Running
 The program receives a *.properties* file with the following properties:
-* **strategy <string: *BFS, DFS, IDDFS, GREEDY, ASTAR*>**:  which search strategy will be used.  
-* **resolveMethod <int: *0-1*>**: 0 for fill blanks, 1 for heuristic repair.
-* **heuristic <int: *1-7*>**: which heuristic will be used. The heuristics are:
+* **strategy [string: *BFS, DFS, IDDFS, GREEDY, ASTAR*]**:  which search strategy will be used.  
+* **resolveMethod [int: *0-1*]**: 0 for fill blanks, 1 for heuristic repair.
+* **heuristic [int: *1-7*]**: which heuristic will be used. The heuristics are:
     * 0 -> FillingBlanksHeuristic (only with fill blanks resolve method)
     * 1 -> ConflictingNumbersHeuristic 
     * 2 -> FillBlanksNonTrivialAdmisibleHeuristic (only with fill blanks resolve method)
@@ -47,8 +47,8 @@ The program receives a *.properties* file with the following properties:
     
     &nbsp;&nbsp;&nbsp;&nbsp;The explanation of each heuristic can be found in XXXXinforme.docXXXX 
     
-* **fillingMethod <string: *blue, red, random*>**: (only for heuristic repair) This is how to board will be filled: only with blue/red circles or random color. 
-* **board \<string\>**: path of the board to solve (relative to CWD or absolute (preferred)).
+* **fillingMethod [string: *blue, red, random*]**: (only for heuristic repair) This is how to board will be filled: only with blue/red circles or random color. 
+* **board [string]**: path of the board to solve (relative to CWD or absolute (preferred)).
 
 Run command:
 
