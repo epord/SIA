@@ -152,8 +152,8 @@ public class Main {
         }
         System.out.println("With a board of size: " + boardSize + "X" + boardSize);
         System.out.println("Search was:" + (failed? "Unsuccesful" : "Succesful") );
-        System.out.println("You can view the solution steps opening file .... in the browser");
         if(!failed) {
+            System.out.println("You can view the solution steps opening file p5/index.html in your browser");
             System.out.println("Solution Depth was: " + engine.getSolutionNode().getDepth());
             System.out.println("Solution cost was: " + engine.getSolutionNode().getCost());
         }
