@@ -26,4 +26,8 @@ public class MissingVisibleBlueHeuristics implements Heuristic {
         }
         return cumulated;
     }
+
+    public String getName() {
+        return "6(Missing Visible Blues Heuristic)";
+    }
 }

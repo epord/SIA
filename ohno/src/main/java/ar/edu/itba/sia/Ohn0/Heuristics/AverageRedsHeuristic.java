@@ -41,4 +41,7 @@ public class AverageRedsHeuristic implements Heuristic {
         }
         return Math.max(blankCount - cumulatedMissingBlues, 0);
     }
+    public String getName() {
+        return "4(Average Red Heuristic)";
+    }
 }

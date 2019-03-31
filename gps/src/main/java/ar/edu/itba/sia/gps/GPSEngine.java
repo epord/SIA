@@ -15,6 +15,8 @@ public class GPSEngine {
 	Map<State, Integer> generatedStates;
 	Problem problem;
 	long explosionCounter;
+	long borderNodes;
+	long analizedStates;
 	boolean finished;
 	boolean failed;
 	GPSNode solutionNode;
@@ -45,6 +47,8 @@ public class GPSEngine {
 			}
 		}
 
+		borderNodes = 0;
+		analizedStates = 0;
         bestCosts = new HashMap<>();
 		generatedStates = new HashMap<>();
 		tiedNodes = new ArrayList<>();
@@ -68,6 +72,7 @@ public class GPSEngine {
 			GPSNode currentNode = open.remove();
 			if (problem.isGoal(currentNode.getState())) {
 				setSolution(currentNode);
+				borderNodes = open.size();
 				return;
 			} else {
 				explode(currentNode);
@@ -105,6 +110,7 @@ public class GPSEngine {
 			if (bestCosts.containsKey(node.getState())) {//TODO: add comparison of costs.
 				return;
 			}
+			analizedStates++;
 			newCandidates = new ArrayList<>();
 			addCandidates(node, newCandidates);
 			newCandidates.forEach(gpsNode -> open.offer(gpsNode));
@@ -114,6 +120,7 @@ public class GPSEngine {
 			if (bestCosts.containsKey(node.getState())) {//TODO: add comparison of costs.
 				return;
 			}
+			analizedStates++;
 			newCandidates = new ArrayList<>();
 			addCandidates(node, newCandidates);
 			newCandidates.forEach(((Deque<GPSNode>) open)::addFirst);
@@ -123,6 +130,7 @@ public class GPSEngine {
 			if (bestCosts.containsKey(node.getState())) {//TODO: add comparison of costs.
 				return;
 			}
+			analizedStates++;
 			if (node.getDepth() >= iddfsDepth) {
 				return;
 			}
@@ -233,7 +241,11 @@ public class GPSEngine {
 	}
 
 	private boolean isBest(State state, Integer cost) {
-		return !bestCosts.containsKey(state) || cost < bestCosts.get(state);
+		if(!bestCosts.containsKey(state)) {
+			analizedStates++;
+			return true;
+		}
+		return cost < bestCosts.get(state);
 	}
 
 	private void updateBest(GPSNode node) {
@@ -288,4 +300,11 @@ public class GPSEngine {
 		return strategy;
 	}
 
+	public long getAnalizedStates() {
+		return analizedStates;
+	}
+
+	public long getBorderNodes() {
+		return borderNodes;
+	}
 }

@@ -131,6 +131,10 @@ public class FillBlanksNonTrivialAdmisibleHeuristic implements Heuristic {
         return value != 0;
     }
 
+    public String getName() {
+        return "2(Fill Blanks Non Trivial Admisible Heuristic)";
+    }
+
     private static class Position {
         int row;
         int col;
@@ -154,5 +158,7 @@ public class FillBlanksNonTrivialAdmisibleHeuristic implements Heuristic {
             return hashBuilder.toHashCode();
         }
     }
+
+
 
 }

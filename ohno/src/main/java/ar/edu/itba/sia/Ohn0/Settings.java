@@ -18,6 +18,8 @@ public class Settings {
     public static Color fillingMethod;
     public static ResolveMethod resolveMethod;
 
+    public static String heuristicIndex;
+    public static Map<String, String> heuristicNames;
     private static Map<String, SearchStrategy> strategyMap= new HashMap<>();
     private static Map<String, Heuristic> heuristicMap= new HashMap<>();
     static {
@@ -35,6 +37,15 @@ public class Settings {
         heuristicMap.put("5", new MissingRedsHeuristics());
         heuristicMap.put("6", new MissingVisibleBlueHeuristics());
         heuristicMap.put("7", new AddAllHeuristics());
+
+        heuristicNames.put("0", "0(Filling Blanks Heuristic)");
+        heuristicNames.put("1", "1(Conflicting Numbers Heuristic)");
+        heuristicNames.put("2", "2(Fill Blanks Non Trivial Admisible Heuristic)");
+        heuristicNames.put("3", "3(Heuristic Reparation Admisible Heuristic");
+        heuristicNames.put("4", "4(Average Reds Heuristic");
+        heuristicNames.put("5", "5(Missing Reds Heuristics");
+        heuristicNames.put("6", "6 Missing Visible Blue Heuristics");
+        heuristicNames.put("7", "7(Add All Heuristics");
     }
 
     public static void loadSettings() throws FileNotFoundException, IOException {
@@ -51,6 +62,7 @@ public class Settings {
 
         String inputStrategy = properties.getProperty("strategy");
         String inputHeuristic = properties.getProperty("heuristic");
+        heuristicIndex = inputHeuristic;
         String inputResolveMethod = properties.getProperty("resolveMethod");
         String inputFillingMethod = properties.getProperty("fillingMethod");
         String inputBoardPath = properties.getProperty("board");

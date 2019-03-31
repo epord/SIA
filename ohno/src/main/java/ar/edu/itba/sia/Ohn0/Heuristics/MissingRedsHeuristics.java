@@ -37,4 +37,8 @@ public class MissingRedsHeuristics implements Heuristic {
         }
         return Math.max(currentBoard.getSize() * currentBoard.getSize() - cumulated - fixedCount, 0);
     }
+
+    public String getName() {
+        return "5(Missing Reds Heuristic)";
+    }
 }

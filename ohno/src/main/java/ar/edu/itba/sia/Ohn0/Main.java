@@ -38,14 +38,16 @@ public class Main {
         long startTime = System.currentTimeMillis();
         engine.findSolution();
         long endTime = System.currentTimeMillis();
+        printResults(endTime - startTime, board.getSize(), engine);
 
-        if (engine.isFailed()) {
-            System.out.println("FAILED");
-        } else {
-            engine.printSolution();
-            fm.writeStringToFile("p5/solution.out", board.getSize() + "\n" + engine.getSolutionNode().getSolution());
-        }
-        System.out.println("\n" + (endTime - startTime) + " ms");
+
+//        if (engine.isFailed()) {
+//            System.out.println("FAILED");
+//        } else {
+//            engine.printSolution();
+//            fm.writeStringToFile("p5/solution.out", board.getSize() + "\n" + engine.getSolutionNode().getSolution());
+//        }
+//        System.out.println("\n" + (endTime - startTime) + " ms");
     }
 
     private static GPSEngine getFillBlanksEngine(Board board, SearchStrategy strategy, Heuristic heuristic) {
@@ -127,5 +129,41 @@ public class Main {
                 return Optional.of(newBoard);
             }
         });
+    }
+    private static void printResults(long time, int boardSize,  GPSEngine engine) {
+        boolean failed = engine.isFailed();
+
+        System.out.println("Resolve Method: " + Settings.resolveMethod);
+        System.out.println("Strategy: " + Settings.strategy.name());
+        if(Settings.strategy == SearchStrategy.ASTAR || Settings.strategy == SearchStrategy.GREEDY ) {
+            System.out.println("With Heuristic: "  + Settings.heuristicNames.get(Settings.heuristicIndex));
+        }
+        if(Settings.resolveMethod == ResolveMethod.HEURISTIC_REPARATION) {
+            switch(Settings.fillingMethod) {
+                case RED:
+                    System.out.println("With filling method of color red");
+                    break;
+                case BLUE:
+                    System.out.println("With filling method of color blue");
+                    break;
+                default:
+                    System.out.println("With random filling method");
+            }
+        }
+        System.out.println("With a board of size: " + boardSize + "X" + boardSize);
+        System.out.println("Search was:" + (failed? "Unsuccesful" : "Succesful") );
+        System.out.println("You can view the solution steps opening file .... in the browser");
+        if(!failed) {
+            System.out.println("Solution Depth was: " + engine.getSolutionNode().getDepth());
+            System.out.println("Solution cost was: " + engine.getSolutionNode().getCost());
+        }
+        System.out.println("Expanded nodes: " + engine.getExplosionCounter());
+        System.out.println("Analized states: " + engine.getAnalizedStates());
+        System.out.println("Border nodes: " + engine.getBorderNodes());
+        System.out.println("time: " + time + "ms");
+
+
+
+
     }
 }

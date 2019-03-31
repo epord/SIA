@@ -32,4 +32,8 @@ public class ConflictingNumbersHeuristic implements Heuristic {
 
         return conflictCount;
     }
+
+    public String getName() {
+        return "1(Conflicting Numbers Heuristic)";
+    }
 }
