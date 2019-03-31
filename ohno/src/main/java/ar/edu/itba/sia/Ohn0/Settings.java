@@ -38,8 +38,16 @@ public class Settings {
     }
 
     public static void loadSettings() throws FileNotFoundException, IOException {
+        Settings.loadSettings("settings.properties");
+    }
+
+    public static void loadSettings(String propertiesPath) throws FileNotFoundException, IOException {
         Properties properties = new Properties();
-        properties.load(new FileReader(Paths.get("settings.properties").toFile()));
+        try {
+            properties.load(new FileReader(Paths.get(propertiesPath).toFile()));
+        } catch (Exception e) {
+            throw new InvalidPathException(Paths.get(propertiesPath).toAbsolutePath().toString(), "Properties file does not exist.");
+        }
 
         String inputStrategy = properties.getProperty("strategy");
         String inputHeuristic = properties.getProperty("heuristic");
@@ -63,7 +71,7 @@ public class Settings {
         try {
             board = fm.readStateFromFile(Paths.get(inputBoardPath));
         } catch (Exception e) {
-            throw new InvalidPathException(Paths.get(inputBoardPath).toAbsolutePath().toString(), "File does not exist.");
+            throw new InvalidPathException(Paths.get(inputBoardPath)`.toAbsolutePath().toString(), "File does not exist.");
         }
 
         switch (inputResolveMethod) {
@@ -93,15 +101,6 @@ public class Settings {
                     throw new IllegalArgumentException("Invalid filling method.");
                 }
         }
-
-        heuristicMap.put("0", new FillingBlanksHeuristic());
-        heuristicMap.put("1", new ConflictingNumbersHeuristic());
-        heuristicMap.put("2", new FillBlanksNonTrivialAdmisibleHeuristic());
-        heuristicMap.put("3", new HeuristicReparationAdmisibleHeuristic());
-        heuristicMap.put("4", new AverageRedsHeuristic());
-        heuristicMap.put("5", new MissingRedsHeuristics());
-        heuristicMap.put("6", new MissingVisibleBlueHeuristics());
-        heuristicMap.put("7", new AddAllHeuristics());
 
         String[] fillBlanksValidHeuristics = {"0", "2", "4", "5", "6", "7"};
         String[] heuristicReparationValidHeuristics = {"1", "3", "5", "6"};

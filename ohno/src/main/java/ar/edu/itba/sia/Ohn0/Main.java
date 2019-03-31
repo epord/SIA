@@ -19,20 +19,21 @@ import java.util.Properties;
 public class Main {
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
-        Settings.loadSettings();
+        if (args.length >= 1) {
+            Settings.loadSettings(args[0]);
+        } else {
+            Settings.loadSettings();
+        }
 
-        Board board = fm.readStateFromFile(Paths.get("boards", "board5x5_2"));
+        Board board = Settings.board;
+        Heuristic heuristic = Settings.heuristic;
 
-       // System.out.println(board.bruteForceSolution());
-      //  System.exit(0);
-//       Heuristic heuristic = new MissingVisibleBlueHeuristics();
-         Heuristic heuristic = new ConflictingNumbersHeuristic();
-
-       // Heuristic heuristic = new ConflictingNumbersHeuristic();
-//        runFillBlanks(board, SearchStrategy.GREEDY, heuristic);
         GPSEngine engine;
-//        engine = getFillBlanksEngine(board, SearchStrategy.DFS, heuristic);
-        engine = getHeuristicRepairEngine(board, SearchStrategy.DFS, heuristic, Color.BLUE);
+        if (Settings.resolveMethod == ResolveMethod.HEURISTIC_REPARATION) {
+            engine = getHeuristicRepairEngine(board, Settings.strategy, heuristic, Settings.fillingMethod);
+        } else {
+            engine = getFillBlanksEngine(board, Settings.strategy, heuristic);
+        }
 
         long startTime = System.currentTimeMillis();
         engine.findSolution();
