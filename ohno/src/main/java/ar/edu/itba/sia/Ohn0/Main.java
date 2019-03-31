@@ -139,15 +139,18 @@ public class Main {
             System.out.println("With Heuristic: "  + Settings.heuristicNames.get(Settings.heuristicIndex));
         }
         if(Settings.resolveMethod == ResolveMethod.HEURISTIC_REPARATION) {
-            switch(Settings.fillingMethod) {
-                case RED:
-                    System.out.println("With filling method of color red");
-                    break;
-                case BLUE:
-                    System.out.println("With filling method of color blue");
-                    break;
-                default:
-                    System.out.println("With random filling method");
+            if(Settings.fillingMethod != null) {
+                switch (Settings.fillingMethod) {
+                    case RED:
+                        System.out.println("With filling method of color red");
+                        break;
+                    case BLUE:
+                        System.out.println("With filling method of color blue");
+                        break;
+                }
+            }
+            else {
+                System.out.println("With random filling method");
             }
         }
         System.out.println("With a board of size: " + boardSize + "X" + boardSize);
