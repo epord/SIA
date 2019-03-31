@@ -37,9 +37,9 @@ The program receives a *.properties* file with the following properties:
 * **resolveMethod [int: *0-1*]**: 0 for fill blanks, 1 for heuristic repair.
 * **heuristic [int: *1-7*]**: which heuristic will be used. The heuristics are:
     * 0 -> FillingBlanksHeuristic (only with fill blanks resolve method)
-    * 1 -> ConflictingNumbersHeuristic (only heuristic reparation)
+    * 1 -> ConflictingNumbersHeuristic (only heuristic reparation resolve method)
     * 2 -> FillBlanksNonTrivialAdmisibleHeuristic (only with fill blanks resolve method)
-    * 3 -> HeuristicReparationAdmisibleHeuristic (only heuristic reparation)
+    * 3 -> HeuristicReparationAdmisibleHeuristic (only heuristic reparation resolve method)
     * 4 -> AverageRedsHeuristic (only with fill blanks resolve method)
     * 5 -> MissingRedsHeuristics (fill blanks and heuristic reparation resolve methods)
     * 6 -> MissingVisibleBlueHeuristics (fill blanks and heuristic reparation resolve methods)
@@ -47,7 +47,7 @@ The program receives a *.properties* file with the following properties:
     
     &nbsp;&nbsp;&nbsp;&nbsp;The explanation of each heuristic can be found in XXXXinforme.docXXXX 
     
-* **fillingMethod [string: *blue, red, random*]**: (only for heuristic repair) This is how to board will be filled: only with blue/red circles or random color. 
+* **fillingMethod [string: *blue, red, random*]**: (only for heuristic repair) This is how the board will be filled, only with blue/red circles or random color. 
 * **board [string]**: path of the board to solve (relative to CWD or absolute (preferred)).
 
 Run command:
@@ -57,7 +57,7 @@ Run command:
 By default, the program will use the file `settings.properties` in the CWD, but you can optionally provide the path to your custom .properties file (relative to CWD or absolute (preferred)).
 
 
-###Running example
+### Running example
 ```properties
 strategy=ASTAR
 heuristic=1
