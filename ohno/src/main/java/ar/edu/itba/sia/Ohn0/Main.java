@@ -7,17 +7,21 @@ import ar.edu.itba.sia.gps.SearchStrategy;
 import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.api.Rule;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 
 
 public class Main {
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
-        Board board = fm.readStateFromFile(Paths.get("boards", "board6x6_2"));
+        Settings.loadSettings();
+
+        Board board = fm.readStateFromFile(Paths.get("boards", "board5x5_2"));
 
        // System.out.println(board.bruteForceSolution());
       //  System.exit(0);
