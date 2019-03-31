@@ -19,9 +19,9 @@ public class Settings {
     public static ResolveMethod resolveMethod;
 
     public static String heuristicIndex;
-    public static Map<String, String> heuristicNames;
+    public static Map<String, String> heuristicNames = new HashMap<>();
     private static Map<String, SearchStrategy> strategyMap= new HashMap<>();
-    private static Map<String, Heuristic> heuristicMap= new HashMap<>();
+    private static Map<String, Heuristic> heuristicMap = new HashMap<>();
     static {
         strategyMap.put("BFS", SearchStrategy.BFS);
         strategyMap.put("DFS", SearchStrategy.DFS);
@@ -114,7 +114,7 @@ public class Settings {
                 }
         }
 
-        String[] fillBlanksValidHeuristics = {"0", "2", "4", "5", "6", "7"};
+        String[] fillBlanksValidHeuristics = {"0", "1", "2", "4", "5", "6", "7"};
         String[] heuristicReparationValidHeuristics = {"1", "3", "5", "6"};
         if (resolveMethod == ResolveMethod.FILL_BLANKS && Arrays.stream(fillBlanksValidHeuristics).noneMatch(h -> h.equals(inputHeuristic))) {
             throw new IllegalArgumentException("Can't use this heuristic with '" + resolveMethod.toString() + "'");

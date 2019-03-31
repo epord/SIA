@@ -33,16 +33,7 @@ public class Main {
         long startTime = System.currentTimeMillis();
         engine.findSolution();
         long endTime = System.currentTimeMillis();
-        printResults(endTime - startTime, board.getSize(), engine);
-
-
-//        if (engine.isFailed()) {
-//            System.out.println("FAILED");
-//        } else {
-//            engine.printSolution();
-//            fm.writeStringToFile("p5/solution.out", board.getSize() + "\n" + engine.getSolutionNode().getSolution());
-//        }
-//        System.out.println("\n" + (endTime - startTime) + " ms");
+        printResults(endTime - startTime, board, engine);
     }
 
     private static GPSEngine getFillBlanksEngine(Board board, SearchStrategy strategy, Heuristic heuristic) {
@@ -125,7 +116,8 @@ public class Main {
             }
         });
     }
-    private static void printResults(long time, int boardSize,  GPSEngine engine) {
+
+    private static void printResults(long time, Board board,  GPSEngine engine) throws IOException {
         boolean failed = engine.isFailed();
 
         System.out.println("Resolve Method: " + Settings.resolveMethod);
@@ -148,9 +140,11 @@ public class Main {
                 System.out.println("With random filling method");
             }
         }
-        System.out.println("With a board of size: " + boardSize + "X" + boardSize);
+        System.out.println("With a board of size: " + board.getSize() + "X" + board.getSize());
         System.out.println("Search was:" + (failed? "Unsuccesful" : "Succesful") );
         if(!failed) {
+            FileManager fm = new FileManager();
+            fm.writeStringToFile("p5/solution.out", board.getSize() + "\n" + engine.getSolutionNode().getSolution());
             System.out.println("You can view the solution steps opening file p5/index.html in your browser");
             System.out.println("Solution Depth was: " + engine.getSolutionNode().getDepth());
             System.out.println("Solution cost was: " + engine.getSolutionNode().getCost());
