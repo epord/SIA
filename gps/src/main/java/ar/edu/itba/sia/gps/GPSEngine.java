@@ -36,14 +36,15 @@ public class GPSEngine {
 		else {
 			Objects.requireNonNull(heuristic);
 			if(strategy.equals(SearchStrategy.ASTAR)) {
-				open = new PriorityQueue<>(10, Comparator.comparingInt(
-						node -> node.getHeuristicValue() + node.getCost())
+				open = new PriorityQueue<>(10, Comparator
+						// Compare by H + G first
+						.comparingInt((GPSNode o) -> o.getHeuristicValue() + o.getCost())
+						// If tied, compare only by H
+						.thenComparingInt(GPSNode::getHeuristicValue)
 				);
 			}
 			else {
-				open = new PriorityQueue<>(10, Comparator.comparingInt(
-						node -> node.getHeuristicValue())
-				);
+				open = new PriorityQueue<>(10, Comparator.comparingInt(GPSNode::getHeuristicValue));
 			}
 		}
 
