@@ -83,7 +83,7 @@ public class GPSEngine {
 						the binary search.
 					 */
 					open.clear();
-					Optional<GPSNode> binarySearchSolution = iddfsBinarySearch(rootNode, previousIddfsDepth +1, currentNode.getDepth()-1);
+					Optional<GPSNode> binarySearchSolution = iddfsBinarySearch(rootNode, previousIddfsDepth+1, currentNode.getDepth()-1);
 					if (binarySearchSolution.isPresent()) {
 						GPSNode newSolution = binarySearchSolution.get();
 						if (newSolution.getDepth() >= currentNode.getDepth()) {
@@ -137,44 +137,42 @@ public class GPSEngine {
 			throw new IllegalArgumentException(String.format("Floor (%d) > ceil (%d) in IDDFS binary search", iddfsDepthFloor, iddfsDepthCeil));
 		}
 
-		List<Integer> depths = new ArrayList<>(iddfsDepthCeil - iddfsDepthFloor + 1),
-					excludedDepths = new ArrayList<>();
+		List<Integer> depths = new ArrayList<>(iddfsDepthCeil - iddfsDepthFloor + 1);
+		Set<Integer> excludedDepths = new HashSet<>();
 		binarySearchBounds(iddfsDepthFloor, iddfsDepthCeil, depths);
 		Optional<GPSNode> result = Optional.empty();
 
-		ListIterator<Integer> depthsIterator = depths.listIterator();
-		while (depthsIterator.hasNext()) {
-			int depth = depthsIterator.next();
-			if (!excludedDepths.contains(depth)) {
-				// Stop iteration if all remaining depths are greater than the depth of the result
-				if (result.isPresent()) {
-					final int resultDepth = result.get().getDepth();
-					if (depths.stream().noneMatch(d -> d < resultDepth)) {
-						return result;
-					}
-				}
-				// Reset, update depth, and perform search
-				iddfsReset(rootNode);
-				iddfsDepth = depth;
-				while (!open.isEmpty()) {
-					GPSNode currentNode = open.remove();
-					if (problem.isGoal(currentNode.getState())) {
-						result = Optional.of(currentNode);
-						if (depth == iddfsDepthFloor) {
-							return result; // There's not a better solution, stop here
-						} else {
-							// Don't visit this depth in the future if we haven't seen it yet
-							excludedDepths.add(depth);
-							// Don't keep exploring further down this tree
-							break;
-						}
-					} else {
-						explode(currentNode);
-					}
-				}
-			}
-			depthsIterator.remove();
-		}
+		for (int depth : depths) {
+            if (excludedDepths.contains(depth)) {
+                continue;
+            }
+            // Reset, update depth, and perform search
+            iddfsReset(rootNode);
+            iddfsDepth = depth;
+            while (!open.isEmpty()) {
+                GPSNode currentNode = open.remove();
+                if (problem.isGoal(currentNode.getState())) {
+                    result = Optional.of(currentNode);
+                    if (depth == iddfsDepthFloor) {
+                        return result; // There's not a better solution, stop here
+                    } else {
+                        // Don't keep exploring further down this tree
+                        break;
+                    }
+                } else {
+                    explode(currentNode);
+                }
+            }
+            // Discard depths that we won't need to try
+            final Optional<GPSNode> finalResult = result;
+            depths.stream()
+                    .filter(d -> finalResult
+                        // Solution found? Don't try IDDFS with equal or greater depth, the same solution will be found
+                        .map(gpsNode -> d >= gpsNode.getDepth())
+                        // Solution not found? We explored the whole tree. Don't try with less depth, there will be no solution there either
+                        .orElseGet(() -> d <= depth))
+                    .forEach(excludedDepths::add);
+        }
 		return result;
 	}
 
