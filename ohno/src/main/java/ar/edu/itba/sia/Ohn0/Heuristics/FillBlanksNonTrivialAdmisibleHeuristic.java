@@ -18,10 +18,10 @@ import java.util.Set;
 *  by a blue path from the blank space on the same direction, it keeps
 *  the greatest number of neighbours and also calculate how many of the
 *  blank spaces are non-visible pieces and returns the number of conflicts
-*  divided by the maximum of conflicting neighbours(in case this operation
+*  substracted by the maximum of conflicting neighbours(in case this operation
 *  is greater than zero) plus the quantity of blanks that are non visible
 *  pieces, if the operation is zero it returns one plus the quantity of
-*  blanks that are non visible pieces
+*  blanks that are non visible pieces and other blanks
 *
 * Should sum also one for each isla de un azul rodeado de rojo TODO
 *
