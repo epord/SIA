@@ -280,28 +280,28 @@ public class GPSEngine {
 			break;
 
 		case ASTAR:
-			number = Math.random();
-			if(number >= 0.5) {
-				if (open.size() > 0) {
-					tiedNodes.add(node);
-					GPSNode aux = open.remove();
-					if (aux.getHeuristicValue() + aux.getCost() == node.getHeuristicValue() + node.getCost()) {
-						while (!open.isEmpty() && aux.getHeuristicValue() + aux.getCost() == node.getHeuristicValue() + node.getCost()) {
-							tiedNodes.add(aux);
-							aux = open.remove();
-							if (aux.getHeuristicValue() + aux.getCost() != node.getHeuristicValue() + node.getCost()) {
-								open.add(aux);
-							}
-						}
-						Collections.shuffle(tiedNodes);
-						node = tiedNodes.remove(0);
-						open.addAll(tiedNodes);
-						tiedNodes.clear();
-					} else {
-						open.add(aux);
-					}
-				}
-			}
+//			number = Math.random();
+//			if(number >= 0.5) {
+//				if (open.size() > 0) {
+//					tiedNodes.add(node);
+//					GPSNode aux = open.remove();
+//					if (aux.getHeuristicValue() + aux.getCost() == node.getHeuristicValue() + node.getCost()) {
+//						while (!open.isEmpty() && aux.getHeuristicValue() + aux.getCost() == node.getHeuristicValue() + node.getCost()) {
+//							tiedNodes.add(aux);
+//							aux = open.remove();
+//							if (aux.getHeuristicValue() + aux.getCost() != node.getHeuristicValue() + node.getCost()) {
+//								open.add(aux);
+//							}
+//						}
+//						Collections.shuffle(tiedNodes);
+//						node = tiedNodes.remove(0);
+//						open.addAll(tiedNodes);
+//						tiedNodes.clear();
+//					} else {
+//						open.add(aux);
+//					}
+//				}
+//			}
 
 			if (!isBest(node.getState(), node.getCost())) {
 				return;
