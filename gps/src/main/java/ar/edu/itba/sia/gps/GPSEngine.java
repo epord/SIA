@@ -157,6 +157,7 @@ public class GPSEngine {
                         return result; // There's not a better solution, stop here
                     } else {
                         // Don't keep exploring further down this tree
+						open.clear();
                         break;
                     }
                 } else {
