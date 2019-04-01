@@ -36,13 +36,13 @@ public class Main {
         printResults(endTime - startTime, board, engine);
     }
 
-    private static GPSEngine getFillBlanksEngine(Board board, SearchStrategy strategy, Heuristic heuristic) {
+    public static GPSEngine getFillBlanksEngine(Board board, SearchStrategy strategy, Heuristic heuristic) {
         List<Rule> problemRules = generateRulesFilling(board.getSize());
         ProblemImpl OhN0 = new ProblemImpl(board, problemRules);
         return new GPSEngine(OhN0, strategy, heuristic);
     }
 
-    private static GPSEngine getHeuristicRepairEngine(Board board, SearchStrategy strategy, Heuristic heuristic,
+    public static GPSEngine getHeuristicRepairEngine(Board board, SearchStrategy strategy, Heuristic heuristic,
                                                       Color fillColor) {
         if(fillColor == Color.BLUE) {
             board = board.fillBlue();
@@ -60,7 +60,7 @@ public class Main {
 
     }
 
-    private static List<Rule> generateRulesReparation(int size, Boolean onlyBlueRules, Boolean onlyRedRules) {
+    public static List<Rule> generateRulesReparation(int size, Boolean onlyBlueRules, Boolean onlyRedRules) {
         int i, j;
         List<Rule> rules = new ArrayList<>();
         if(onlyBlueRules && onlyRedRules) {
@@ -81,7 +81,7 @@ public class Main {
         return rules;
     }
 
-    private static List<Rule> generateRulesFilling(int size) {
+    public static List<Rule> generateRulesFilling(int size) {
         int i, j;
         List<Rule> rules = new ArrayList<>();
 

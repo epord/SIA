@@ -93,4 +93,5 @@ p5/solution.out
 # Other
 target/
 .idea/
+settings.properties
 
