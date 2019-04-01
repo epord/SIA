@@ -23,7 +23,7 @@ public class GPSEngine {
 	Optional<Heuristic> heuristic;
 	Random random;
 	// IDDFS-specific fields
-	private int iddfsDepth, depthReachedCurrentRun, depthReachedPreviousRun, iddfsDeltaDepth, iddfsDepthFloor;
+	private int iddfsDepth, previousIddfsDepth, depthReachedCurrentRun, depthReachedPreviousRun;
 
 	// Use this variable in open set order.
 	protected SearchStrategy strategy;
@@ -58,10 +58,9 @@ public class GPSEngine {
 		this.strategy = strategy;
 		this.heuristic = Optional.ofNullable(heuristic);
 		explosionCounter = 0;
-		iddfsDepth = 0;
+		iddfsDepth = 16;
 		depthReachedCurrentRun = 0;
 		depthReachedPreviousRun = -1;
-		iddfsDeltaDepth = 15;
 		finished = false;
 		failed = false;
 		random = new Random();
@@ -78,26 +77,24 @@ public class GPSEngine {
                 setSolution(currentNode);
                 borderNodes = open.size();
 				if (strategy == SearchStrategy.IDDFS) {
-				    if (iddfsDeltaDepth > 1) { // See if there's a better solution between the previous depth and current depth
-				        /*
-                            Discard unvisited nodes for this depth, all other solutions will be at greater or equal depth.
-                            Do this to avoid the IllegalArgumentException thrown by iddfsReset() which will be called during
-                            the binary search.
-                         */
-                        open.clear();
-                        Optional<GPSNode> binarySearchSolution = iddfsBinarySearch(rootNode, iddfsDepthFloor+1, currentNode.getDepth()-1);
-                        if (binarySearchSolution.isPresent()) {
-                            GPSNode newSolution = binarySearchSolution.get();
-                            if (newSolution.getDepth() >= currentNode.getDepth()) {
-                                throw new IllegalStateException(String.format(
-                                        "Solution found in IDDFS binary search doesn't have less depth than original solution (%d < %d)",
-                                        newSolution.getDepth(),
-                                        currentNode.getDepth())
-                                );
-                            }
-                            setSolution(binarySearchSolution.get());
-                        }
-                    }
+				    /*
+						Discard unvisited nodes for this depth, all other solutions will be at greater or equal depth.
+						Do this to avoid the IllegalArgumentException thrown by iddfsReset() which will be called during
+						the binary search.
+					 */
+					open.clear();
+					Optional<GPSNode> binarySearchSolution = iddfsBinarySearch(rootNode, previousIddfsDepth +1, currentNode.getDepth()-1);
+					if (binarySearchSolution.isPresent()) {
+						GPSNode newSolution = binarySearchSolution.get();
+						if (newSolution.getDepth() >= currentNode.getDepth()) {
+							throw new IllegalStateException(String.format(
+									"Solution found in IDDFS binary search doesn't have less depth than original solution (%d < %d)",
+									newSolution.getDepth(),
+									currentNode.getDepth())
+							);
+						}
+						setSolution(binarySearchSolution.get());
+					}
 				}
 				return;
 			} else {
@@ -111,8 +108,8 @@ public class GPSEngine {
 						depthReachedPreviousRun = depthReachedCurrentRun;
 						// Reset and try again with increased depth
 						iddfsReset(rootNode);
-						iddfsDepth += iddfsDeltaDepth;
-						iddfsDepthFloor = depthReachedPreviousRun;
+						iddfsDepth *= 2;
+						previousIddfsDepth = depthReachedPreviousRun;
 						done = false;
 					}
 				} else {
@@ -126,8 +123,9 @@ public class GPSEngine {
 
 	/**
 	 * Perform different DFS runs within the given depth floor and ceiling, using binary search. The objective of this
-	 * solution is to find a solution more optimal than the original one found by IDDFS when {@link #iddfsDeltaDepth} > 1.
-	 * This should be called with {@code ceiling = solutionDepth-1; floor = solutionDepth-iddfsDeltaDepth+1 }.
+	 * solution is to find a solution more optimal than the original one found by IDDFS since depth doesn't increase by
+	 * 1 but rather exponentially.
+	 * This should be called with {@code floor = previousIddfsDepth+1; ceiling = solutionDepth-1 }.
 	 *
 	 *  @param rootNode       Root node to start DFS runs with.
 	 * @param iddfsDepthFloor Lower bound for the depth.
