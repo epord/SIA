@@ -21,6 +21,7 @@ public class GPSEngine {
 	boolean failed;
 	GPSNode solutionNode;
 	Optional<Heuristic> heuristic;
+	Random random;
 	// IDDFS-specific fields
 	private int iddfsDepth, depthReachedCurrentRun, depthReachedPreviousRun, iddfsDeltaDepth, iddfsDepthFloor;
 
@@ -63,6 +64,7 @@ public class GPSEngine {
 		iddfsDeltaDepth = 15;
 		finished = false;
 		failed = false;
+		random = new Random();
 	}
 
     public void findSolution() {
@@ -207,6 +209,7 @@ public class GPSEngine {
     private void explode(GPSNode node) {
 		Collection<GPSNode> newCandidates;
 		double number;
+		int index;
 
 		switch (strategy) {
 		case BFS:
@@ -261,7 +264,10 @@ public class GPSEngine {
 							}
 						}
 						Collections.shuffle(tiedNodes);
-						node = tiedNodes.remove(0);
+						index = random.nextInt(tiedNodes.size());
+						//Collections.shuffle(tiedNodes);
+						//node = tiedNodes.remove(0);
+						node = tiedNodes.remove(index);
 						open.addAll(tiedNodes);
 						tiedNodes.clear();
 					} else {
@@ -280,28 +286,33 @@ public class GPSEngine {
 			break;
 
 		case ASTAR:
-//			number = Math.random();
-//			if(number >= 0.5) {
-//				if (open.size() > 0) {
-//					tiedNodes.add(node);
-//					GPSNode aux = open.remove();
-//					if (aux.getHeuristicValue() + aux.getCost() == node.getHeuristicValue() + node.getCost()) {
-//						while (!open.isEmpty() && aux.getHeuristicValue() + aux.getCost() == node.getHeuristicValue() + node.getCost()) {
-//							tiedNodes.add(aux);
-//							aux = open.remove();
-//							if (aux.getHeuristicValue() + aux.getCost() != node.getHeuristicValue() + node.getCost()) {
-//								open.add(aux);
-//							}
-//						}
-//						Collections.shuffle(tiedNodes);
-//						node = tiedNodes.remove(0);
-//						open.addAll(tiedNodes);
-//						tiedNodes.clear();
-//					} else {
-//						open.add(aux);
-//					}
-//				}
-//			}
+			number = Math.random();
+			if(number >= 0.5) {
+				if (open.size() > 0) {
+					tiedNodes.add(node);
+					GPSNode aux = open.remove();
+					if (aux.getHeuristicValue() == node.getHeuristicValue() &&
+							aux.getCost() == node.getCost()) {
+						while (!open.isEmpty() && aux.getHeuristicValue() == node.getHeuristicValue()
+								&& aux.getCost() == node.getCost()) {
+							tiedNodes.add(aux);
+							aux = open.remove();
+							if (aux.getHeuristicValue() != node.getHeuristicValue() ||
+									aux.getCost() != node.getCost()) {
+								open.add(aux);
+							}
+						}
+						index = random.nextInt(tiedNodes.size());
+						//Collections.shuffle(tiedNodes);
+						//node = tiedNodes.remove(0);
+						node = tiedNodes.remove(index);
+						open.addAll(tiedNodes);
+						tiedNodes.clear();
+					} else {
+						open.add(aux);
+					}
+				}
+			}
 
 			if (!isBest(node.getState(), node.getCost())) {
 				return;
