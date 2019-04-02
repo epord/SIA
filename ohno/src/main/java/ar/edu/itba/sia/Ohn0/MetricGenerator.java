@@ -66,62 +66,22 @@ public class MetricGenerator {
     }
 
     public static void main(String[] args) throws IOException {
-//        generateFillingMethodGraph(5);
-//        generateHeuristicMethodGraph(5);
-        generateFillBlanksSearchStrategyGraph(5);
-        generateHeuristicReparationSearchStrategyGraph(5);
-    }
+        long startTime = System.currentTimeMillis();
 
-    private static void generateFillBlanksSearchStrategyGraph(int boardCount) throws IOException {
-        Board board;
-        GPSEngine engine;
-        FileManager fm = new FileManager();
-        List<Long> runningTimes = new ArrayList<>();
-        long startTime;
-        int strategyId = 0;
+        System.out.println("Comparing filling methods...");
+        generateFillingMethodGraph(10);
+        System.out.println("\n\nComparing heuristics...");
+        generateHeuristicMethodGraph(10);
+        System.out.println("\n\nComparing search strategies with filling blanks...");
+        generateFillBlanksSearchStrategyGraph(10);
+        System.out.println("\n\nComparing search strategies with heuristic reparation...");
+        generateHeuristicReparationSearchStrategyGraph(10);
 
-        for (RunConfigurations runConfiguration: runConfigurations) {
-            System.out.println("Running with search strategy " + runConfiguration.searchStrategy.name());
-            for (int i = 2; i <= boardCount; i++) {
-                board = fm.readStateFromFile(Paths.get("boards", "board4x4_" + i));
-                engine = runConfiguration.getFillBlanksEngine(board);
-                startTime = System.currentTimeMillis();
-
-                engine.findSolution();
-                runningTimes.add(System.currentTimeMillis() - startTime);
-                System.out.println(runConfiguration.searchStrategy.name() + " finished " + i);
-            }
-            saveResults("metrics/fillBlanksSearchStrategiesMetric.m", runningTimes, runConfiguration.searchStrategy.name(), strategyId++ != 0);
-            runningTimes.clear();
-        }
-    }
-
-    private static void generateHeuristicReparationSearchStrategyGraph(int boardCount) throws IOException {
-        Board board;
-        GPSEngine engine;
-        FileManager fm = new FileManager();
-        List<Long> runningTimes = new ArrayList<>();
-        long startTime;
-        int strategyId = 0;
-
-        for (RunConfigurations runConfiguration: runConfigurations) {
-            System.out.println("Running with search strategy " + runConfiguration.searchStrategy.name());
-            for (int i = 2; i <= boardCount; i++) {
-                board = fm.readStateFromFile(Paths.get("boards", "board5x5_" + i));
-                engine = runConfiguration.getHeuristicReparationEngine(board);
-                startTime = System.currentTimeMillis();
-
-                engine.findSolution();
-                runningTimes.add(System.currentTimeMillis() - startTime);
-                System.out.println(runConfiguration.searchStrategy.name() + " finished " + i);
-            }
-            saveResults("metrics/heuristicReparationSearchStrategiesMetric.m", runningTimes, runConfiguration.searchStrategy.name(), strategyId++ != 0);
-            runningTimes.clear();
-        }
+        System.out.println("\n\nMetrics generated: " + (System.currentTimeMillis() - startTime) + "ms");
     }
 
     /**
-     * Compares filling blue/red/random with ASTAR in 6x6 boards
+     * Compares filling blue/red/random with ASTAR
      * @throws IOException
      */
     private static void generateFillingMethodGraph(int boardCount) throws IOException {
@@ -135,7 +95,7 @@ public class MetricGenerator {
         for (Color color: colors) {
             System.out.println("Running with color: " + color);
             for (int i = 1; i <= boardCount; i++) {
-                board = fm.readStateFromFile(Paths.get("boards", "board6x6_" + i));
+                board = fm.readStateFromFile(Paths.get("boards", "board5x5_" + i));
                 engine = Main.getHeuristicRepairEngine(board, SearchStrategy.ASTAR, new ConflictingNumbersHeuristic(), color);
                 startTime = System.currentTimeMillis();
 
@@ -151,7 +111,7 @@ public class MetricGenerator {
     }
 
     /**
-     * Test all heuristics with ASTAR, fill blue, heuristic reparation with 7x7 boards
+     * Test all heuristics with ASTAR, fill blue, heuristic reparation
      * @param boardCount
      * @throws IOException
      */
@@ -177,6 +137,64 @@ public class MetricGenerator {
             }
             saveResults("metrics/heuristicMetric.m", heuristicTimes, "heuristic" + heuristicId, heuristicId++ != 0);
             heuristicTimes.clear();
+        }
+    }
+
+    /**
+     * Test all search strategies with fill blanks
+     * @param boardCount
+     * @throws IOException
+     */
+    private static void generateFillBlanksSearchStrategyGraph(int boardCount) throws IOException {
+        Board board;
+        GPSEngine engine;
+        FileManager fm = new FileManager();
+        List<Long> runningTimes = new ArrayList<>();
+        long startTime;
+        int strategyId = 0;
+
+        for (RunConfigurations runConfiguration: runConfigurations) {
+            System.out.println("Running with search strategy " + runConfiguration.searchStrategy.name());
+            for (int i = 1; i <= boardCount; i++) {
+                board = fm.readStateFromFile(Paths.get("boards", "board4x4_" + i));
+                engine = runConfiguration.getFillBlanksEngine(board);
+                startTime = System.currentTimeMillis();
+
+                engine.findSolution();
+                runningTimes.add(System.currentTimeMillis() - startTime);
+                System.out.println(runConfiguration.searchStrategy.name() + " finished " + i);
+            }
+            saveResults("metrics/fillBlanksSearchStrategiesMetric.m", runningTimes, runConfiguration.searchStrategy.name(), strategyId++ != 0);
+            runningTimes.clear();
+        }
+    }
+
+    /**
+     * Test all search strategies with heuristic reparation
+     * @param boardCount
+     * @throws IOException
+     */
+    private static void generateHeuristicReparationSearchStrategyGraph(int boardCount) throws IOException {
+        Board board;
+        GPSEngine engine;
+        FileManager fm = new FileManager();
+        List<Long> runningTimes = new ArrayList<>();
+        long startTime;
+        int strategyId = 0;
+
+        for (RunConfigurations runConfiguration: runConfigurations) {
+            System.out.println("Running with search strategy " + runConfiguration.searchStrategy.name());
+            for (int i = 1; i <= boardCount; i++) {
+                board = fm.readStateFromFile(Paths.get("boards", "board5x5_" + i));
+                engine = runConfiguration.getHeuristicReparationEngine(board);
+                startTime = System.currentTimeMillis();
+
+                engine.findSolution();
+                runningTimes.add(System.currentTimeMillis() - startTime);
+                System.out.println(runConfiguration.searchStrategy.name() + " finished " + i);
+            }
+            saveResults("metrics/heuristicReparationSearchStrategiesMetric.m", runningTimes, runConfiguration.searchStrategy.name(), strategyId++ != 0);
+            runningTimes.clear();
         }
     }
 
