@@ -230,7 +230,7 @@ public class GPSEngine {
 			break;
 
 		case IDDFS:
-			if (bestCosts.containsKey(node.getState()) && node.getCost() >= bestCosts.get(node.getState())) {//TODO: add comparison of costs.
+			if (bestCosts.containsKey(node.getState()) && node.getCost() > bestCosts.get(node.getState())) {
 				return;
 			}
 			analizedStates++;
@@ -238,7 +238,7 @@ public class GPSEngine {
 				return;
 			}
 			newCandidates = new ArrayList<>();
-			addCandidates(node, newCandidates);
+			addCandidatesIddfs(node, newCandidates);
 			depthReachedCurrentRun = Math.max(
 					depthReachedCurrentRun,
 					newCandidates.stream().map(GPSNode::getDepth).max(Comparator.naturalOrder()).orElse(depthReachedCurrentRun)
@@ -333,7 +333,6 @@ public class GPSEngine {
 		if (!open.isEmpty()) {
 			throw new IllegalStateException("Attempted IDDFS reset when open was not empty");
 		}
-		bestCosts.clear();
 		generatedStates.clear();
 		depthReachedCurrentRun = 0;
 		open.add(rootNode);
@@ -354,6 +353,39 @@ public class GPSEngine {
 				if ((!bestCosts.containsKey(state) && !generatedStates.containsKey(state))
                         || (bestCosts.containsKey(state) && newCost < bestCosts.get(state))
                         || (generatedStates.containsKey(state) && newCost < generatedStates.get(state))) {
+
+					GPSNode newNode;
+					if (strategy == SearchStrategy.GREEDY || strategy == SearchStrategy.ASTAR) {
+						heursiticValue = heuristic.get().getValue(state);
+						newNode = new GPSNode(state, newCost, rule, heursiticValue);
+					} else {
+						newNode = new GPSNode(state, newCost, rule);
+					}
+					generatedStates.put(newState.get(), newCost);
+					newNode.setParent(node);
+					candidates.add(newNode);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Same as {@link #addCandidates(GPSNode, Collection)} but for IDDFS, only difference is a <= instead of an <.
+	 */
+	@SuppressWarnings("Duplicates")
+	protected void addCandidatesIddfs(GPSNode node, Collection<GPSNode> candidates) {
+		int heursiticValue;
+		explosionCounter++;
+		updateBest(node);
+		generatedStates.remove(node.getState());
+		for (Rule rule : problem.getRules()) {
+			Optional<State> newState = rule.apply(node.getState());
+			if (newState.isPresent()) {
+				int newCost = node.getCost() + rule.getCost();
+				State state = newState.get();
+				if ((!bestCosts.containsKey(state) && !generatedStates.containsKey(state))
+						|| (bestCosts.containsKey(state) && newCost <= bestCosts.get(state))
+						|| (generatedStates.containsKey(state) && newCost <= generatedStates.get(state))) {
 
 					GPSNode newNode;
 					if (strategy == SearchStrategy.GREEDY || strategy == SearchStrategy.ASTAR) {
