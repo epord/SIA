@@ -35,7 +35,7 @@ public class MetricGenerator {
         heuristics.add(new ConflictingNumbersHeuristic());
         heuristics.add(new FillBlanksNonTrivialAdmisibleHeuristic());
         heuristics.add(new HeuristicReparationAdmisibleHeuristic());
-        heuristics.add(new AverageRedsHeuristic());
+        heuristics.add(new ApproximateRedsHeuristic());
         heuristics.add(new MissingRedsHeuristics());
         heuristics.add(new MissingVisibleBlueHeuristics());
         heuristics.add(new AddAllHeuristics());

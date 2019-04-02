@@ -17,7 +17,7 @@ import ar.edu.itba.sia.gps.api.State;
  *  because adding one blue piece can count as more than one missing blue
  *  if it is reached by more than one number.
  */
-public class AverageRedsHeuristic implements Heuristic {
+public class ApproximateRedsHeuristic implements Heuristic {
     @Override
     public Integer getValue(State state) {
 

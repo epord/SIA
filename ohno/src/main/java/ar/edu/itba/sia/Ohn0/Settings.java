@@ -33,7 +33,7 @@ public class Settings {
         heuristicMap.put("1", new ConflictingNumbersHeuristic());
         heuristicMap.put("2", new FillBlanksNonTrivialAdmisibleHeuristic());
         heuristicMap.put("3", new HeuristicReparationAdmisibleHeuristic());
-        heuristicMap.put("4", new AverageRedsHeuristic());
+        heuristicMap.put("4", new ApproximateRedsHeuristic());
         heuristicMap.put("5", new MissingRedsHeuristics());
         heuristicMap.put("6", new MissingVisibleBlueHeuristics());
         heuristicMap.put("7", new AddAllHeuristics());

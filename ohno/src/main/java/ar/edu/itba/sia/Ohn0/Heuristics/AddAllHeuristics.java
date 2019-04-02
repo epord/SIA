@@ -11,7 +11,7 @@ public class AddAllHeuristics implements Heuristic {
     @Override
     public Integer getValue(State state) {
         List<Heuristic> heuristics = new ArrayList<>();
-        heuristics.add(new AverageRedsHeuristic());
+        heuristics.add(new ApproximateRedsHeuristic());
         heuristics.add(new FillingBlanksHeuristic());
         heuristics.add(new MissingRedsHeuristics());
         heuristics.add(new MissingVisibleBlueHeuristics());
