@@ -58,7 +58,8 @@ const renderCell = (row, col, value) => {
 let currentBoardIdx = 0;
 function draw () {
     background(250);
-    const currentBoard = states[(currentBoardIdx++) % states.length];
+    currentBoardIdx = Math.min(currentBoardIdx+1, states.length - 1);
+    const currentBoard = (states[(currentBoardIdx)]);
     currentBoard.forEach((line, i) => {
         const row = line.trim().split(' ');
         row.forEach((cell, j) => {
