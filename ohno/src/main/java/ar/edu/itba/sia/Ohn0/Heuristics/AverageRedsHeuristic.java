@@ -44,4 +44,8 @@ public class AverageRedsHeuristic implements Heuristic {
     public String getName() {
         return "4(Average Red Heuristic)";
     }
+
+    public String toString() {
+        return getName();
+    }
 }

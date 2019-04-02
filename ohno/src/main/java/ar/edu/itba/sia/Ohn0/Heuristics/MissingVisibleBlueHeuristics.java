@@ -30,4 +30,8 @@ public class MissingVisibleBlueHeuristics implements Heuristic {
     public String getName() {
         return "6(Missing Visible Blues Heuristic)";
     }
+
+    public String toString() {
+        return getName();
+    }
 }

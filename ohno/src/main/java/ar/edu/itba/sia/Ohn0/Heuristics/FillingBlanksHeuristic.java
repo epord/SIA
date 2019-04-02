@@ -36,4 +36,8 @@ public class FillingBlanksHeuristic implements Heuristic {
     public String getName() {
         return "0(Filling Blanks Heuristic)";
     }
+
+    public String toString() {
+        return getName();
+    }
 }

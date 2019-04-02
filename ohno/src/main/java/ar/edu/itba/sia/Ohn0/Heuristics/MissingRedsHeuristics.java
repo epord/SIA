@@ -41,4 +41,8 @@ public class MissingRedsHeuristics implements Heuristic {
     public String getName() {
         return "5(Missing Reds Heuristic)";
     }
+
+    public String toString() {
+        return getName();
+    }
 }

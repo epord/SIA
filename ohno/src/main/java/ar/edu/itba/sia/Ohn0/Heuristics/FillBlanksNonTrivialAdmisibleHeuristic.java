@@ -135,6 +135,10 @@ public class FillBlanksNonTrivialAdmisibleHeuristic implements Heuristic {
         return "2(Fill Blanks Non Trivial Admisible Heuristic)";
     }
 
+    public String toString() {
+        return getName();
+    }
+
     private static class Position {
         int row;
         int col;

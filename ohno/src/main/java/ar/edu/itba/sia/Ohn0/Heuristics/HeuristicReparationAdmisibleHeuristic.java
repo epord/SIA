@@ -136,6 +136,10 @@ public class HeuristicReparationAdmisibleHeuristic implements Heuristic {
         return "3(Heuristic Reparation Admisible Heuristic)";
     }
 
+    public String toString() {
+        return getName();
+    }
+
     private static class Position {
         int row;
         int col;

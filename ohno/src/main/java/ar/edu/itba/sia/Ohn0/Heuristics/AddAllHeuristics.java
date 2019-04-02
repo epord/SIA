@@ -26,4 +26,8 @@ public class AddAllHeuristics implements Heuristic {
     public String getName() {
         return "7(Add All Heuristics)";
     }
+
+    public String toString() {
+        return getName();
+    }
 }
