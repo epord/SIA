@@ -11,7 +11,7 @@ public class GPSEngine {
 
 	Queue<GPSNode> open;
 	List<GPSNode> tiedNodes;
-	Map<State, Integer> bestCosts;
+	Map<State, Integer> bestCosts, bestCostsIddfsRun;
 	Map<State, Integer> generatedStates;
 	Problem problem;
 	long explosionCounter;
@@ -52,6 +52,7 @@ public class GPSEngine {
 		borderNodes = 0;
 		analizedStates = 0;
         bestCosts = new HashMap<>();
+        bestCostsIddfsRun = new HashMap<>();
 		generatedStates = new HashMap<>();
 		tiedNodes = new ArrayList<>();
 		this.problem = problem;
@@ -230,7 +231,8 @@ public class GPSEngine {
 			break;
 
 		case IDDFS:
-			if (bestCosts.containsKey(node.getState()) && node.getCost() > bestCosts.get(node.getState())) {
+			if ((bestCosts.containsKey(node.getState()) && node.getCost() > bestCosts.get(node.getState()))
+				|| (bestCostsIddfsRun.containsKey(node.getState()) && node.getCost() >= bestCostsIddfsRun.get(node.getState()))) {
 				return;
 			}
 			analizedStates++;
@@ -333,6 +335,7 @@ public class GPSEngine {
 			throw new IllegalStateException("Attempted IDDFS reset when open was not empty");
 		}
 		generatedStates.clear();
+		bestCostsIddfsRun.clear();
 		depthReachedCurrentRun = 0;
 		open.add(rootNode);
 		generatedStates.put(rootNode.getState(), 0);
@@ -369,13 +372,14 @@ public class GPSEngine {
 	}
 
 	/**
-	 * Same as {@link #addCandidates(GPSNode, Collection)} but for IDDFS, only difference is a <= instead of an <.
+	 * Same as {@link #addCandidates(GPSNode, Collection)} but for IDDFS. Slight but crucial differences.
 	 */
 	@SuppressWarnings("Duplicates")
 	protected void addCandidatesIddfs(GPSNode node, Collection<GPSNode> candidates) {
 		int heursiticValue;
 		explosionCounter++;
 		updateBest(node);
+		bestCostsIddfsRun.put(node.getState(), node.getCost());
 		generatedStates.remove(node.getState());
 		for (Rule rule : problem.getRules()) {
 			Optional<State> newState = rule.apply(node.getState());
