@@ -52,7 +52,7 @@ The program receives a *.properties* file with the following properties:
 
 Run command:
 
-`java -jar ohno/target/gps-1.0.jar <path_to_properties (optional)>`
+`java -jar ohno/target/gps-1.0.jar [path_to_properties]`
 
 By default, the program will use the file `settings.properties` in the CWD, but you can optionally provide the path to your custom .properties file (relative to CWD or absolute (preferred)).
 
