@@ -22,6 +22,7 @@ public class MissingRedsHeuristics implements Heuristic {
         int cumulated = 0;
         int fixedCount = 0;
 
+        /// TODO: preguntar si está bien
         if (!state.getClass().equals(Board.class)) {
             throw new IllegalArgumentException();
         }

@@ -210,8 +210,7 @@ public class GPSEngine {
 
 		switch (strategy) {
 		case BFS:
-			if (bestCosts.containsKey(node.getState()) &&
-					node.getCost() >= bestCosts.get(node.getState())) {
+			if (bestCosts.containsKey(node.getState())) {//TODO: add comparison of costs.
 				return;
 			}
 			analizedStates++;
@@ -221,8 +220,7 @@ public class GPSEngine {
 			break;
 
 		case DFS:
-			if (bestCosts.containsKey(node.getState()) &&
-					node.getCost() >= bestCosts.get(node.getState())) {
+			if (bestCosts.containsKey(node.getState())) {//TODO: add comparison of costs.
 				return;
 			}
 			analizedStates++;
@@ -232,8 +230,7 @@ public class GPSEngine {
 			break;
 
 		case IDDFS:
-			if (bestCosts.containsKey(node.getState()) &&
-					node.getCost() >= bestCosts.get(node.getState())) {
+			if (bestCosts.containsKey(node.getState())) {//TODO: add comparison of costs.
 				return;
 			}
 			analizedStates++;
