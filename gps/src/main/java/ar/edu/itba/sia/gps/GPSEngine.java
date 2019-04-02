@@ -111,7 +111,6 @@ public class GPSEngine {
 						// Reset and try again with increased depth
 						iddfsReset(rootNode);
 						iddfsDepth *= 2;
-						System.out.println(iddfsDepth);
 						previousIddfsDepth = depthReachedPreviousRun;
 						done = false;
 					}
