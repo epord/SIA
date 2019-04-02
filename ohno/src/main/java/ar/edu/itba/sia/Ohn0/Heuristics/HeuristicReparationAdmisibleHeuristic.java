@@ -16,8 +16,9 @@ import java.util.Set;
 *  dot it calculate how many of these conflicting numbers are reachable
 *  by a blue path from the dot on the same direction, it keeps
 *  the greatest number of neighbours and returns the number of conflicts
-*  divided by the maximum of conflicting neighbours(in case this operation
-*  is greater than zero) or one
+*  substracted by the maximum of conflicting neighbours(in case this operation
+*  is greater than zero) or one plus the number of blue islands if conflicing
+*  number is zero
 *
 * Should sum also one for each isla de un azul rodeado de rojo TODO
 *  This heuristic seems to be admisible
@@ -53,8 +54,12 @@ public class HeuristicReparationAdmisibleHeuristic implements Heuristic {
             }
         }
 
-
-        return maxConflictQuantity > 0 ? conflictCount-maxConflictQuantity + 1 + islandCount : conflictCount - maxConflictQuantity + islandCount;
+        if(conflictCount == 0) {
+            return islandCount;
+        }
+        else {
+            return Math.max(conflictCount - maxConflictQuantity, 1);
+        }
     }
 
     private int getConflictingNeighbours(Board board, int row, int col) {
