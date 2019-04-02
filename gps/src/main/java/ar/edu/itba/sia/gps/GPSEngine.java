@@ -41,12 +41,14 @@ public class GPSEngine {
 						.comparingInt((GPSNode o) -> o.getHeuristicValue() + o.getCost())
 						// If tied, compare only by H
 						.thenComparingInt(GPSNode::getHeuristicValue)
+						// Still tied? Break ties randomly
 						.thenComparing(_unused -> Math.random() - 0.5)
 				);
 			}
 			else {
 				open = new PriorityQueue<>(10, Comparator
 						.comparingInt(GPSNode::getHeuristicValue)
+						// Tied? Break ties randomly
 						.thenComparing(_unused -> Math.random() - 0.5));
 			}
 		}
