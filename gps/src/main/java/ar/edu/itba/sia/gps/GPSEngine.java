@@ -260,7 +260,6 @@ public class GPSEngine {
 								open.add(aux);
 							}
 						}
-						Collections.shuffle(tiedNodes);
 						index = random.nextInt(tiedNodes.size());
 						//Collections.shuffle(tiedNodes);
 						//node = tiedNodes.remove(0);
