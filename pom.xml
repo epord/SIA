@@ -10,6 +10,7 @@
   <modules>
     <module>gps</module>
     <module>ohno</module>
+    <module>simple-squares</module>
   </modules>
   <packaging>pom</packaging>
 
