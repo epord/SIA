@@ -324,9 +324,7 @@ public class GPSEngine {
 	/**
 	 * Same as {@link #addCandidates(GPSNode, Collection)} but for IDDFS. Slight but crucial differences.
 	 */
-	@SuppressWarnings("Duplicates")
 	protected void addCandidatesIddfs(GPSNode node, Collection<GPSNode> candidates) {
-		int heursiticValue;
 		explosionCounter++;
 		updateBest(node);
 		bestCostsIddfsRun.put(node.getState(), node.getCost());
@@ -340,13 +338,7 @@ public class GPSEngine {
 						|| (bestCosts.containsKey(state) && newCost <= bestCosts.get(state))
 						|| (generatedStates.containsKey(state) && newCost <= generatedStates.get(state))) {
 
-					GPSNode newNode;
-					if (strategy == SearchStrategy.GREEDY || strategy == SearchStrategy.ASTAR) {
-						heursiticValue = heuristic.get().getValue(state);
-						newNode = new GPSNode(state, newCost, rule, heursiticValue);
-					} else {
-						newNode = new GPSNode(state, newCost, rule);
-					}
+                    GPSNode newNode = new GPSNode(state, newCost, rule);
 					generatedStates.put(newState.get(), newCost);
 					newNode.setParent(node);
 					candidates.add(newNode);
