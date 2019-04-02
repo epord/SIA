@@ -6,12 +6,11 @@ import ar.edu.itba.sia.gps.api.Heuristic;
 import ar.edu.itba.sia.gps.api.Rule;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
         FileManager fm = new FileManager();
         if (args.length >= 1) {

@@ -21,7 +21,6 @@ public class GPSEngine {
 	boolean failed;
 	GPSNode solutionNode;
 	Optional<Heuristic> heuristic;
-	Random random;
 	// IDDFS-specific fields
 	private int iddfsDepth, previousIddfsDepth, depthReachedCurrentRun, depthReachedPreviousRun;
 
@@ -42,10 +41,13 @@ public class GPSEngine {
 						.comparingInt((GPSNode o) -> o.getHeuristicValue() + o.getCost())
 						// If tied, compare only by H
 						.thenComparingInt(GPSNode::getHeuristicValue)
+						.thenComparing(_unused -> Math.random() - 0.5)
 				);
 			}
 			else {
-				open = new PriorityQueue<>(10, Comparator.comparingInt(GPSNode::getHeuristicValue));
+				open = new PriorityQueue<>(10, Comparator
+						.comparingInt(GPSNode::getHeuristicValue)
+						.thenComparing(_unused -> Math.random() - 0.5));
 			}
 		}
 
@@ -64,7 +66,6 @@ public class GPSEngine {
 		depthReachedPreviousRun = -1;
 		finished = false;
 		failed = false;
-		random = new Random();
 	}
 
     public void findSolution() {
@@ -110,6 +111,7 @@ public class GPSEngine {
 						// Reset and try again with increased depth
 						iddfsReset(rootNode);
 						iddfsDepth *= 2;
+						System.out.println(iddfsDepth);
 						previousIddfsDepth = depthReachedPreviousRun;
 						done = false;
 					}
@@ -249,31 +251,6 @@ public class GPSEngine {
 			break;
 
 		case GREEDY:
-			number = Math.random();
-			if(number >= 0.5) {
-				if (open.size() > 0) {
-					tiedNodes.add(node);
-					GPSNode aux = open.remove();
-					if (aux.getHeuristicValue() == node.getHeuristicValue()) {
-						while (!open.isEmpty() && aux.getHeuristicValue() == node.getHeuristicValue()) {
-							tiedNodes.add(aux);
-							aux = open.remove();
-							if (aux.getHeuristicValue() != node.getHeuristicValue()) {
-								open.add(aux);
-							}
-						}
-						index = random.nextInt(tiedNodes.size());
-						//Collections.shuffle(tiedNodes);
-						//node = tiedNodes.remove(0);
-						node = tiedNodes.remove(index);
-						open.addAll(tiedNodes);
-						tiedNodes.clear();
-					} else {
-						open.add(aux);
-					}
-				}
-			}
-
 			if (!isBest(node.getState(), node.getCost())) {
 				return;
 			}
@@ -284,34 +261,6 @@ public class GPSEngine {
 			break;
 
 		case ASTAR:
-			number = Math.random();
-			if(number >= 0.5) {
-				if (open.size() > 0) {
-					tiedNodes.add(node);
-					GPSNode aux = open.remove();
-					if (aux.getHeuristicValue() == node.getHeuristicValue() &&
-							aux.getCost() == node.getCost()) {
-						while (!open.isEmpty() && aux.getHeuristicValue() == node.getHeuristicValue()
-								&& aux.getCost() == node.getCost()) {
-							tiedNodes.add(aux);
-							aux = open.remove();
-							if (aux.getHeuristicValue() != node.getHeuristicValue() ||
-									aux.getCost() != node.getCost()) {
-								open.add(aux);
-							}
-						}
-						index = random.nextInt(tiedNodes.size());
-						//Collections.shuffle(tiedNodes);
-						//node = tiedNodes.remove(0);
-						node = tiedNodes.remove(index);
-						open.addAll(tiedNodes);
-						tiedNodes.clear();
-					} else {
-						open.add(aux);
-					}
-				}
-			}
-
 			if (!isBest(node.getState(), node.getCost())) {
 				return;
 			}

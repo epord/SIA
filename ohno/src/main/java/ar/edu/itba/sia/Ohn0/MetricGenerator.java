@@ -92,6 +92,8 @@ public class MetricGenerator {
         long startTime;
         int colorId = 0;
 
+
+
         for (Color color: colors) {
             System.out.println("Running with color: " + color);
             for (int i = 1; i <= boardCount; i++) {
