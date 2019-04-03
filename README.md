@@ -56,15 +56,27 @@ Run command:
 
 By default, the program will use the file `settings.properties` in the CWD, but you can optionally provide the path to your custom .properties file (relative to CWD or absolute (preferred)).
 
+### .properties example
 
-### Running example
 ```properties
 strategy=ASTAR
 heuristic=1
 resolveMethod=1
 fillingMethod=blue
-board=/Users/user/AI_Engine/boards/board8x8_1
+board=boards/9x9
 ```
 
-`java -jar ohno/target/gps-1.0.jar /Users/user/AI_Engine/settings.properties`
+
+
+### Running example
+#### A* with 9x9 board and heuristic repair
+Run with CWD in root folder:
+
+`java -jar ohno/target/gps-1.0.jar settings1.properties`
+
+
+#### A* with 6x6 board and Fill Blanks 
+Run with CWD in root folder:
+
+`java -jar ohno/target/gps-1.0.jar settings2.properties`
 
