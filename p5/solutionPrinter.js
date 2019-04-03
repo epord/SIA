@@ -1,5 +1,5 @@
 const windowSize = 800; // px
-const fps = 3;
+const fps = 1;
 const states = [];
 let boardSize;
 let file;
