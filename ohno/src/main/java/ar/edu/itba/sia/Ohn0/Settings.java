@@ -42,7 +42,7 @@ public class Settings {
         heuristicNames.put("1", "1(Conflicting Numbers Heuristic)");
         heuristicNames.put("2", "2(Fill Blanks Non Trivial Admisible Heuristic)");
         heuristicNames.put("3", "3(Heuristic Reparation Admisible Heuristic");
-        heuristicNames.put("4", "4(Average Reds Heuristic");
+        heuristicNames.put("4", "4(Aproximate Reds Heuristic");
         heuristicNames.put("5", "5(Missing Reds Heuristics");
         heuristicNames.put("6", "6 Missing Visible Blue Heuristics");
         heuristicNames.put("7", "7(Add All Heuristics");
