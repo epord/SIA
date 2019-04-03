@@ -23,13 +23,13 @@ X . . 4
 2. ```./boardGenerator.sh <size> <amount> <baseFilename>```
 
 With:
-* **size** *[int]*: the width and heigth of the boards to generate.
+* **size** *[int]*: the width and height of the boards to generate.
 * **amount** *[int]*: the amount of boards to generate.
 * **baseFilename** *[string]*: the base filename for each generated board. The boards will have the following names: *\<baseFilename>\<size>x\<size>_\<number>* (e.g.: board5x5_1, board5x5_2, board5x5_3, etc.)
 
 ## Building
 1. `mvn package`
-1. Output file is under `ohno/target/gps-1.0.jar`, relative to projet root
+1. Output file is under `ohno/target/gps-1.0.jar`, relative to project root
 
 ## Running
 The program receives a *.properties* file with the following properties:
@@ -45,7 +45,7 @@ The program receives a *.properties* file with the following properties:
     * 6 -> MissingVisibleBlueHeuristics (fill blanks and heuristic reparation resolve methods)
     * 7 -> AddAllHeuristics (only with fill blanks resolve method)
     
-    &nbsp;&nbsp;&nbsp;&nbsp;The explanation of each heuristic can be found in XXXXinforme.docXXXX 
+    &nbsp;&nbsp;&nbsp;&nbsp;The explanation of each heuristic can be found in `Informe.pdf` 
     
 * **fillingMethod [string: *blue, red, random*]**: (only for heuristic repair) This is how the board will be filled, only with blue/red circles or random color. 
 * **board [string]**: path of the board to solve (relative to CWD or absolute (preferred)).
