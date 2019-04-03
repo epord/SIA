@@ -20,8 +20,10 @@ import java.util.Set;
 *  blank spaces are non-visible pieces and returns the number of conflicts
 *  substracted by the maximum of conflicting neighbours(in case this operation
 *  is greater than zero) plus the quantity of blanks that are non visible
-*  pieces, if the operation is zero it returns one plus the quantity of
-*  blanks that are non visible pieces and other blanks
+*  pieces, if the operation is zero and there are one or more conflicting numbers
+*  it returns one plus the quantity of blanks that are non visible pieces
+*  and other blanks and if conflicting numbers is zero it returns the sum of non
+*  visible pieces and other blanks
 *
 * Should sum also one for each isla de un azul rodeado de rojo TODO
 *
