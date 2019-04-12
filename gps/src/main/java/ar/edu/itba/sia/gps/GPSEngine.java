@@ -22,7 +22,7 @@ public class GPSEngine {
 	GPSNode solutionNode;
 	Optional<Heuristic> heuristic;
 	// IDDFS-specific fields
-	private int iddfsDepth, previousIddfsDepth, depthReachedCurrentRun, depthReachedPreviousRun;
+	private int iddfsDepth, depthReachedCurrentRun, depthReachedPreviousRun;
 
 	// Use this variable in open set order.
 	protected SearchStrategy strategy;
@@ -80,26 +80,6 @@ public class GPSEngine {
 			if (problem.isGoal(currentNode.getState())) {
                 setSolution(currentNode);
                 borderNodes = open.size();
-				if (strategy == SearchStrategy.IDDFS) {
-				    /*
-						Discard unvisited nodes for this depth, all other solutions will be at greater or equal depth.
-						Do this to avoid the IllegalArgumentException thrown by iddfsReset() which will be called during
-						the binary search.
-					 */
-					open.clear();
-					Optional<GPSNode> binarySearchSolution = iddfsBinarySearch(rootNode, previousIddfsDepth+1, currentNode.getDepth()-1);
-					if (binarySearchSolution.isPresent()) {
-						GPSNode newSolution = binarySearchSolution.get();
-						if (newSolution.getDepth() >= currentNode.getDepth()) {
-							throw new IllegalStateException(String.format(
-									"Solution found in IDDFS binary search doesn't have less depth than original solution (%d < %d)",
-									newSolution.getDepth(),
-									currentNode.getDepth())
-							);
-						}
-						setSolution(binarySearchSolution.get());
-					}
-				}
 				return;
 			} else {
 				explode(currentNode);
@@ -112,8 +92,7 @@ public class GPSEngine {
 						depthReachedPreviousRun = depthReachedCurrentRun;
 						// Reset and try again with increased depth
 						iddfsReset(rootNode);
-						iddfsDepth *= 2;
-						previousIddfsDepth = depthReachedPreviousRun;
+						iddfsDepth++;
 						done = false;
 					}
 				} else {
