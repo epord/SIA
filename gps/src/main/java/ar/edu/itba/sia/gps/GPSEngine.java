@@ -238,10 +238,11 @@ public class GPSEngine {
 				|| (bestCostsIddfsRun.containsKey(node.getState()) && node.getCost() >= bestCostsIddfsRun.get(node.getState()))) {
 				return;
 			}
-			analizedStates++;
 			if (node.getDepth() >= iddfsDepth) {
 				return;
 			}
+			analizedStates++;
+
 			newCandidates = new ArrayList<>();
 			addCandidatesIddfs(node, newCandidates);
 			depthReachedCurrentRun = Math.max(
