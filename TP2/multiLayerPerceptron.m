@@ -52,6 +52,7 @@ function result = gPrima(output)
 	result = 1 - output.** 2;
 endfunction
 
+####################################################################################################
 #start of code
 
 
@@ -67,6 +68,8 @@ Weights 		= cell(hiddenLayers + 1, 1);
 Weights(1)		= (rand(hiddenUnits, inputUnits + 1) - 0.5);
 Weights(2)		= (rand(outputUnits, hiddenUnits + 1) - 0.5);
 
+ExpectedOutputs = [-1, 1, 1, -1]; #hardcoded for inputUnits = 2
+
 Outputs 		= cell(hiddenLayers + 1, 1);
 MembranePotentials = cell(hiddenLayers + 1, 1);
 inputSize		= 2 ** inputUnits;
@@ -74,14 +77,14 @@ Patterns 		= getPatterns(inputUnits);
 # Output 			= 0;
 
 do 	
-	inputOrder = suffle(1 : inputSize, inputSize);
+	inputOrder = shuffle(1 : inputSize, inputSize);
 	
 	for index = 1 : inputSize
 		CurrentPattern  = Patterns(:, inputOrder(index));
 		Input 			= CurrentPattern; 
 		
 		for currentLayer = 1 : hiddenLayers + 1
-			Output = Weights(currentLayer) * Input;
+			Output = cell2mat(Weights(currentLayer)) * Input;
 			MembranePotentials(currentLayer) = Output;
 			Output = g(Output);
 			Outputs(currentLayer) = Output;
@@ -94,8 +97,11 @@ do
 
 	#fix weights and backpropagation
 	ExpectedOutput = ExpectedOutputs(inputOrder(index)); #TODO
-	for index = inputSize : -1 : 1
-		Deltas = gPrima(MembranePotentials(index)).*(ExpectedOutput - Outputs(index));
+	#for each output unit
+	outpuDeltas = gPrima(cell2mat(MembranePotentials(hiddenLayers + 1))) * ExpectedOutput - cell2mat(Outputs(hiddenLayers + 1));
+	
+	for currentLayer = hiddenLayers : -1 : 1
+		Deltas = gPrima(cell2mat(MembranePotentials(currentLayer))).* (ExpectedOutput - cell2mat(Outputs(currentLayer)));
 	endfor
 until (currentError < maxError)
 
