@@ -62,6 +62,9 @@ outputUnits  	= 1;
 inputUnits   	= 2;
 currentError 	= 1;
 maxError		= 0.005;
+learningFactor   = 0.4;
+epoch			= 1;
+
 
 #Generate weights TODO: more generic with function jejeje
 Weights 		= cell(hiddenLayers + 1, 1);
@@ -72,6 +75,8 @@ ExpectedOutputs = [-1, 1, 1, -1]; #hardcoded for inputUnits = 2
 
 Outputs 		= cell(hiddenLayers + 1, 1);
 MembranePotentials = cell(hiddenLayers + 1, 1);
+Deltas 			= cell(hiddenLayers + 1, 1);
+
 inputSize		= 2 ** inputUnits;
 Patterns 		= getPatterns(inputUnits);
 # Output 			= 0;
@@ -97,13 +102,18 @@ do
 
 	#fix weights and backpropagation
 	ExpectedOutput = ExpectedOutputs(inputOrder(index)); #TODO
-	#for each output unit
-	outpuDeltas = gPrima(cell2mat(MembranePotentials(hiddenLayers + 1))) * ExpectedOutput - cell2mat(Outputs(hiddenLayers + 1));
-	
-	for currentLayer = hiddenLayers : -1 : 1
-		Deltas = gPrima(cell2mat(MembranePotentials(currentLayer))).* (ExpectedOutput - cell2mat(Outputs(currentLayer)));
+	for currentLayer = hiddenLayers + 1 : -1 : 2
+		Deltas(currentLayer) = gPrima(cell2mat(MembranePotentials(currentLayer))).* (ExpectedOutput - cell2mat(Outputs(currentLayer)));
 	endfor
-until (currentError < maxError)
+	
+	#update weights 
+	for currentLayer = hiddenLayers + 1 : -1 : 2
+		DeltaWeights = learningFactor * cell2mat(Deltas(currentLayer)).* cell2mat(Outputs(currentLayer - 1));
+		Weights(currentLayer) = cell2mat(Weights(currentLayer)) + DeltaWeights;
+	endfor
+	
+	epoch = epoch + 1;
+until (currentError < maxError || epoch > 10)
 
 
 
