@@ -1,8 +1,53 @@
 # XOR neural network
 
-1;
+1; #prevent it from being a function file
+source("architecture.conf")
+global Weights;
+global Deltas;
+global MembranePotentials;
+global Outputs;
+global currentError = 1;
+
+
+function generateWeights()
+	global Weights;
+	global hiddenLayers;
+	global UnitsQuantity;
+	global randAbsolut;
+	global weightInitMethod;
+	
+	if(size(UnitsQuantity)(2) == hiddenLayers + 2)
+		Weights = cell(hiddenLayers + 1, 1);
+	
+		for layer = 1 : hiddenLayers + 1
+			if(weightInitMethod == 0)
+				Weights(layer) = ((rand(UnitsQuantity(layer + 1), UnitsQuantity(layer) + 1) - 0.5) * 2 *randAbsolut);
+			endif
+		endfor
+	else
+		printf("Invalid configuration for architecture hiddenLayers does not match UnitsQuantity\n");
+		exit(1);
+	endif
+endfunction
+
+function generateStructureForLayers()
+	global Deltas;
+	global MembranePotentials;
+	global Outputs;
+	global hiddenLayers;
+
+	Deltas             = cell(hiddenLayers + 1, 1);
+	MembranePotentials = cell(hiddenLayers + 1, 1);
+	Outputs            = cell(hiddenLayers + 1, 1);
+endfunction
+
+function initializeNeuralNetwork()
+	generateWeights();
+	generateStructureForLayers();
+endfunction
 
 function pattern = getPatterns(N)
+
 	if(N == 2)
 		pattern = [-1, -1,  -1, -1; #Each column is a pattern. The first row is the bias (always -1)
 			  		1,  1,  -1, -1; #NOTE: Outputs are not part of the patterns
@@ -29,7 +74,7 @@ function pattern = getPatterns(N)
 	else
 
 		printf("Invalid parameter: %d\n", N);
-		pattern = zeros(N, N);
+		exit(1);
 	endif
 endfunction
 
@@ -44,72 +89,81 @@ function newVector = shuffle(vector, vectorSize)
 endfunction
 
 function [result] = g(input) 
-	#result = tanh(input);
-	result = 1.0 ./ (1.0 + exp(-input));
+	global activationFunction;
+
+	if(activationFunction == 0)
+		result = tanh(input);
+	elseif(activationFunction == 1)
+		result = 1.0 ./ (1.0 + exp(-input));
+	elseif(activationFunction == 2)
+		result = input; #eye linear function
+	else
+		printf("activation Function not implemented\n");
+		exit(1);
+	endif
 endfunction
 
-#Where output is tanh(input)
 function [result] = gPrima(output)
-	#result = 1 - output.** 2;
-	result = output .* (1 - output);
+	global activationFunction;
+
+	if(activationFunction == 0)
+		result = 1 - output.** 2; #tanh derivative
+	elseif(activationFunction == 1)
+		result = output .* (1 - output); #exp derivative
+	elseif(activationFunction == 2)
+		result = 1; #linear derivative is constant
+	else
+		printf("activation Function not implemented\n");
+		exit(1);
+	endif
 endfunction
 
-####################################################################################################
-#start of code
+function incrementalTraining(Patterns, ExpectedOutputs)
+	global UnitsQuantity;
+	global hiddenLayers;
+	global learningFactor;
+	global maxError;
+	global Weights;
+	global Deltas;
+	global MembranePotentials;
+	global Outputs;
+	inputUnits 		 = UnitsQuantity(1);
+	inputSize  		 = 2 ** inputUnits;
+	inputOrder 		 = shuffle(1 : inputSize, inputSize);
+	acumError  		 = 0;
+	analizedPatterns = 0;
 
-
-hiddenLayers 	= 1;
-hiddenUnits  	= 2;
-outputUnits  	= 1;
-inputUnits   	= 2;
-currentError 	= 1;
-maxError		= 0.005;
-learningFactor  = 0.1;
-epoch			= 1;
-acumError		= 0;
-
-
-#Generate weights TODO: more generic with function jejeje
-Weights 		= cell(hiddenLayers + 1, 1);
-Weights(1)		= (rand(hiddenUnits, inputUnits + 1) - 0.5);
-Weights(2)		= (rand(outputUnits, hiddenUnits + 1) - 0.5);
-
-ExpectedOutputs = [0, 1, 1, 0]; #hardcoded for inputUnits = 2
-
-Outputs 		= cell(hiddenLayers + 1, 1);
-MembranePotentials = cell(hiddenLayers + 1, 1);
-Deltas 			= cell(hiddenLayers + 1, 1);
-
-inputSize		= 2 ** inputUnits;
-Patterns 		= getPatterns(inputUnits);
-analizedPatterns = 0;
-
-do 	
-	epoch
-	inputOrder = shuffle(1 : inputSize, inputSize);
 	
 	for index = 1 : inputSize
-		CurrentPattern  = Patterns(:, inputOrder(index));
-		Input 			= CurrentPattern #comment
+		CurrentPattern  = Patterns(:, inputOrder(index))
+		CurrentPattern  = CurrentPattern / norm(CurrentPattern); #normalize input
+		Input 			= CurrentPattern; #comment
+
 		
 		for currentLayer = 1 : hiddenLayers + 1
 			Output = cell2mat(Weights(currentLayer)) * Input;
 			MembranePotentials(currentLayer) = Output;
 			Output = g(Output);
-			Outputs(currentLayer) = Output;
-			
+			if(currentLayer != hiddenLayers + 1)
+				Outputs(currentLayer) = Output / norm(Output); #normalize output
+			else
+				Outputs(currentLayer) = Output;
+			endif
+
 			if(currentLayer <= hiddenLayers)
-				Input  = [-1; Output] #comment
+				Input  = [-1; Output]; #comment
+				Input  = Input / norm(Input); #normalize output
 			endif
 		endfor 
 	
 		ExpectedOutput = ExpectedOutputs(inputOrder(index)) #TODO
 		currOutput 	   = cell2mat(Outputs(hiddenLayers + 1))
 		
-		if(ExpectedOutput != currOutput)
-			acumError = acumError + (ExpectedOutput - cell2mat(Outputs(hiddenLayers + 1))) ** 2;#comment
+		acumError = acumError + (ExpectedOutput - currOutput) ** 2#comment
 
-			#calculateDeltas
+		if(ExpectedOutput != currOutput)
+
+			#calculate Deltas
 			Deltas(hiddenLayers + 1) = gPrima(cell2mat(MembranePotentials(hiddenLayers + 1))) .* (ExpectedOutput - currOutput);
 			
 			for currentLayer = hiddenLayers : -1 : 1
@@ -118,12 +172,6 @@ do
 				currentWeights 		   = currentWeights';#comment
 				Deltas(currentLayer)   = gPrima(cell2mat(MembranePotentials(currentLayer))).* (currentWeights * cell2mat(Deltas(currentLayer + 1)));#comment
 			endfor
-			printf("\n\n");
-			Weights
-			printf("\n\n");
-			printf("\n\n");
-			Deltas
-			printf("\n\n");
 		
 			#update weights 
 			for currentLayer = 1 : hiddenLayers + 1
@@ -136,16 +184,54 @@ do
 				endif
 				Weights(currentLayer) = cell2mat(Weights(currentLayer)) + DeltaWeights;
 			endfor
-			analizedPatterns = analizedPatterns + 1;
-			if(mod(index, 4) == 0)
+		endif
+
+		analizedPatterns = analizedPatterns + 1; 
+
+		if(mod(analizedPatterns, 4) == 0)
 				currentError = acumError / 2#comment
 				acumError = 0;
-			endif  
-		endif
+		endif 
 	endfor
+endfunction
+
+function batchTraining(Patterns, ExpectedOutputs)
+	global UnitsQuantity;
+	global hiddenLayers;
+	global learningFactor;
+	global maxError;
+	global Weights;
+	global Deltas;
+	global MembranePotentials;
+	global Outputs;
+	printf("method not implemented\n");
+	exit(1);
+endfunction
+
+####################################################################################################
+#------------------------------------->  start of code  <-------------------------------------######
+
+initializeNeuralNetwork();
+
+epoch			= 1;
+ExpectedOutputs = [-1, 1, 1, -1]; #hardcoded for inputUnits = 2
+Patterns 		= getPatterns(inputUnits);
+
+do 	
+	epoch #comment
+	
+	if(method == 0)
+		incrementalTraining(Patterns, ExpectedOutputs);
+	elseif(method == 1)
+		batchTraining(Patterns, ExpectedOutputs);
+	else
+		printf("Invalid method.\n");
+		exit(1);
+	endif
+	
 	epoch = epoch + 1;
 
-until (currentError < maxError  || epoch > 1000)
+until (currentError < maxError)
 
 
 
