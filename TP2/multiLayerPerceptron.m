@@ -146,7 +146,7 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 
 		if(ExpectedOutput != CurrOutput)
 			#calculate Deltas
-			incrementalDeltaCalculation(ExpectedOutput, CurrOutput);
+			deltaCalculation(ExpectedOutput, CurrOutput);
 			
 			#update weights 
 			incrementalWeightUpdate(CurrentPattern);
@@ -204,7 +204,7 @@ function incrementalWeightUpdate(CurrentPattern)
 
 endfunction
 
-function incrementalDeltaCalculation(ExpectedOutput, CurrOutput)
+function deltaCalculation(ExpectedOutput, CurrOutput)
 	global hiddenLayers;
 	global Weights;
 	global Deltas;
@@ -216,12 +216,12 @@ function incrementalDeltaCalculation(ExpectedOutput, CurrOutput)
 		currentWeights	       = cell2mat(Weights(currentLayer + 1)); #get matrix
 		currentWeights(:, [1]) = []; #remove bias weight
 		currentWeights 		   = currentWeights';#comment
-		Deltas(currentLayer)   = gPrima(cell2mat(MembranePotentials(currentLayer))).* (currentWeights * cell2mat(Deltas(currentLayer + 1)));
+		Deltas(currentLayer)   = gPrima(cell2mat(MembranePotentials(currentLayer))).* (currentWeights * cell2mat(Deltas(currentLayer + 1)))
 	endfor
 endfunction
 
 function batchTraining(Patterns, ExpectedOutputs)
-	global learningFactor;
+	global hiddenLayers;
 	global maxError;
 	global Weights;
 	global Deltas;
@@ -232,10 +232,10 @@ function batchTraining(Patterns, ExpectedOutputs)
 	batchForwardStep(Patterns);
 
 	#calculate Deltas
-	#incrementalDeltaCalculation(ExpectedOutput, CurrOutput);
-			
+	deltaCalculation(ExpectedOutputs, cell2mat(Outputs(hiddenLayers + 1)));
+		exit(1);	
 	#update weights 
-	#incrementalWeightUpdate(CurrentPattern);
+	#batchWeightUpdate(CurrentPattern);
 		
 	currentError = acumError / 2#comment
 	printf("method not implemented\n");
@@ -260,9 +260,10 @@ function batchForwardStep(Patterns)
 			Input  = [zeros(1, inputSize) - 1; Output]; #comment
 		endif
 	endfor
-	MembranePotentials
-	Outputs
 endfunction
+
+
+
 
 
 ####################################################################################################
