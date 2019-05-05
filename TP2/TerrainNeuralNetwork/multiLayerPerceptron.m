@@ -16,15 +16,17 @@ function [TrainingPatterns, TrainingOutputs, TestPatterns, TestOutputs] = getPat
 
 	InputOrder = shuffle([1 : inputSize], inputSize);
 	len 	   = floor(trainingPercentage * inputSize);
-
 	for index = 1 : len
-		TrainingPatterns(index) = In(InputOrder(index));
+		TrainingPatterns(index, :) = In(InputOrder(index), :);
 		TrainingOutputs(index)  = Out(InputOrder(index));
 	endfor
 	for index = len + 1 : inputSize
-		TestPatterns(index - len) = In(InputOrder(index));
+		TestPatterns(index - len, :) = In(InputOrder(index), :);
 		TestOutputs(index - len)  = Out(InputOrder(index));
 	endfor
+
+	TrainingPatterns = TrainingPatterns';
+	TestPatterns    = TestPatterns';
 endfunction
 
 function generateWeights()
@@ -115,8 +117,9 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 	global Outputs;
 	global currentError;
 
+
 	inputUnits 		 = UnitsQuantity(1);
-	inputSize  		 = 2 ** inputUnits;
+	inputSize		 = size(Patterns)(2);
 	inputOrder 		 = shuffle(1 : inputSize, inputSize);
 	acumError  		 = 0;
 	analizedPatterns = 0;
@@ -143,7 +146,7 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 
 		analizedPatterns = analizedPatterns + 1; 
 
-		if(mod(analizedPatterns, 4) == 0)
+		if(mod(analizedPatterns, 100) == 0)
 				currentError = acumError / 2#comment
 				acumError = 0;
 		endif 
@@ -284,21 +287,19 @@ endfunction
 
 initializeNeuralNetwork();
 
-[Inputs, Outputs] = readDataFile(dataFile);
-[trainingPatterns,trainingOutputs, testPatterns, testOutput] = getPatterns(Inputs,Outputs)
-
-exit(1)
+[In, Out] = readDataFile(dataFile);
+In = [(zeros(size(In)(1), 1) -1) In];
+[TrainingPatterns, TrainingOutputs, TestPatterns, TestOutputs] = getPatterns(In, Out);
 
 epoch			= 1;
-ExpectedOutputs = [0, 1, 1, 0]; #hardcoded for inputUnits = 2
 
 do 	
 	epoch; #comment
 	
 	if(method == 0)
-		incrementalTraining(Patterns, ExpectedOutputs);
+		incrementalTraining(TrainingPatterns, TrainingOutputs);
 	elseif(method == 1)
-		batchTraining(Patterns, ExpectedOutputs);
+		batchTraining(trainingPatterns, TrainingOutputs);
 	else
 		printf("Invalid method.\n");
 		exit(1);
@@ -308,6 +309,24 @@ do
 
 until (currentError < maxError)
 
+
+############################################## start of tests #########################################
+
+inputSize = size(TestPatterns)(1);
+failed = 0
+
+for index = 1 : inputSize
+		CurrentPattern  = TestPatterns(index);
+		incrementalForwardStep(CurrentPattern);
+
+		ExpectedOutput = TestOutputs(index)
+		CurrOutput 	   = cell2mat(Outputs(hiddenLayers + 1))	
+		printf("\n");
+
+		if(abs(ExpectedOutput - CurrOutput) > maxError)
+			failed = failed + 1;
+		endif
+endfor
 
 
 
