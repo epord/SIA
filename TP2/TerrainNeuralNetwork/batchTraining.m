@@ -6,7 +6,6 @@ function batchTraining(Patterns, ExpectedOutputs)
 	global MembranePotentials;
 	global Outputs;
 
-
 	batchForwardStep(Patterns);
 
 	#calculate Deltas

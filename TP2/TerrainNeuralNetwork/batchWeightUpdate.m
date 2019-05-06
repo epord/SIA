@@ -4,19 +4,32 @@ function batchWeightUpdate(CurrentPattern)
 	global Weights;
 	global Deltas;
 	global Outputs;
+	global DeltaWeights;
+	global OldDeltaWeights; 
+	global momentum;
+	global alphaMomentum;
 
 	for currentLayer = 1 : hiddenLayers + 1
 		if(currentLayer == 1)
-
-			DeltaWeights = learningFactor * Deltas{currentLayer} * (CurrentPattern');
+			DeltaWeights(currentLayer) = learningFactor * Deltas{currentLayer} * (CurrentPattern');
 		else
-			d = Deltas{currentLayer}
-			p = CurrentPattern
-			exit(1);
-			OutputWithBias = Outputs{currentLayer - 1}'; #get matrix and transpose
-			OutputWithBias = [-1, OutputWithBias]; #Add bias
-			DeltaWeights = learningFactor * Deltas{currentLayer} * OutputWithBias;
+			outputs = size(Outputs{currentLayer})
+			OutputWithBias 			   = Outputs{currentLayer - 1}'; #get matrix and transpose
+			Bias 					   = zeros(size(OutputWithBias)(1)) - 1;
+			OutputWithBias 			   = [Bias OutputWithBias]; #Add bias
+			Delts = size(Deltas{currentLayer})
+			OutputBias = size(OutputWithBias)
+			DW = size(DeltaWeights{currentLayer})
+			W = size(Weights{currentLayer})
+
+			DeltaWeights(currentLayer) = learningFactor * Deltas{currentLayer} * OutputWithBias;
 		endif
-		Weights(currentLayer) = Weights{currentLayer} + DeltaWeights;
+
+		if(momentum == 1)
+				DeltaWeights(currentLayer) = DeltaWeights{currentLayer} + alphaMomentum * OldDeltaWeights{currentLayer};
+				OldDeltaWeights(currentLayer)   = DeltaWeights{currentLayer};   
+		endif
+
+		Weights(currentLayer) = Weights{currentLayer} + DeltaWeights{currentLayer};
 	endfor
 endfunction

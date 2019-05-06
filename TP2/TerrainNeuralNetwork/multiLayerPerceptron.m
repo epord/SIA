@@ -141,7 +141,7 @@ do
 	if(method == 0)
 		incrementalTraining(TrainingPatterns, TrainingOutputs);
 	elseif(method == 1)
-		batchTraining(trainingPatterns, TrainingOutputs);
+		batchTraining(TrainingPatterns, TrainingOutputs);
 	else
 		printf("Invalid method.\n");
 		exit(1);

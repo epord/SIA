@@ -5,12 +5,12 @@ function deltaCalculation(ExpectedOutput, CurrOutput)
 	global MembranePotentials;
 	global Outputs;
 
-	Deltas(hiddenLayers + 1) =  (ExpectedOutput - CurrOutput);
+	Deltas(hiddenLayers + 1) =  (ExpectedOutput - CurrOutput); #gPrima is constant
 
 	for currentLayer = hiddenLayers : -1 : 1
 		currentWeights	       = Weights{currentLayer + 1}; #get matrix
 		currentWeights(:, [1]) = []; #remove bias weight
 		currentWeights 		   = currentWeights';
-		Deltas(currentLayer)   = gPrima(Outputs{currentLayer}).* (currentWeights * Deltas{currentLayer + 1});
+		Deltas(currentLayer)   = gPrima(Outputs{currentLayer}) .* (currentWeights * Deltas{currentLayer + 1});
 	endfor
 endfunction

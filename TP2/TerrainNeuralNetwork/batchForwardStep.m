@@ -3,13 +3,20 @@ function batchForwardStep(Patterns)
 	global Weights;
 	global Outputs;
 	global MembranePotentials;
-	Input = Patterns;
 	inputSize = size(Patterns)(2);
 
+	#Maybe Normalize Patterns
+	#Patterns = normalizePatterns(Patters)
+	Input = Patterns;
+	
 	for currentLayer = 1 : hiddenLayers + 1
-		Output = Weights{currentLayer} * Patterns;
+		Output = Weights{currentLayer} * Input;
 		MembranePotentials(currentLayer) = Output;
-		Output = g(Output);
+		
+		if(currentLayer != hiddenLayers + 1)
+			Output = g(Output); #Linear function to output layer
+		endif
+
 		Outputs(currentLayer) = Output;
 
 		if(currentLayer <= hiddenLayers)
