@@ -7,12 +7,12 @@ function incrementalWeightUpdate(CurrentPattern)
 
 	for currentLayer = 1 : hiddenLayers + 1
 		if(currentLayer == 1)
-			DeltaWeights = learningFactor * cell2mat(Deltas(currentLayer)) * (CurrentPattern');
+			DeltaWeights = learningFactor * Deltas{currentLayer} * (CurrentPattern');
 		else
-			OutputWithBias = cell2mat(Outputs(currentLayer - 1))'; #get matrix and transpose
+			OutputWithBias = Outputs{currentLayer - 1}'; #get matrix and transpose
 			OutputWithBias = [-1, OutputWithBias]; #Add bias
-			DeltaWeights = learningFactor * cell2mat(Deltas(currentLayer)) * OutputWithBias;
+			DeltaWeights = learningFactor * Deltas{currentLayer} * OutputWithBias;
 		endif
-		Weights(currentLayer) = cell2mat(Weights(currentLayer)) + DeltaWeights;
+		Weights(currentLayer) = Weights{currentLayer} + DeltaWeights;
 	endfor
 endfunction

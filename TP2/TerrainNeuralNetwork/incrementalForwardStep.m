@@ -6,7 +6,7 @@ function incrementalForwardStep(Input)
 
 
 	for currentLayer = 1 : hiddenLayers + 1
-		Output = cell2mat(Weights(currentLayer)) * Input;
+		Output = Weights{currentLayer} * Input;
 		MembranePotentials(currentLayer) = Output;
 		if(currentLayer != hiddenLayers + 1)
 			Output = g(Output);

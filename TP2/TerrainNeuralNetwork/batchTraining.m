@@ -10,7 +10,7 @@ function batchTraining(Patterns, ExpectedOutputs)
 	batchForwardStep(Patterns);
 
 	#calculate Deltas
-	deltaCalculation(ExpectedOutputs, cell2mat(Outputs(hiddenLayers + 1)));
+	deltaCalculation(ExpectedOutputs, Outputs{hiddenLayers + 1});
 
 	#update weights
 	batchWeightUpdate(Patterns);

@@ -150,7 +150,7 @@ for index = 1 : inputSize
 		incrementalForwardStep(CurrentPattern);
 
 		ExpectedOutput = TestOutputs(index)
-		CurrOutput 	   = cell2mat(Outputs(hiddenLayers + 1))
+		CurrOutput 	   = Outputs{hiddenLayers + 1}
 		printf("\n");
 
 		if(abs(ExpectedOutput - CurrOutput) > maxError)

@@ -7,7 +7,7 @@ function batchForwardStep(Patterns)
 	inputSize = size(Patterns)(2);
 
 	for currentLayer = 1 : hiddenLayers + 1
-		Output = cell2mat(Weights(currentLayer)) * Patterns;
+		Output = Weights{currentLayer} * Patterns;
 		MembranePotentials(currentLayer) = Output;
 		Output = g(Output);
 		Outputs(currentLayer) = Output;

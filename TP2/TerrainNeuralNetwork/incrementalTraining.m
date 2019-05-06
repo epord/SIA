@@ -23,7 +23,7 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 		incrementalForwardStep(Input);
 
 		ExpectedOutput = ExpectedOutputs(inputOrder(index));
-		CurrOutput 	   = cell2mat(Outputs(hiddenLayers + 1));
+		CurrOutput 	   = Outputs{hiddenLayers + 1};
 		acumError = acumError + (ExpectedOutput - CurrOutput) ** 2;
 		accumEpsilon = accumEpsilon + abs(ExpectedOutput - CurrOutput);
 
