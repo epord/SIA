@@ -129,7 +129,7 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 
 	for index = 1 : inputSize
 		CurrentPattern  = Patterns(:, inputOrder(index));
-		#CurrentPattern  = CurrentPattern / norm(CurrentPattern); #normalize input
+		CurrentPattern  = CurrentPattern / norm(CurrentPattern); #normalize input
 		Input 			= CurrentPattern;
 
 		incrementalForwardStep(Input);
@@ -152,7 +152,6 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 				currentError = acumError / inputSize
 				Errors = [Errors currentError];
 				plot(Errors);
-				hold on;
 				acumError = 0;
 		endif
 	endfor
@@ -168,14 +167,14 @@ function incrementalForwardStep(Input)
 		MembranePotentials(currentLayer) = Output;
 		Output = g(Output);
 		if(currentLayer != hiddenLayers + 1)
-			Outputs(currentLayer) = Output;# / norm(Output); #normalize output
+			Outputs(currentLayer) = Output / norm(Output); #normalize output
 		else
 			Outputs(currentLayer) = Output;
 		endif
 
 		if(currentLayer <= hiddenLayers)
 			Input  = [-1; Output];
-			#Input  = Input / norm(Input); #normalize output
+			Input  = Input / norm(Input); #normalize output
 		endif
 	endfor
 
@@ -314,11 +313,11 @@ until (currentError < maxError)
 
 ############################################## start of tests #########################################
 
-inputSize = size(TestPatterns)(1);
-failed = 0
+inputSize = size(TestPatterns)(2);
+failed = 0;
 
 for index = 1 : inputSize
-		CurrentPattern  = TestPatterns(index);
+		CurrentPattern  = TestPatterns(:, index);
 		incrementalForwardStep(CurrentPattern);
 
 		ExpectedOutput = TestOutputs(index)
@@ -329,6 +328,8 @@ for index = 1 : inputSize
 			failed = failed + 1;
 		endif
 endfor
+failed
+total = inputSize
 
 
 
