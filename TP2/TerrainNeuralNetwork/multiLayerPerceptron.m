@@ -9,6 +9,7 @@ global Outputs;
 global currentError 	= 1;
 global trainingQuantity = 4;
 global Errors = [];
+global EpsilonErrors = [];
 
 function [TrainingPatterns, TrainingOutputs, TestPatterns, TestOutputs] = getPatterns(In, Out)
 	global trainingPercentage;
