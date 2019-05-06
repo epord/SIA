@@ -95,11 +95,12 @@ endfunction
 
 function [result] = g(input)
 	global activationFunction;
+	global beta;
 
 	if(activationFunction == 0)
-		result = tanh(input);
+		result = tanh(beta * input);
 	elseif(activationFunction == 1)
-		result = 1.0 ./ (1.0 + exp(-input));
+		result = 1.0 ./ (1.0 + exp(-2 * beta * input));
 	elseif(activationFunction == 2)
 		result = input; #eye linear function
 	else
@@ -110,11 +111,12 @@ endfunction
 
 function [result] = gPrima(output)
 	global activationFunction;
+	global beta;
 
 	if(activationFunction == 0)
-		result = 1 - output.** 2; #tanh derivative
+		result = beta * (1 - output.** 2); #tanh derivative
 	elseif(activationFunction == 1)
-		result = output .* (1 - output); #exp derivative
+		result = 2 * beta * output .* (1 - output); #exp derivative
 	elseif(activationFunction == 2)
 		result = 1; #linear derivative is constant
 	else
