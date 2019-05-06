@@ -30,6 +30,21 @@ function [TrainingPatterns, TrainingOutputs, TestPatterns, TestOutputs] = getPat
 	TestPatterns    = TestPatterns';
 endfunction
 
+function generateStructureForLayers()
+	global Deltas;
+	global MembranePotentials;
+	global Outputs;
+	global hiddenLayers;
+	global method;
+	global trainingQuantity;
+
+
+	Deltas             = cell(hiddenLayers + 1, 1);
+	MembranePotentials = cell(hiddenLayers + 1, 1);
+	Outputs            = cell(hiddenLayers + 1, 1);
+
+endfunction
+
 function generateWeights()
 	global Weights;
 	global hiddenLayers;
@@ -50,20 +65,6 @@ function generateWeights()
 		printf("Invalid configuration for architecture hiddenLayers does not match UnitsQuantity\n");
 		exit(1);
 	endif
-endfunction
-
-function generateStructureForLayers()
-	global Deltas;
-	global MembranePotentials;
-	global Outputs;
-	global hiddenLayers;
-	global method;
-	global trainingQuantity;
-
-	Deltas             = cell(hiddenLayers + 1, 1);
-	MembranePotentials = cell(hiddenLayers + 1, 1);
-	Outputs            = cell(hiddenLayers + 1, 1);
-
 endfunction
 
 function initializeNeuralNetwork()
@@ -110,179 +111,6 @@ function [result] = gPrima(output)
 		exit(1);
 	endif
 endfunction
-
-function incrementalTraining(Patterns, ExpectedOutputs)
-	global UnitsQuantity;
-	global hiddenLayers;
-	global maxError;
-	global Outputs;
-	global currentError;
-	global Errors;
-
-
-	inputUnits 		 = UnitsQuantity(1);
-	inputSize		 = size(Patterns)(2);
-	inputOrder 		 = shuffle(1 : inputSize, inputSize);
-	acumError  		 = 0;
-	analizedPatterns = 0;
-
-
-	for index = 1 : inputSize
-		CurrentPattern  = Patterns(:, inputOrder(index));
-		CurrentPattern  = CurrentPattern / norm(CurrentPattern); #normalize input
-		Input 			= CurrentPattern;
-
-		incrementalForwardStep(Input);
-
-		ExpectedOutput = ExpectedOutputs(inputOrder(index));
-		CurrOutput 	   = cell2mat(Outputs(hiddenLayers + 1));
-		acumError = acumError + (ExpectedOutput - CurrOutput) ** 2;
-
-		if(ExpectedOutput != CurrOutput)
-			#calculate Deltas
-			deltaCalculation(ExpectedOutput, CurrOutput);
-
-			#update weights
-			incrementalWeightUpdate(CurrentPattern);
-		endif
-
-		analizedPatterns = analizedPatterns + 1;
-
-		if(mod(analizedPatterns, inputSize) == 0)
-				currentError = acumError / inputSize
-				Errors = [Errors currentError];
-				plot(Errors);
-				acumError = 0;
-		endif
-	endfor
-endfunction
-function incrementalForwardStep(Input)
-	global hiddenLayers;
-	global Weights;
-	global MembranePotentials;
-	global Outputs;
-
-	for currentLayer = 1 : hiddenLayers + 1
-		Output = cell2mat(Weights(currentLayer)) * Input;
-		MembranePotentials(currentLayer) = Output;
-		Output = g(Output);
-		if(currentLayer != hiddenLayers + 1)
-			Outputs(currentLayer) = Output / norm(Output); #normalize output
-		else
-			Outputs(currentLayer) = Output;
-		endif
-
-		if(currentLayer <= hiddenLayers)
-			Input  = [-1; Output];
-			Input  = Input / norm(Input); #normalize output
-		endif
-	endfor
-
-endfunction
-
-function incrementalWeightUpdate(CurrentPattern)
-	global hiddenLayers;
-	global learningFactor;
-	global Weights;
-	global Deltas;
-	global Outputs;
-
-	for currentLayer = 1 : hiddenLayers + 1
-		if(currentLayer == 1)
-			DeltaWeights = learningFactor * cell2mat(Deltas(currentLayer)) * (CurrentPattern');
-		else
-			OutputWithBias = cell2mat(Outputs(currentLayer - 1))'; #get matrix and transpose
-			OutputWithBias = [-1, OutputWithBias]; #Add bias
-			DeltaWeights = learningFactor * cell2mat(Deltas(currentLayer)) * OutputWithBias;
-		endif
-		Weights(currentLayer) = cell2mat(Weights(currentLayer)) + DeltaWeights;
-	endfor
-endfunction
-
-function deltaCalculation(ExpectedOutput, CurrOutput)
-	global hiddenLayers;
-	global Weights;
-	global Deltas;
-	global MembranePotentials;
-	global Outputs;
-
-	Deltas(hiddenLayers + 1) = gPrima(cell2mat(Outputs(hiddenLayers + 1))) .* (ExpectedOutput - CurrOutput);
-
-	for currentLayer = hiddenLayers : -1 : 1
-		currentWeights	       = cell2mat(Weights(currentLayer + 1)); #get matrix
-		currentWeights(:, [1]) = []; #remove bias weight
-		currentWeights 		   = currentWeights';
-		Deltas(currentLayer)   = gPrima(cell2mat(Outputs(currentLayer))).* (currentWeights * cell2mat(Deltas(currentLayer + 1)));
-	endfor
-endfunction
-
-function batchTraining(Patterns, ExpectedOutputs)
-	global hiddenLayers;
-	global maxError;
-	global Weights;
-	global Deltas;
-	global MembranePotentials;
-	global Outputs;
-
-
-	batchForwardStep(Patterns);
-
-	#calculate Deltas
-	deltaCalculation(ExpectedOutputs, cell2mat(Outputs(hiddenLayers + 1)));
-
-	#update weights
-	batchWeightUpdate(Patterns);
-
-	currentError = acumError / 2
-	printf("method not implemented\n");
-endfunction
-
-function batchForwardStep(Patterns)
-	global hiddenLayers;
-	global Weights;
-	global Outputs;
-	global MembranePotentials;
-	Input = Patterns;
-	inputSize = size(Patterns)(2);
-
-	for currentLayer = 1 : hiddenLayers + 1
-		Output = cell2mat(Weights(currentLayer)) * Patterns;
-		MembranePotentials(currentLayer) = Output;
-		Output = g(Output);
-		Outputs(currentLayer) = Output;
-
-		if(currentLayer <= hiddenLayers)
-			Input  = [zeros(1, inputSize) - 1; Output];
-		endif
-	endfor
-endfunction
-
-function batchWeightUpdate(CurrentPattern)
-	global hiddenLayers;
-	global learningFactor;
-	global Weights;
-	global Deltas;
-	global Outputs;
-
-	for currentLayer = 1 : hiddenLayers + 1
-		if(currentLayer == 1)
-
-			DeltaWeights = learningFactor * cell2mat(Deltas(currentLayer)) * (CurrentPattern');
-		else
-			d = cell2mat(Deltas(currentLayer))
-			p = CurrentPattern
-			exit(1);
-			OutputWithBias = cell2mat(Outputs(currentLayer - 1))'; #get matrix and transpose
-			OutputWithBias = [-1, OutputWithBias]; #Add bias
-			DeltaWeights = learningFactor * cell2mat(Deltas(currentLayer)) * OutputWithBias;
-		endif
-		Weights(currentLayer) = cell2mat(Weights(currentLayer)) + DeltaWeights;
-	endfor
-endfunction
-
-
-
-
 
 
 ####################################################################################################
