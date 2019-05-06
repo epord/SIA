@@ -1,6 +1,7 @@
 # Terrain Neural Network
 
 1; #prevent it from being a function file
+debug_on_interrupt(1);
 source("architecture.conf")
 global Weights;
 global Deltas;
@@ -8,8 +9,8 @@ global MembranePotentials;
 global Outputs;
 global currentError 	= 1;
 global trainingQuantity = 4;
+global maxError = maxEpsilon ** 2 / 2
 global Errors = [];
-global EpsilonErrors = [];
 
 function [TrainingPatterns, TrainingOutputs, TestPatterns, TestOutputs] = getPatterns(In, Out)
 	global trainingPercentage;
@@ -153,7 +154,7 @@ for index = 1 : inputSize
 		CurrOutput 	   = Outputs{hiddenLayers + 1}
 		printf("\n");
 
-		if(abs(ExpectedOutput - CurrOutput) > maxError)
+		if(abs(ExpectedOutput - CurrOutput) > maxEpsilon)
 			failed = failed + 1;
 		endif
 endfor

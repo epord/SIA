@@ -10,14 +10,13 @@ function incrementalForwardStep(Input)
 		MembranePotentials(currentLayer) = Output;
 		if(currentLayer != hiddenLayers + 1)
 			Output = g(Output);
-			Outputs(currentLayer) = Output / norm(Output); #normalize output
+			Outputs(currentLayer) = Output;
 		else
 			Outputs(currentLayer) = Output;
 		endif
 
 		if(currentLayer <= hiddenLayers)
 			Input  = [-1; Output];
-			Input  = Input / norm(Input); #normalize output
 		endif
 	endfor
 

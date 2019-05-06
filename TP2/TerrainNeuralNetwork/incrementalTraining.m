@@ -5,7 +5,6 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 	global Outputs;
 	global currentError;
 	global Errors;
-	global EpsilonErrors;
 
 
 	inputUnits 		 = UnitsQuantity(1);
@@ -25,7 +24,6 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 		ExpectedOutput = ExpectedOutputs(inputOrder(index));
 		CurrOutput 	   = Outputs{hiddenLayers + 1};
 		acumError = acumError + (ExpectedOutput - CurrOutput) ** 2;
-		accumEpsilon = accumEpsilon + abs(ExpectedOutput - CurrOutput);
 
 		if(ExpectedOutput != CurrOutput)
 			#calculate Deltas
@@ -39,14 +37,8 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 
 		if(mod(analizedPatterns, inputSize) == 0)
 				currentError = acumError / (2*inputSize)
-				currentEpsilon = accumEpsilon / inputSize
-				Errors = [Errors currentEpsilon];
-				EpsilonErrors = [EpsilonErrors currentEpsilon];
-				% subplot (2, 1, 1)
-				% fplot (Errors);
-				% subplot (2, 1, 2)
-				% fplot (EpsilonErrors);
-				% plot([1:size(Errors)(2)], Errors, [1:size(EpsilonErrors)(2)], EpsilonErrors);
+				Errors = [Errors currentError];
+				plot (Errors);
 				acumError = 0;
 		endif
 	endfor
