@@ -9,8 +9,10 @@ global MembranePotentials;
 global Outputs;
 global currentError 	= 1;
 global trainingQuantity = 4;
-global maxError = maxEpsilon ** 2 / 2
-global Errors = [];
+global maxError 		= maxEpsilon ** 2 / 2
+global Errors 			= [];
+global DeltaWeights;
+global OldDeltaWeights;
 
 function [TrainingPatterns, TrainingOutputs, TestPatterns, TestOutputs] = getPatterns(In, Out)
 	global trainingPercentage;
@@ -53,13 +55,20 @@ function generateWeights()
 	global UnitsQuantity;
 	global randAbsolut;
 	global weightInitMethod;
+	global DeltaWeights;
+	global OldDeltaWeights;
 
 	if(size(UnitsQuantity)(2) == hiddenLayers + 2)
-		Weights = cell(hiddenLayers + 1, 1);
+		Weights         = cell(hiddenLayers + 1, 1);
+		DeltaWeights    = cell(hiddenLayers + 1, 1);
+		OldDeltaWeights = cell(hiddenLayers + 1, 1);
+
 
 		for layer = 1 : hiddenLayers + 1
 			if(weightInitMethod == 0)
-				Weights(layer) = ((rand(UnitsQuantity(layer + 1), UnitsQuantity(layer) + 1) - 0.5) * 2 *randAbsolut);
+				Weights(layer)		   = ((rand(UnitsQuantity(layer + 1), UnitsQuantity(layer) + 1) - 0.5) * 2 *randAbsolut);
+				DeltaWeights(layer)	   = zeros(UnitsQuantity(layer + 1), UnitsQuantity(layer) + 1);
+				OldDeltaWeights(layer) = zeros(UnitsQuantity(layer + 1), UnitsQuantity(layer) + 1);
 			endif
 		endfor
 
