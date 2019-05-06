@@ -5,7 +5,7 @@ function deltaCalculation(ExpectedOutput, CurrOutput)
 	global MembranePotentials;
 	global Outputs;
 
-	Deltas(hiddenLayers + 1) = gPrima(cell2mat(Outputs(hiddenLayers + 1))) .* (ExpectedOutput - CurrOutput);
+	Deltas(hiddenLayers + 1) =  (ExpectedOutput - CurrOutput);
 
 	for currentLayer = hiddenLayers : -1 : 1
 		currentWeights	       = cell2mat(Weights(currentLayer + 1)); #get matrix

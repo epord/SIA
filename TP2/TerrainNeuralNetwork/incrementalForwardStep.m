@@ -8,8 +8,8 @@ function incrementalForwardStep(Input)
 	for currentLayer = 1 : hiddenLayers + 1
 		Output = cell2mat(Weights(currentLayer)) * Input;
 		MembranePotentials(currentLayer) = Output;
-		Output = g(Output);
 		if(currentLayer != hiddenLayers + 1)
+			Output = g(Output);
 			Outputs(currentLayer) = Output / norm(Output); #normalize output
 		else
 			Outputs(currentLayer) = Output;
