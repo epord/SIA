@@ -5,15 +5,17 @@ function batchTraining(Patterns, ExpectedOutputs)
 	global Deltas;
 	global MembranePotentials;
 	global Outputs;
+	global currentError;
 
 	batchForwardStep(Patterns);
-
 	#calculate Deltas
 	deltaCalculation(ExpectedOutputs, Outputs{hiddenLayers + 1});
 
 	#update weights
 	batchWeightUpdate(Patterns);
 
-	currentError = acumError / 2
-	printf("method not implemented\n");
+	Errors = (ExpectedOutputs - Outputs{hiddenLayers + 1}) .** 2;
+	sumAll = Errors * (zeros(size(Patterns)(2), 1) + 1);
+	currentError = sumAll / (2 * size(Patterns)(2))
+	
 endfunction
