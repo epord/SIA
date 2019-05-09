@@ -175,8 +175,3 @@ for index = 1 : inputSize
 endfor
 failed
 total = inputSize
-
-
-
-
-

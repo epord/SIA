@@ -39,7 +39,7 @@ global activationFunction = 1;
 # Adaptive eta variables (eta = learning factor)
 # ####################################################################
 # Whether adaptive eta is enabled
-global adaptiveEta = 1;
+global adaptiveEta = 0;
 # How often to recalculate errors and adjust eta
 global adaptiveEtaDeltaSteps = 1; # TODO consider renaming this, this may be used for not only adaptive eta
 # Constant by which the learning factor increases when error decreases consistently

@@ -35,10 +35,10 @@ function incrementalWeightUpdate(CurrentPattern)
 				# Error has been consistently decreasing, increase learning factor to not be so conservative
 				learningFactor += learningFactorIncreaseConstant;
 			endif
+			OldWeights = [OldWeights Weights];
 		endif
 	endif
 
-	OldWeights = [OldWeights Weights];
 
 	for currentLayer = 1 : hiddenLayers + 1
 		if(currentLayer == 1)
