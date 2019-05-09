@@ -4,6 +4,7 @@
 debug_on_interrupt(1);
 source("architecture.conf")
 global Weights;
+global OldWeights;
 global Deltas;
 global MembranePotentials;
 global Outputs;
@@ -13,6 +14,8 @@ global maxError 		= maxEpsilon ** 2 / 2
 global Errors 			= [];
 global DeltaWeights;
 global OldDeltaWeights;
+global learningFactorIncreaseConstant;
+global learningFactorDecreaseFactor;
 
 function [TrainingPatterns, TrainingOutputs, TestPatterns, TestOutputs] = getPatterns(In, Out)
 	global trainingPercentage;
@@ -60,6 +63,7 @@ function generateWeights()
 
 	if(size(UnitsQuantity)(2) == hiddenLayers + 2)
 		Weights         = cell(hiddenLayers + 1, 1);
+		OldWeights      = cell(hiddenLayers + 1, 1);
 		DeltaWeights    = cell(hiddenLayers + 1, 1);
 		OldDeltaWeights = cell(hiddenLayers + 1, 1);
 
@@ -165,7 +169,7 @@ for index = 1 : inputSize
 		CurrOutput 	   = Outputs{hiddenLayers + 1}
 		printf("\n");
 
-		if(abs(ExpectedOutput - CurrOutput) > maxEpsilon)
+		if(abs(ExpectedOutput - CurrOutput) > 1e-5)
 			failed = failed + 1;
 		endif
 endfor

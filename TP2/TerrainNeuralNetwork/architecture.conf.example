@@ -34,3 +34,15 @@ global momentum           = 0;
 
 #activation function for layer 0 tanh, 1 exp, 2 linear
 global activationFunction = 1;
+
+# ####################################################################
+# Adaptive eta variables (eta = learning factor)
+# ####################################################################
+# Whether adaptive eta is enabled
+global adaptiveEta = 1;
+# How often to recalculate errors and adjust eta
+global adaptiveEtaDeltaSteps = 1; # TODO consider renaming this, this may be used for not only adaptive eta
+# Constant by which the learning factor increases when error decreases consistently
+global learningFactorIncreaseConstant = learningFactor/5;
+# Factor by which the learning factor decreases when error increases
+global learningFactorDecreaseFactor = 1/2;
