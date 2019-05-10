@@ -149,7 +149,7 @@ do
 
 	epoch = epoch + 1;
 
-until (currentError < maxError)
+until (currentError < maxError || epoch > 500)
 
 
 ############################################## start of tests #########################################
@@ -161,16 +161,21 @@ for index = 1 : inputSize
 		CurrentPattern  = TestPatterns(:, index);
 		incrementalForwardStep(CurrentPattern);
 
-		ExpectedOutput = TestOutputs(index)
-		CurrOutput 	   = Outputs{hiddenLayers + 1}
-		printf("\n");
+		ExpectedOutput = TestOutputs(index);
+		CurrOutput 	   = Outputs{hiddenLayers + 1};
 
 		if(abs(ExpectedOutput - CurrOutput) > maxEpsilon)
 			failed = failed + 1;
+			printf("%sFAILED --- Expected: %+.5f   ||   Obtained: %+.5f %s\n", "\x1B[31m", ExpectedOutput, CurrOutput, "\x1B[0m")
+		else
+			printf("%s  OK   --- Expected: %+.5f   ||   Obtained: %+.5f %s\n", "\x1B[32m", ExpectedOutput, CurrOutput, "\x1B[0m")
 		endif
 endfor
 failed
 total = inputSize
+
+printf("\nPress any key to exit\n")
+kbhit();
 
 
 

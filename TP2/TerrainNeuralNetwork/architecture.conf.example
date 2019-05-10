@@ -12,13 +12,13 @@ global dataFile			  = "terrain12.data"
 global trainingPercentage = 0.90;
 
 #max tolerance error to neural network output
-global maxError			  = 0.05;
+global maxEpsilon			  = 0.071;
 
 #learning factor should be small
-global learningFactor     = 0.4;
+global learningFactor     = 0.2;
 
 #array with number of units(without bias) on each layer going from input layer to output layer
-global UnitsQuantity      = [2, 9, 1];
+global UnitsQuantity      = [2, 4, 1];
 
 #value of 0 for incremental and 1 for batch
 global method 			  = 0;
