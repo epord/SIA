@@ -5,9 +5,9 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 	global Outputs;
 	global currentError;
 	global Errors;
+	global silent;
+	global showPlot;
 
-
-	inputUnits 		 = UnitsQuantity(1);
 	inputSize		 = size(Patterns)(2);
 	inputOrder 		 = shuffle(1 : inputSize, inputSize);
 	acumError  		 = 0;
@@ -36,9 +36,14 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 		analizedPatterns = analizedPatterns + 1;
 
 		if(mod(analizedPatterns, inputSize) == 0)
-				currentError = acumError / (2*inputSize)
+				currentError = acumError / (2*inputSize);
 				Errors = [Errors currentError];
-				plot (Errors);
+				if (!silent)
+					currentError
+				endif
+				if (showPlot)
+					plot (Errors);
+				endif
 				acumError = 0;
 		endif
 	endfor
