@@ -1,4 +1,5 @@
 architecture.conf
 TerrainNeuralNetwork/architecture.conf
+*.bak
 TerrainNeuralNetwork/configurationResults.txt
 octave-workspace

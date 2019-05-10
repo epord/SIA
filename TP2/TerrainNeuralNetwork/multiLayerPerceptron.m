@@ -24,6 +24,7 @@ global showPlot = true;
 function processProgramArgument(argument)
 	global silent;
 	global keyToExit;
+	global showPlot;
 
 	if strcmp(argument, "--silent")
 		silent = true;
