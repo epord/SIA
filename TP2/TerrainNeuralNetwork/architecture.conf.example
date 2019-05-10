@@ -23,8 +23,8 @@ global UnitsQuantity      = [2, 9, 1];
 #value of 0 for incremental and 1 for batch
 global method 			  = 0;
 
-#initialize weights with 0  random 1 fanning 2 normalized inputs
-global weightInitMethod   = 0;
+#initialize weights with 0 random, 1 fan-in
+global weightInitMethod   = 1;
 
 #When init method is random interval would be [-randAbsolut, randAbsolut]
 global randAbsolut        = 0.5;
