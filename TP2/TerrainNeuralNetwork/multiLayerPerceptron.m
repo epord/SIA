@@ -7,12 +7,38 @@ global Weights;
 global Deltas;
 global MembranePotentials;
 global Outputs;
-global currentError 	= 1;
+global currentError = 1;
 global trainingQuantity = 4;
-global maxError 		= maxEpsilon ** 2 / 2
-global Errors 			= [];
+global maxError = maxEpsilon ** 2 / 2
+global Errors = [];
 global DeltaWeights;
 global OldDeltaWeights;
+global UnitsQuantity;
+global learningFactor;
+
+# Configurations by program arguments
+global silent = false;
+global keyToExit = true;
+global showPlot = true;
+
+function processProgramArgument(argument)
+	global silent;
+	global keyToExit;
+	global showPlot;
+
+	if strcmp(argument, "--silent")
+		silent = true;
+	elseif strcmp(argument, "--auto-exit")
+		keyToExit = false;
+	elseif strcmp(argument, "--no-plot")
+		showPlot = false;
+	endif
+endfunction
+
+# Processing program arguments
+for i = 1 : size(argv)(1)
+	processProgramArgument(argv{i});
+endfor
 
 function [TrainingPatterns, TrainingOutputs, TestPatterns, TestOutputs] = getPatterns(In, Out)
 	global trainingPercentage;
@@ -154,7 +180,7 @@ do
 
 	epoch = epoch + 1;
 
-until (currentError < maxError)
+until (currentError < maxError || epoch > 500)
 
 
 ############################################## start of tests #########################################
@@ -166,16 +192,32 @@ for index = 1 : inputSize
 		CurrentPattern  = TestPatterns(:, index);
 		incrementalForwardStep(CurrentPattern);
 
-		ExpectedOutput = TestOutputs(index)
-		CurrOutput 	   = Outputs{hiddenLayers + 1}
-		printf("\n");
+		ExpectedOutput = TestOutputs(index);
+		CurrOutput 	   = Outputs{hiddenLayers + 1};
 
 		if(abs(ExpectedOutput - CurrOutput) > maxEpsilon)
 			failed = failed + 1;
+			if (!silent)
+				printf("%sFAILED --- Expected: %+.5f   ||   Obtained: %+.5f %s\n", "\x1B[31m", ExpectedOutput, CurrOutput, "\x1B[0m")
+			endif
+		else
+			if (!silent)
+				printf("%s  OK   --- Expected: %+.5f   ||   Obtained: %+.5f %s\n", "\x1B[32m", ExpectedOutput, CurrOutput, "\x1B[0m")
+			endif
 		endif
 endfor
-failed
-total = inputSize
+
+printf("\n============================================================\n")
+UnitsQuantity
+Weights
+printf('Error was %.5f after %d epochs\n', currentError, epoch)
+printf('Failed %d/%d\n', failed, inputSize)
+printf("\n============================================================\n")
+
+if (keyToExit)
+	printf("\nPress any key to exit\n")
+	kbhit();
+endif
 
 
 
