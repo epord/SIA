@@ -1,10 +1,10 @@
 # Terrain Neural Network
 
 1; #prevent it from being a function file
+clear;
 debug_on_interrupt(1);
 source("architecture.conf")
 global Weights;
-global OldWeights;
 global Deltas;
 global MembranePotentials;
 global Outputs;
@@ -63,7 +63,6 @@ function generateWeights()
 
 	if(size(UnitsQuantity)(2) == hiddenLayers + 2)
 		Weights         = cell(hiddenLayers + 1, 1);
-		OldWeights      = cell(hiddenLayers + 1, 1);
 		DeltaWeights    = cell(hiddenLayers + 1, 1);
 		OldDeltaWeights = cell(hiddenLayers + 1, 1);
 
