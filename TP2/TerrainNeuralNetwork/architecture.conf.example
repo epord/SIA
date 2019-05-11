@@ -10,6 +10,9 @@ global trainingPercentage = 0.90;
 #max tolerance error to neural network output
 global maxEpsilon = 0.07;
 
+#max epochs until the training is over
+global maxEpochs = 500;
+
 #learning factor should be small
 global learningFactor = 0.2;
 

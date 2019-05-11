@@ -13,4 +13,5 @@ function deltaCalculation(ExpectedOutput, CurrOutput)
 		currentWeights 		   = currentWeights';
 		Deltas(currentLayer)   = gPrima(Outputs{currentLayer}) .* (currentWeights * Deltas{currentLayer + 1});
 	endfor
+
 endfunction

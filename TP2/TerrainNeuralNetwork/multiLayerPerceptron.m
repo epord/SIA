@@ -1,10 +1,12 @@
 # Terrain Neural Network
 
 1; #prevent it from being a function file
+
+# rand("seed", 3); # Deterministic runs
+
 clear all; 	# Clear everything, including global variables
-clf;		# Clear plotting area
-hold on;	# Allow plotting multiple things
 debug_on_interrupt(1);	# Enter debug mode on CTRL+C (works on Linux only)
+
 source("architecture.conf")
 
 global Weights;
@@ -18,6 +20,7 @@ global Errors = [];
 global DeltaWeights;
 global OldDeltaWeights;
 global UnitsQuantity;
+global maxEpochs;
 
 # Configurations by program arguments
 global silent = false;
@@ -42,6 +45,11 @@ endfunction
 for i = 1 : size(argv)(1)
 	processProgramArgument(argv{i});
 endfor
+
+if (showPlot)
+	clf;		# Clear plotting area
+	hold on;	# Allow plotting multiple things
+endif
 
 function [TrainingPatterns, TrainingOutputs, TestPatterns, TestOutputs] = getPatterns(In, Out)
 	global trainingPercentage;
@@ -183,7 +191,9 @@ do
 
 	epoch = epoch + 1;
 
-until (currentError < maxError || epoch > 500)
+until (currentError < maxError || epoch > maxEpochs)
+
+kbhit();
 
 
 ############################################## start of tests #########################################
