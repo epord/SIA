@@ -21,7 +21,6 @@ global DeltaWeights;
 global OldDeltaWeights;
 global UnitsQuantity;
 global maxEpochs;
-global OldWeights;
 
 # Configurations by program arguments
 global silent = false;
@@ -207,7 +206,7 @@ for index = 1 : inputSize
 		ExpectedOutput = TestOutputs(index);
 		CurrOutput 	   = Outputs{hiddenLayers + 1};
 
-		if(abs(ExpectedOutput - CurrOutput) > 1e-5)
+		if(abs(ExpectedOutput - CurrOutput) > maxEpsilon)
 			failed = failed + 1;
 			if (!silent)
 				printf("%sFAILED --- Expected: %+.5f   ||   Obtained: %+.5f %s\n", "\x1B[31m", ExpectedOutput, CurrOutput, "\x1B[0m")
