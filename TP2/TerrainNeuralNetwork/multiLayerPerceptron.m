@@ -22,6 +22,7 @@ global DeltaWeights;
 global OldDeltaWeights;
 global UnitsQuantity;
 global learningFactor;
+global maxEpochs;
 
 # Configurations by program arguments
 global silent = false;
@@ -192,7 +193,7 @@ do
 
 	epoch = epoch + 1;
 
-until (currentError < maxError || epoch > 4000)
+until (currentError < maxError || epoch > maxEpochs)
 
 
 ############################################## start of tests #########################################
