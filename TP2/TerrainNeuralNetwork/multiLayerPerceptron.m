@@ -2,8 +2,7 @@
 
 1; #prevent it from being a function file
 
-rand("seed", 3);
-debug_on_interrupt(1);
+# rand("seed", 3); # Deterministic runs
 
 clear all; 	# Clear everything, including global variables
 debug_on_interrupt(1);	# Enter debug mode on CTRL+C (works on Linux only)
@@ -21,7 +20,6 @@ global Errors = [];
 global DeltaWeights;
 global OldDeltaWeights;
 global UnitsQuantity;
-global learningFactor;
 global maxEpochs;
 
 # Configurations by program arguments
@@ -195,7 +193,6 @@ do
 
 until (currentError < maxError || epoch > maxEpochs)
 
-
 ############################################## start of tests #########################################
 
 inputSize = size(TestPatterns)(2);
@@ -229,9 +226,6 @@ printf('Failed %d/%d\n', failed, inputSize)
 printf("\n============================================================\n")
 
 
-
-
-
 ############################################## terrain generation #########################################
 
 inputSize = 10000;
@@ -244,9 +238,10 @@ for index = 1 : inputSize
 	incrementalForwardStep(CurrentPattern);
 	plotOutputs = [plotOutputs Outputs{hiddenLayers + 1}];
 endfor
+
 figure(2);
 plot3(Positions(2,:), Positions(3,:), plotOutputs, ".", "color", "blue")
-hold on
+hold on;
 plot3(TrainingPatterns(2,:), TrainingPatterns(3,:), TrainingOutputs, "*", "color", "red")
 
 
