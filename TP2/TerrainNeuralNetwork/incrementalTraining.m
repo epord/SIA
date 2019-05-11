@@ -42,6 +42,7 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 					currentError
 				endif
 				if (showPlot)
+					figure(1)
 					plot (Errors);
 				endif
 				acumError = 0;
