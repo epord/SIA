@@ -28,7 +28,7 @@ function adaptiveEtaFn()
 				adaptiveEtaModificationsCount++;
 				# Reset momentum (no effect if momentum is disabled)
 				alphaMomentum = 0;
-				printf("Decreased learning factor to %g\n", learningFactor);
+				# printf("Decreased learning factor to %g\n", learningFactor);
 				if (showPlot && plotAdaptiveEtaPoints)
 					scatter(errorSize, currentError, 'r', 'x'); # Plot a red cross indicating learning factor decreased
 					if (plotAdaptiveEtaLearningRate && mod(adaptiveEtaModificationsCount, adaptiveEtaDeltaSteps) == 0)
