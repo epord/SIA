@@ -62,6 +62,7 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 		currentError
 	endif
 	if (showPlot)
+		figure(1)
 		plot(Errors);
 	endif
 	acumError = 0;
@@ -77,7 +78,7 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 				# Reset momentum (no effect if momentum is disabled)
 				alphaMomentum = 0;
 				# printf("Decreased learning factor to %g\n", learningFactor);
-				if (plotAdaptiveEtaPoints)
+				if (showPlot && plotAdaptiveEtaPoints)
 					scatter(errorSize, currentError, 'r', 'x'); # Plot a red cross indicating learning factor decreased
 					if (plotAdaptiveEtaLearningRate && mod(adaptiveEtaModificationsCount, adaptiveEtaDeltaSteps) == 0)
 						text(errorSize, currentError * 1.1, num2str(learningFactor));
@@ -95,7 +96,7 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 						learningFactor += learningFactorIncreaseConstant;
 						adaptiveEtaModificationsCount++;
 						# printf("Increased learning factor to %g\n", learningFactor);
-						if (plotAdaptiveEtaPoints)
+						if (showPlot && plotAdaptiveEtaPoints)
 							scatter(errorSize, currentError, 'b', 'o'); # Plot a blue circle indicating learning factor increased
 							if (plotAdaptiveEtaLearningRate && mod(adaptiveEtaModificationsCount, adaptiveEtaDeltaSteps) == 0)
 								text(errorSize, currentError * 0.9, num2str(learningFactor));

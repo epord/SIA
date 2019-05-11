@@ -107,11 +107,11 @@ function generateWeights()
 			else
 				WeightMax(layer) = randAbsolut;
 			endif
-	
+
 			Weights(layer)		   = ((rand(UnitsQuantity(layer + 1), UnitsQuantity(layer) + 1) - 0.5) * 2 * WeightMax(layer));
 			DeltaWeights(layer)	   = zeros(UnitsQuantity(layer + 1), UnitsQuantity(layer) + 1);
 			OldDeltaWeights(layer) = zeros(UnitsQuantity(layer + 1), UnitsQuantity(layer) + 1);
-		
+
 		endfor
 
 	else
@@ -193,9 +193,6 @@ do
 
 until (currentError < maxError || epoch > maxEpochs)
 
-kbhit();
-
-
 ############################################## start of tests #########################################
 
 inputSize = size(TestPatterns)(2);
@@ -241,7 +238,8 @@ for index = 1 : inputSize
 	incrementalForwardStep(CurrentPattern);
 	plotOutputs = [plotOutputs Outputs{hiddenLayers + 1}];
 endfor
-hold off;
+
+figure(2);
 plot3(Positions(2,:), Positions(3,:), plotOutputs, ".", "color", "blue")
 hold on;
 plot3(TrainingPatterns(2,:), TrainingPatterns(3,:), TrainingOutputs, "*", "color", "red")
