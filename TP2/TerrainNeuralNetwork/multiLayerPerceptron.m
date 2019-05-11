@@ -180,40 +180,40 @@ do
 
 	epoch = epoch + 1;
 
-until (currentError < maxError || epoch > 50)
+until (currentError < maxError || epoch > 500)
 
 
 ############################################## start of tests #########################################
 
-% inputSize = size(TestPatterns)(2);
-% failed = 0;
+inputSize = size(TestPatterns)(2);
+failed = 0;
 
-% for index = 1 : inputSize
-% 		CurrentPattern  = TestPatterns(:, index);
-% 		CurrentPattern  = CurrentPattern / norm(CurrentPattern); #normalize input
-% 		incrementalForwardStep(CurrentPattern);
+for index = 1 : inputSize
+		CurrentPattern  = TestPatterns(:, index);
+		CurrentPattern  = CurrentPattern / norm(CurrentPattern); #normalize input
+		incrementalForwardStep(CurrentPattern);
 
-% 		ExpectedOutput = TestOutputs(index);
-% 		CurrOutput 	   = Outputs{hiddenLayers + 1};
+		ExpectedOutput = TestOutputs(index);
+		CurrOutput 	   = Outputs{hiddenLayers + 1};
 
-% 		if(abs(ExpectedOutput - CurrOutput) > maxEpsilon)
-% 			failed = failed + 1;
-% 			if (!silent)
-% 				printf("%sFAILED --- Expected: %+.5f   ||   Obtained: %+.5f %s\n", "\x1B[31m", ExpectedOutput, CurrOutput, "\x1B[0m")
-% 			endif
-% 		else
-% 			if (!silent)
-% 				printf("%s  OK   --- Expected: %+.5f   ||   Obtained: %+.5f %s\n", "\x1B[32m", ExpectedOutput, CurrOutput, "\x1B[0m")
-% 			endif
-% 		endif
-% endfor
+		if(abs(ExpectedOutput - CurrOutput) > maxEpsilon)
+			failed = failed + 1;
+			if (!silent)
+				printf("%sFAILED --- Expected: %+.5f   ||   Obtained: %+.5f %s\n", "\x1B[31m", ExpectedOutput, CurrOutput, "\x1B[0m")
+			endif
+		else
+			if (!silent)
+				printf("%s  OK   --- Expected: %+.5f   ||   Obtained: %+.5f %s\n", "\x1B[32m", ExpectedOutput, CurrOutput, "\x1B[0m")
+			endif
+		endif
+endfor
 
-% printf("\n============================================================\n")
-% UnitsQuantity
-% Weights
-% printf('Error was %.5f after %d epochs\n', currentError, epoch)
-% printf('Failed %d/%d\n', failed, inputSize)
-% printf("\n============================================================\n")
+printf("\n============================================================\n")
+UnitsQuantity
+Weights
+printf('Error was %.5f after %d epochs\n', currentError, epoch)
+printf('Failed %d/%d\n', failed, inputSize)
+printf("\n============================================================\n")
 
 
 
