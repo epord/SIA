@@ -2,8 +2,6 @@
 
 1; #prevent it from being a function file
 clear all; 	# Clear everything, including global variables
-clf;		# Clear plotting area
-hold on;	# Allow plotting multiple things
 debug_on_interrupt(1);	# Enter debug mode on CTRL+C (works on Linux only)
 source("architecture.conf")
 
@@ -43,6 +41,11 @@ endfunction
 for i = 1 : size(argv)(1)
 	processProgramArgument(argv{i});
 endfor
+
+if (showPlot)
+	clf;		# Clear plotting area
+	hold on;	# Allow plotting multiple things
+endif
 
 function [TrainingPatterns, TrainingOutputs, TestPatterns, TestOutputs] = getPatterns(In, Out)
 	global trainingPercentage;
