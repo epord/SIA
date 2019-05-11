@@ -5,8 +5,6 @@ function batchForwardStep(Patterns)
 	global MembranePotentials;
 	inputSize = size(Patterns)(2);
 
-	#Maybe Normalize Patterns
-	#Patterns = normalizePatterns(Patters)
 	Input = Patterns;
 	
 	for currentLayer = 1 : hiddenLayers + 1
@@ -24,3 +22,4 @@ function batchForwardStep(Patterns)
 		endif
 	endfor
 endfunction
+
