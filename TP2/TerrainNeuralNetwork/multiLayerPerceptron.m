@@ -1,8 +1,12 @@
 # Terrain Neural Network
 
 1; #prevent it from being a function file
-debug_on_interrupt(1);
+clear all; 	# Clear everything, including global variables
+clf;		# Clear plotting area
+hold on;	# Allow plotting multiple things
+debug_on_interrupt(1);	# Enter debug mode on CTRL+C (works on Linux only)
 source("architecture.conf")
+
 global Weights;
 global Deltas;
 global MembranePotentials;
