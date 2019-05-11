@@ -18,7 +18,6 @@ global Errors = [];
 global DeltaWeights;
 global OldDeltaWeights;
 global UnitsQuantity;
-global learningFactor;
 
 # Configurations by program arguments
 global silent = false;
@@ -200,7 +199,7 @@ for index = 1 : inputSize
 		ExpectedOutput = TestOutputs(index);
 		CurrOutput 	   = Outputs{hiddenLayers + 1};
 
-		if(abs(ExpectedOutput - CurrOutput) > maxEpsilon)
+		if(abs(ExpectedOutput - CurrOutput) > 1e-5)
 			failed = failed + 1;
 			if (!silent)
 				printf("%sFAILED --- Expected: %+.5f   ||   Obtained: %+.5f %s\n", "\x1B[31m", ExpectedOutput, CurrOutput, "\x1B[0m")
@@ -220,9 +219,6 @@ printf('Failed %d/%d\n', failed, inputSize)
 printf("\n============================================================\n")
 
 
-
-
-
 ############################################## terrain generation #########################################
 
 inputSize = 10000;
@@ -235,8 +231,9 @@ for index = 1 : inputSize
 	incrementalForwardStep(CurrentPattern);
 	plotOutputs = [plotOutputs Outputs{hiddenLayers + 1}];
 endfor
+hold off;
 plot3(Positions(2,:), Positions(3,:), plotOutputs, ".", "color", "blue")
-hold on
+hold on;
 plot3(TrainingPatterns(2,:), TrainingPatterns(3,:), TrainingOutputs, "*", "color", "red")
 
 
