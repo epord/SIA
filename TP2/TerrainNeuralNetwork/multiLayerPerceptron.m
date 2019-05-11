@@ -21,6 +21,7 @@ global DeltaWeights;
 global OldDeltaWeights;
 global UnitsQuantity;
 global maxEpochs;
+global OldWeights;
 
 # Configurations by program arguments
 global silent = false;
