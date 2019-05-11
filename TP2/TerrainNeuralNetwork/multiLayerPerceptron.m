@@ -1,9 +1,17 @@
 # Terrain Neural Network
 
 1; #prevent it from being a function file
+
 rand("seed", 3);
 debug_on_interrupt(1);
+
+clear all; 	# Clear everything, including global variables
+clf;		# Clear plotting area
+hold on;	# Allow plotting multiple things
+debug_on_interrupt(1);	# Enter debug mode on CTRL+C (works on Linux only)
+
 source("architecture.conf")
+
 global Weights;
 global Deltas;
 global MembranePotentials;
@@ -191,6 +199,7 @@ failed = 0;
 
 for index = 1 : inputSize
 		CurrentPattern  = TestPatterns(:, index);
+		CurrentPattern  = CurrentPattern / norm(CurrentPattern); #normalize input
 		incrementalForwardStep(CurrentPattern);
 
 		ExpectedOutput = TestOutputs(index);
@@ -215,12 +224,29 @@ printf('Error was %.5f after %d epochs\n', currentError, epoch)
 printf('Failed %d/%d\n', failed, inputSize)
 printf("\n============================================================\n")
 
+
+
+
+
+############################################## terrain generation #########################################
+
+inputSize = 10000;
+Positions = [(ones(1,inputSize) * -1); (rand(2, inputSize) * 6 - 3)];
+plotOutputs = [];
+
+for index = 1 : inputSize
+	CurrentPattern  = Positions(:, index);
+	CurrentPattern  = CurrentPattern / norm(CurrentPattern); #normalize input
+	incrementalForwardStep(CurrentPattern);
+	plotOutputs = [plotOutputs Outputs{hiddenLayers + 1}];
+endfor
+plot3(Positions(2,:), Positions(3,:), plotOutputs, ".", "color", "blue")
+hold on
+plot3(TrainingPatterns(2,:), TrainingPatterns(3,:), TrainingOutputs, "*", "color", "red")
+
+
+
 if (keyToExit)
 	printf("\nPress any key to exit\n")
 	kbhit();
 endif
-
-
-
-
-
