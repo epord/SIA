@@ -103,7 +103,7 @@ function generateWeights()
 		for layer = 1 : hiddenLayers + 1;
 			#setting max weight according to method rand or fan-in
 			if(weightInitMethod == 1)
-				#WeightMax(layer) = 1 / sqrt(UnitsQuantity(layer) + 1); #fan-in
+				WeightMax(layer) = 1 / sqrt(UnitsQuantity(layer) + 1); #fan-in
 			else
 				WeightMax(layer) = randAbsolut;
 			endif
