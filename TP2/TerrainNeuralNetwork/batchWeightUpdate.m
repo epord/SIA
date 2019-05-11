@@ -12,6 +12,7 @@ function batchWeightUpdate(CurrentPattern)
 	for currentLayer = 1 : hiddenLayers + 1
 		if(currentLayer == 1)
 			DeltaWeights(currentLayer) = learningFactor * Deltas{currentLayer} * (CurrentPattern');
+			
 		else
 			OutputWithBias 			   = Outputs{currentLayer - 1}'; #get matrix and transpose
 			Bias 					   = zeros(size(OutputWithBias)(1), 1) - 1;
@@ -23,7 +24,7 @@ function batchWeightUpdate(CurrentPattern)
 				DeltaWeights(currentLayer)    = DeltaWeights{currentLayer} + alphaMomentum * OldDeltaWeights{currentLayer};
 				OldDeltaWeights(currentLayer) = DeltaWeights{currentLayer};   
 		endif
-		
+
 		Weights(currentLayer) = Weights{currentLayer} + DeltaWeights{currentLayer};
 	endfor
 endfunction

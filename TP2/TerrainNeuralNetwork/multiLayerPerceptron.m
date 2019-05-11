@@ -1,8 +1,13 @@
 # Terrain Neural Network
 
 1; #prevent it from being a function file
+
+rand("seed", 3);
+debug_on_interrupt(1);
+
 clear all; 	# Clear everything, including global variables
 debug_on_interrupt(1);	# Enter debug mode on CTRL+C (works on Linux only)
+
 source("architecture.conf")
 
 global Weights;
@@ -187,7 +192,7 @@ do
 
 	epoch = epoch + 1;
 
-until (currentError < maxError || epoch > 500)
+until (currentError < maxError || epoch > 4000)
 
 
 ############################################## start of tests #########################################
