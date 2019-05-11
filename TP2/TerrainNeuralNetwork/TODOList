@@ -1,9 +1,9 @@
 Agregar beta a tangente hiperbolica y derivada //done
 Agregar beta a exp y derivada //done
 Agregar momentum //done
-Terminar batch  //in process
-Agregar eta adaptativo
-Agregar fan-in
-Script para probar muchas arquitecturas
+Terminar batch  //done
+Agregar eta adaptativo //done
+Agregar fan-in //done
+Script para probar muchas arquitecturas // in process
 
 //con una capa 25 ocultas parece quE anda
