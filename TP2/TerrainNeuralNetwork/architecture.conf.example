@@ -28,11 +28,16 @@ global weightInitMethod   = 0;
 #When init method is random interval would be [-randAbsolut, randAbsolut]
 global randAbsolut = 0.5;
 
-#0 for no momentum, 1 for momentum
-global momentum = 0;
-
 #activation function for layer 0 tanh, 1 exp, 2 linear
 global activationFunction = 1;
+
+# ####################################################################
+# Momentum
+# ####################################################################
+# 0 for no momentum, 1 for momentum
+global momentum = 0;
+# Alpha factor in momentum modification, usually 0.9
+global alphaMomentum = 0.9;
 
 # Beta used for the activation function if it is tanh or exp
 global beta = 1;

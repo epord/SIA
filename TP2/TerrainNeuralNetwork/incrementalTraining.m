@@ -22,6 +22,7 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 	global plotAdaptiveEtaPoints;
 	global plotAdaptiveEtaLearningRate;
 	global alphaMomentum; # Adaptive eta can affect momentum too
+	persistent oldAlphaMomentum = alphaMomentum;	
 
 	inputSize		 = size(Patterns)(2);
 	inputOrder 		 = shuffle(1 : inputSize, inputSize);
@@ -84,23 +85,25 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 				endif
 				Weights = OldWeights;
 				epochsCounter = 0;
-			elseif (deltaError < 0 && mod(epochsCounter, adaptiveEtaDeltaSteps) == 0)
-				lastError = Errors(end);
-				previousErrors = Errors(end-1 : -1 : end-adaptiveEtaDeltaSteps+1);
-				if (all(previousErrors >= lastError))
-					# Error has been consistently decreasing, increase learning factor to not be so conservative
-					learningFactor += learningFactorIncreaseConstant;
-					adaptiveEtaModificationsCount++;
-					# printf("Increased learning factor to %g\n", learningFactor);
-					if (plotAdaptiveEtaPoints)
-						scatter(errorSize, currentError, 'b', 'o'); # Plot a blue circle indicating learning factor increased
-						if (plotAdaptiveEtaLearningRate && mod(adaptiveEtaModificationsCount, adaptiveEtaDeltaSteps) == 0)
-							text(errorSize, currentError * 0.9, num2str(learningFactor));
-						endif						
+			elseif (deltaError < 0)
+				alphaMomentum = oldAlphaMomentum;
+				if (mod(epochsCounter, adaptiveEtaDeltaSteps) == 0)
+					lastError = Errors(end);
+					previousErrors = Errors(end-1 : -1 : end-adaptiveEtaDeltaSteps+1);
+					if (all(previousErrors >= lastError))
+						# Error has been consistently decreasing, increase learning factor to not be so conservative
+						learningFactor += learningFactorIncreaseConstant;
+						adaptiveEtaModificationsCount++;
+						# printf("Increased learning factor to %g\n", learningFactor);
+						if (plotAdaptiveEtaPoints)
+							scatter(errorSize, currentError, 'b', 'o'); # Plot a blue circle indicating learning factor increased
+							if (plotAdaptiveEtaLearningRate && mod(adaptiveEtaModificationsCount, adaptiveEtaDeltaSteps) == 0)
+								text(errorSize, currentError * 0.9, num2str(learningFactor));
+							endif						
+						endif
 					endif
 				endif
 			endif
 		endif
 	endif
-
 endfunction
