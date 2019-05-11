@@ -83,19 +83,24 @@ function generateWeights()
 	global weightInitMethod;
 	global DeltaWeights;
 	global OldDeltaWeights;
+	WeightMax = zeros(1, hiddenLayers +1);
 
 	if(size(UnitsQuantity)(2) == hiddenLayers + 2)
 		Weights         = cell(hiddenLayers + 1, 1);
 		DeltaWeights    = cell(hiddenLayers + 1, 1);
 		OldDeltaWeights = cell(hiddenLayers + 1, 1);
-
-
-		for layer = 1 : hiddenLayers + 1
-			if(weightInitMethod == 0)
-				Weights(layer)		   = ((rand(UnitsQuantity(layer + 1), UnitsQuantity(layer) + 1) - 0.5) * 2 *randAbsolut);
-				DeltaWeights(layer)	   = zeros(UnitsQuantity(layer + 1), UnitsQuantity(layer) + 1);
-				OldDeltaWeights(layer) = zeros(UnitsQuantity(layer + 1), UnitsQuantity(layer) + 1);
+		for layer = 1 : hiddenLayers + 1;
+			#setting max weight according to method rand or fan-in
+			if(weightInitMethod == 1)
+				#WeightMax(layer) = 1 / sqrt(UnitsQuantity(layer) + 1); #fan-in
+			else
+				WeightMax(layer) = randAbsolut;
 			endif
+	
+			Weights(layer)		   = ((rand(UnitsQuantity(layer + 1), UnitsQuantity(layer) + 1) - 0.5) * 2 * WeightMax(layer));
+			DeltaWeights(layer)	   = zeros(UnitsQuantity(layer + 1), UnitsQuantity(layer) + 1);
+			OldDeltaWeights(layer) = zeros(UnitsQuantity(layer + 1), UnitsQuantity(layer) + 1);
+		
 		endfor
 
 	else
