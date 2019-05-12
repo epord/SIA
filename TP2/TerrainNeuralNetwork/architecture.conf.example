@@ -54,3 +54,9 @@ global learningFactorDecreaseFactor = 1/10;
 global plotAdaptiveEtaPoints = 1;
 # Whether to plot the learning rate when it's modified by adaptive eta
 global plotAdaptiveEtaLearningRate = 0;
+
+# ####################################################################
+# Simulated annealing - allows increasing error in the hopes to escape
+# local minima. Works only when adaptive eta is enabled.
+# ####################################################################
+global simulatedAnnealing = 0;

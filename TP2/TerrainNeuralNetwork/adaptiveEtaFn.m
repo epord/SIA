@@ -17,6 +17,8 @@ function adaptiveEtaFn()
 	global plotAdaptiveEtaLearningRate;
 	global alphaMomentum; # Adaptive eta can affect momentum too
 	persistent oldAlphaMomentum = alphaMomentum;
+	# Simulated annealing
+	global simulatedAnnealing;
 
     if (adaptiveEta)
 		errorSize = size(Errors)(2);
@@ -28,6 +30,10 @@ function adaptiveEtaFn()
 				adaptiveEtaModificationsCount++;
 				# Reset momentum (no effect if momentum is disabled)
 				alphaMomentum = 0;
+				# Reset weights only unless simulated annealing is enabled
+				if (!simulatedAnnealing)
+					Weights = OldWeights;
+				endif
 				# printf("Decreased learning factor to %g\n", learningFactor);
 				if (showPlot && plotAdaptiveEtaPoints)
 					scatter(errorSize, currentError, 'r', 'x'); # Plot a red cross indicating learning factor decreased
@@ -35,7 +41,6 @@ function adaptiveEtaFn()
 						text(errorSize, currentError * 1.1, num2str(learningFactor));
 					endif
 				endif
-				Weights = OldWeights;
 				epochsCounter = 0;
 			elseif (deltaError < 0)
 				alphaMomentum = oldAlphaMomentum;
