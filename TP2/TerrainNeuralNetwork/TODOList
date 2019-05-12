@@ -10,4 +10,9 @@ Agregar ruido a los patterns de entrada
 hacemos un random, en funcion de eso se elige la entrada y a ese parametro
 de entrada le sumamos un porcentaje pequeno de su valor.
 
-//con una capa 25 ocultas parece quE anda
+renombrar los graficos, agregar los puntos rojos que faltaban
+ y comentarlo de cada corrida,
+sacar los test, poner el seed en architecture.conf y leerlo de ahi en multilayerPerceptron.c
+historial de learning factor
+
+//con una capa 25 ocultas parece que anda
