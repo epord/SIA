@@ -259,14 +259,14 @@ filename = strrep(filename, " ", "_");
 print(filename, "-dsvg")
 
 
-# Save provided terrain positions plot<<
+# Save provided terrain positions plot
 plot3(TrainingPatterns(2,:), TrainingPatterns(3,:), TrainingOutputs, "*", "color", "red")
 axis([-3 3 -3 3 -1 1]);
 title ("Provided terrain positions");
 xlabel("X")
 ylabel("Y")
 zlabel("Z")
-filename = strcat("plots/generatedPoin<<ts-", num2str(UnitsQuantity));
+filename = strcat("plots/generatedPoints-", num2str(UnitsQuantity));
 filename = strrep(filename, " ", "_");
 print(filename, "-dsvg")
 
@@ -280,7 +280,7 @@ xlabel("X")
 ylabel("Y")
 zlabel("Z")
 legend("provided positions", "network output")
-filename = strcat("plots/both-", num2s<<tr(UnitsQuantity));
+filename = strcat("plots/both-", num2str(UnitsQuantity));
 filename = strrep(filename, " ", "_");
 print(filename, "-dsvg")
 

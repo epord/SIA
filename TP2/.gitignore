@@ -4,3 +4,4 @@ TerrainNeuralNetwork/architecture.conf
 TerrainNeuralNetwork/configurationResults.txt
 octave-workspace
 *.svg
+configurationResults.txt
