@@ -2,7 +2,7 @@
 
 1; #prevent it from being a function file
 
-# rand("seed", 3); # Deterministic runs
+rand("seed", 1); # Deterministic runs
 
 clear all; 	# Clear everything, including global variables
 debug_on_interrupt(1);	# Enter debug mode on CTRL+C (works on Linux only)
@@ -242,6 +242,9 @@ endfor
 
 # Save errors plot
 figure(1)
+xlabel("Epochs")
+ylabel("Mean Squared Error")
+title("Mean Squared Error")
 filename = strcat("plots/errors-", num2str(UnitsQuantity));
 filename = strrep(filename, " ", "_");
 print(filename, "-dsvg")
