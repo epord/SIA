@@ -247,7 +247,7 @@ filename = strrep(filename, " ", "_");
 print(filename, "-dsvg")
 
 # Save generated terrain positions plot
-figure(2);<<
+figure(2);
 plot3(Positions(2,:), Positions(3,:), plotOutputs, ".", "color", "blue")
 title ("Generated terrain positions");
 axis([-3 3 -3 3 -1 1]);
