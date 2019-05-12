@@ -5,7 +5,7 @@ Unless configured otherwise, as the network gets trained the program will plot t
 
 # Usage
 
-The main file is `multiLayerPerceptron.m`.  Either open that file with Octave GUI, or for command line run 
+The main file is `multiLayerPerceptron.m`.  Either open that file with Octave GUI, or for command line run
 ```bash
 octave multiLayerPerceptron.m
 ```
@@ -19,7 +19,10 @@ octave multiLayerPerceptron.m
 The neural network itself has many parameters that must be configured. Copy the `architecture.conf.example` file as `architecture.conf` and tweak parameters as needed.  The example file comes with some sensible but not necessarily optimal parameters.
 
 ## Command-Line Arguments (only for CLI, not GUI)
-TODO
+It is posible to provide command-line arguments to the execution:
+* `--silent`: won't print the current error at each epoch
+* `--no-plot`: won't show the error plot at each epoch
+* `--auto-exit`: won't ask for a key to terminate the program
 
 # Debugging
 ## GUI (all platforms, doesn't always work)
