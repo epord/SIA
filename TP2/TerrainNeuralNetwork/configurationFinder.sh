@@ -7,7 +7,7 @@ trap '
 
 cp architecture.conf architecture.conf.bak
 rm configurationResults.txt > /dev/null 2>&1
-for nodesInLayer in $(seq 2 5 30)
+for nodesInLayer in $(seq 2 2 30)
   do
 		echo "Testing with $nodesInLayer nodes in the hidden layer"
 		sleep 1

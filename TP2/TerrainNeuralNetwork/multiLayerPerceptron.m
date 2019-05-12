@@ -2,8 +2,6 @@
 
 1; #prevent it from being a function file
 
-rand("seed", 1); # Deterministic runs
-
 clear all; 	# Clear everything, including global variables
 debug_on_interrupt(1);	# Enter debug mode on CTRL+C (works on Linux only)
 
@@ -44,7 +42,7 @@ endfunction
 
 # Processing program arguments
 for i = 1 : size(argv)(1)
-	processProgramArgument(argv{i});
+	processProgramArgument(argv(){i});
 endfor
 
 if (showPlot)
@@ -196,15 +194,18 @@ until (currentError < maxError || epoch > maxEpochs)
 
 ############################################## start of tests #########################################
 
-inputSize = size(TestPatterns)(2);
+ProvidedPatterns = [TrainingPatterns TestPatterns];
+ProvidedOutputs = [TrainingOutputs TestOutputs];
+
+inputSize = size(ProvidedPatterns)(2);
 failed = 0;
 
 for index = 1 : inputSize
-		CurrentPattern  = TestPatterns(:, index);
+		CurrentPattern  = ProvidedPatterns(:, index);
 		CurrentPattern  = CurrentPattern / norm(CurrentPattern); #normalize input
 		incrementalForwardStep(CurrentPattern);
 
-		ExpectedOutput = TestOutputs(index);
+		ExpectedOutput = ProvidedOutputs(index);
 		CurrOutput 	   = Outputs{hiddenLayers + 1};
 
 		if(abs(ExpectedOutput - CurrOutput) > maxEpsilon)
@@ -261,28 +262,15 @@ filename = strcat("plots/providedPoints-", num2str(UnitsQuantity));
 filename = strrep(filename, " ", "_");
 print(filename, "-dsvg")
 
+hold on
 
-# Save provided terrain positions plot
+# Save generated AND provided terrain positions plot
 plot3(TrainingPatterns(2,:), TrainingPatterns(3,:), TrainingOutputs, "*", "color", "red")
 axis([-3 3 -3 3 -1 1]);
 title ("Provided terrain positions");
 xlabel("X")
 ylabel("Y")
 zlabel("Z")
-filename = strcat("plots/generatedPoints-", num2str(UnitsQuantity));
-filename = strrep(filename, " ", "_");
-print(filename, "-dsvg")
-
-
-# Save generated AND provided terrain positions plot
-hold on
-plot3(Positions(2,:), Positions(3,:), plotOutputs, ".", "color", "blue")
-axis([-3 3 -3 3 -1 1]);
-title ("Generated and provided terrain positions");
-xlabel("X")
-ylabel("Y")
-zlabel("Z")
-legend("provided positions", "network output")
 filename = strcat("plots/both-", num2str(UnitsQuantity));
 filename = strrep(filename, " ", "_");
 print(filename, "-dsvg")
