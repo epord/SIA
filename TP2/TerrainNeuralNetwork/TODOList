@@ -6,4 +6,8 @@ Agregar eta adaptativo
 Agregar fan-in
 Script para probar muchas arquitecturas
 
+Agregar ruido a los patterns de entrada
+hacemos un random, en funcion de eso se elige la entrada y a ese parametro
+de entrada le sumamos un porcentaje pequeno de su valor.
+
 //con una capa 25 ocultas parece quE anda
