@@ -244,10 +244,50 @@ for index = 1 : inputSize
 	incrementalForwardStep(CurrentPattern);
 	plotOutputs = [plotOutputs Outputs{hiddenLayers + 1}];
 endfor
+
+# Save errors plot
+figure(1)
+filename = strcat("plots/errors-", num2str(UnitsQuantity));
+filename = strrep(filename, " ", "_");
+print(filename, "-dsvg")
+
+# Save generated terrain positions plot
 figure(2);
 plot3(Positions(2,:), Positions(3,:), plotOutputs, ".", "color", "blue")
-hold on
+title ("Generated terrain positions");
+axis([-3 3 -3 3 -1 1]);
+xlabel("X")
+ylabel("Y")
+zlabel("Z (network output)")
+filename = strcat("plots/providedPoints-", num2str(UnitsQuantity));
+filename = strrep(filename, " ", "_");
+print(filename, "-dsvg")
+
+
+# Save provided terrain positions plot
 plot3(TrainingPatterns(2,:), TrainingPatterns(3,:), TrainingOutputs, "*", "color", "red")
+axis([-3 3 -3 3 -1 1]);
+title ("Provided terrain positions");
+xlabel("X")
+ylabel("Y")
+zlabel("Z")
+filename = strcat("plots/generatedPoints-", num2str(UnitsQuantity));
+filename = strrep(filename, " ", "_");
+print(filename, "-dsvg")
+
+
+# Save generated AND provided terrain positions plot
+hold on
+plot3(Positions(2,:), Positions(3,:), plotOutputs, ".", "color", "blue")
+axis([-3 3 -3 3 -1 1]);
+title ("Generated and provided terrain positions");
+xlabel("X")
+ylabel("Y")
+zlabel("Z")
+legend("provided positions", "network output")
+filename = strcat("plots/both-", num2str(UnitsQuantity));
+filename = strrep(filename, " ", "_");
+print(filename, "-dsvg")
 
 
 
