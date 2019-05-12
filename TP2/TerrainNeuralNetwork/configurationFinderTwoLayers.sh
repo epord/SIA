@@ -7,9 +7,9 @@ trap '
 
 cp architecture.conf architecture.conf.bak
 rm configurationResults.txt > /dev/null 2>&1
-for nodesInLayer in $(seq 2 2 20)
+for nodesInLayer in $(seq 2 4 22)
 	do	
-		for nodesInLayer2 in $(seq 2 2 20)
+		for nodesInLayer2 in $(seq 2 4 22)
 		  do
 				echo "Testing with $nodesInLayer nodes in the hidden layer 1 and $nodesInLayer2 in hidden layer 2"
 				sleep 1
