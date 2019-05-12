@@ -45,16 +45,22 @@ global beta = 1;
 # ####################################################################
 # Adaptive eta variables (eta = learning factor)
 # ####################################################################
+
 # Whether adaptive eta is enabled
 global adaptiveEta = 0;
+
 # How often to recalculate errors and adjust eta
 global adaptiveEtaDeltaSteps = 5; # TODO consider renaming this, this may be used for not only adaptive eta
+
 # Constant by which the learning factor increases when error decreases consistently
 global learningFactorIncreaseConstant = learningFactor/2;
+
 # Factor by which the learning factor decreases when error increases
 global learningFactorDecreaseFactor = 1/10;
+
 # Whether to plot points where adaptive eta modifies learning rate
 global plotAdaptiveEtaPoints = 1;
+
 # Whether to plot the learning rate when it's modified by adaptive eta
 global plotAdaptiveEtaLearningRate = 0;
 
@@ -62,4 +68,5 @@ global plotAdaptiveEtaLearningRate = 0;
 # Simulated annealing - allows increasing error in the hopes to escape
 # local minima. Works only when adaptive eta is enabled.
 # ####################################################################
+# 0 to disable increasing error check, 1 to enable increasing error check
 global simulatedAnnealing = 0;
