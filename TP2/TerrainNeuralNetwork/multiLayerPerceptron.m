@@ -13,6 +13,7 @@ global Weights;
 global Deltas;
 global MembranePotentials;
 global Outputs;
+global hiddenLayers = size(UnitsQuantity)(2) - 2; # calculate hiddenLayers quantity
 global currentError = 1;
 global trainingQuantity = 4;
 global maxError = maxEpsilon ** 2 / 2

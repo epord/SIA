@@ -1,6 +1,3 @@
-#number of hidden layers
-global hiddenLayers = 1;
-
 #relative path to the data file
 global dataFile = "terrain12.data"
 
