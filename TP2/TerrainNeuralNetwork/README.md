@@ -5,7 +5,11 @@ Unless configured otherwise, as the network gets trained the program will plot t
 
 # Usage
 
-The main file is `multiLayerPerceptron.m`.  Either open that file with Octave GUI, or for command line run `octave multiLayerPerceptron.m`.
+The main file is `multiLayerPerceptron.m`.  Either open that file with Octave GUI, or for command line run 
+```bash
+octave multiLayerPerceptron.m
+```
+
 **NOTE:** The configuration file must exist. See the configuration section.
 
 # Configuration
@@ -27,7 +31,7 @@ TODO
 Octave should (but apparently doesn't always) stop at breakpoints. Step functionality (step, step in, etc.) should work too, accross files.
 
 ## CLI
-1. Call the `keyboard();` function where you would like the code to break
+1. Call the `keyboard();` function where you would like the code to stop
 1. Run the project (see usage section)
 1. See [the documentation](https://octave.org/doc/v4.4.1/Debugging.html) as to how to control the debugger
 
