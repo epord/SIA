@@ -5,3 +5,4 @@ TerrainNeuralNetwork/configurationResults.txt
 octave-workspace
 *.svg
 configurationResults.txt
+*.state

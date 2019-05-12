@@ -276,6 +276,11 @@ filename = strrep(filename, " ", "_");
 print(filename, "-dsvg")
 
 
+# Save dump
+# TODO: save learning factor
+filename = strcat("runs/", num2str(UnitsQuantity), ".state");
+save(filename, "Weights", "Errors", "ProvidedPatterns", "ProvidedOutputs", "UnitsQuantity")
+
 
 if (keyToExit)
 	printf("\nPress any key to exit\n")
