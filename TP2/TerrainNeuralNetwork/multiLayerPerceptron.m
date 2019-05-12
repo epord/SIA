@@ -2,8 +2,7 @@
 
 1; #prevent it from being a function file
 
-rand("seed", 3);
-debug_on_interrupt(1);
+# rand("seed", 3); # Deterministic runs
 
 clear all; 	# Clear everything, including global variables
 debug_on_interrupt(1);	# Enter debug mode on CTRL+C (works on Linux only)
@@ -14,6 +13,7 @@ global Weights;
 global Deltas;
 global MembranePotentials;
 global Outputs;
+global hiddenLayers = size(UnitsQuantity)(2) - 2; # calculate hiddenLayers quantity
 global currentError = 1;
 global trainingQuantity = 4;
 global maxError = maxEpsilon ** 2 / 2
@@ -21,7 +21,6 @@ global Errors = [];
 global DeltaWeights;
 global OldDeltaWeights;
 global UnitsQuantity;
-global learningFactor;
 global maxEpochs;
 
 # Configurations by program arguments
@@ -105,7 +104,7 @@ function generateWeights()
 		for layer = 1 : hiddenLayers + 1;
 			#setting max weight according to method rand or fan-in
 			if(weightInitMethod == 1)
-				#WeightMax(layer) = 1 / sqrt(UnitsQuantity(layer) + 1); #fan-in
+				WeightMax(layer) = 1 / sqrt(UnitsQuantity(layer) + 1); #fan-in
 			else
 				WeightMax(layer) = randAbsolut;
 			endif
@@ -195,7 +194,6 @@ do
 
 until (currentError < maxError || epoch > maxEpochs)
 
-
 ############################################## start of tests #########################################
 
 inputSize = size(TestPatterns)(2);
@@ -229,9 +227,6 @@ printf('Failed %d/%d\n', failed, inputSize)
 printf("\n============================================================\n")
 
 
-
-
-
 ############################################## terrain generation #########################################
 
 inputSize = 10000;
@@ -252,7 +247,7 @@ filename = strrep(filename, " ", "_");
 print(filename, "-dsvg")
 
 # Save generated terrain positions plot
-figure(2);
+figure(2);<<
 plot3(Positions(2,:), Positions(3,:), plotOutputs, ".", "color", "blue")
 title ("Generated terrain positions");
 axis([-3 3 -3 3 -1 1]);
@@ -264,14 +259,14 @@ filename = strrep(filename, " ", "_");
 print(filename, "-dsvg")
 
 
-# Save provided terrain positions plot
+# Save provided terrain positions plot<<
 plot3(TrainingPatterns(2,:), TrainingPatterns(3,:), TrainingOutputs, "*", "color", "red")
 axis([-3 3 -3 3 -1 1]);
 title ("Provided terrain positions");
 xlabel("X")
 ylabel("Y")
 zlabel("Z")
-filename = strcat("plots/generatedPoints-", num2str(UnitsQuantity));
+filename = strcat("plots/generatedPoin<<ts-", num2str(UnitsQuantity));
 filename = strrep(filename, " ", "_");
 print(filename, "-dsvg")
 
@@ -285,7 +280,7 @@ xlabel("X")
 ylabel("Y")
 zlabel("Z")
 legend("provided positions", "network output")
-filename = strcat("plots/both-", num2str(UnitsQuantity));
+filename = strcat("plots/both-", num2s<<tr(UnitsQuantity));
 filename = strrep(filename, " ", "_");
 print(filename, "-dsvg")
 

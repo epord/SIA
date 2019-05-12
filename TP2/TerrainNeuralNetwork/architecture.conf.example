@@ -1,6 +1,3 @@
-#number of hidden layers
-global hiddenLayers = 1;
-
 #relative path to the data file
 global dataFile = "terrain12.data"
 
@@ -28,11 +25,32 @@ global weightInitMethod   = 0;
 #When init method is random interval would be [-randAbsolut, randAbsolut]
 global randAbsolut = 0.5;
 
-#0 for no momentum, 1 for momentum
-global momentum = 0;
-
 #activation function for layer 0 tanh, 1 exp, 2 linear
 global activationFunction = 1;
 
+# ####################################################################
+# Momentum
+# ####################################################################
+# 0 for no momentum, 1 for momentum
+global momentum = 0;
+# Alpha factor in momentum modification, usually 0.9
+global alphaMomentum = 0.9;
+
 # Beta used for the activation function if it is tanh or exp
 global beta = 1;
+
+# ####################################################################
+# Adaptive eta variables (eta = learning factor)
+# ####################################################################
+# Whether adaptive eta is enabled
+global adaptiveEta = 0;
+# How often to recalculate errors and adjust eta
+global adaptiveEtaDeltaSteps = 5; # TODO consider renaming this, this may be used for not only adaptive eta
+# Constant by which the learning factor increases when error decreases consistently
+global learningFactorIncreaseConstant = learningFactor/2;
+# Factor by which the learning factor decreases when error increases
+global learningFactorDecreaseFactor = 1/10;
+# Whether to plot points where adaptive eta modifies learning rate
+global plotAdaptiveEtaPoints = 1;
+# Whether to plot the learning rate when it's modified by adaptive eta
+global plotAdaptiveEtaLearningRate = 0;

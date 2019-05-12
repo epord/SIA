@@ -7,12 +7,19 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 	global Errors;
 	global silent;
 	global showPlot;
+	# Adaptive eta
+	global adaptiveEta;
+	global Weights;
+	global OldWeights;
 
 	inputSize		 = size(Patterns)(2);
 	inputOrder 		 = shuffle(1 : inputSize, inputSize);
 	acumError  		 = 0;
 	accumEpsilon	 = 0;
-	analizedPatterns = 0;
+
+	if (adaptiveEta)
+		OldWeights = Weights;
+	endif
 
 	for index = 1 : inputSize
 		CurrentPattern  = Patterns(:, inputOrder(index));
@@ -23,7 +30,7 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 
 		ExpectedOutput = ExpectedOutputs(inputOrder(index));
 		CurrOutput 	   = Outputs{hiddenLayers + 1};
-		acumError = acumError + (ExpectedOutput - CurrOutput) ** 2;
+		acumError += (ExpectedOutput - CurrOutput) ** 2;
 
 		if(ExpectedOutput != CurrOutput)
 			#calculate Deltas
@@ -32,20 +39,21 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 			#update weights
 			incrementalWeightUpdate(CurrentPattern);
 		endif
-
-		analizedPatterns = analizedPatterns + 1;
-
-		if(mod(analizedPatterns, inputSize) == 0)
-				currentError = acumError / (2*inputSize);
-				Errors = [Errors currentError];
-				if (!silent)
-					currentError
-				endif
-				if (showPlot)
-					figure(1)
-					plot (Errors);
-				endif
-				acumError = 0;
-		endif
 	endfor
+	
+	# Update errors
+	currentError = acumError / (2*inputSize);
+	Errors = [Errors currentError];
+	if (!silent)
+		currentError
+	endif
+	if (showPlot)
+		figure(1)
+		plot(Errors);
+	endif
+	acumError = 0;
+
+	if (adaptiveEta)
+		adaptiveEtaFn()
+	endif
 endfunction
