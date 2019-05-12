@@ -1,3 +1,6 @@
+# Set seed for deterministic runs
+# rand("seed", 1);
+
 #relative path to the data file
 global dataFile = "terrain12.data"
 
