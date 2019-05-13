@@ -258,7 +258,7 @@ axis([-3 3 -3 3 -1 1]);
 xlabel("X")
 ylabel("Y")
 zlabel("Z (network output)")
-filename = strcat("plots/providedPoints-", num2str(UnitsQuantity));
+filename = strcat("plots/generatedPoints-", num2str(UnitsQuantity));
 filename = strrep(filename, " ", "_");
 print(filename, "-dsvg")
 
@@ -267,7 +267,7 @@ hold on
 # Save generated AND provided terrain positions plot
 plot3(TrainingPatterns(2,:), TrainingPatterns(3,:), TrainingOutputs, "*", "color", "red")
 axis([-3 3 -3 3 -1 1]);
-title ("Provided terrain positions");
+title ("Both terrain positions");
 xlabel("X")
 ylabel("Y")
 zlabel("Z")
@@ -281,7 +281,7 @@ print(filename, "-dsvg")
 filename = strcat("runs/", num2str(UnitsQuantity), ".state");
 save(filename, "Weights", "Errors", "ProvidedPatterns", "ProvidedOutputs", "UnitsQuantity")
 
-
+	
 if (keyToExit)
 	printf("\nPress any key to exit\n")
 	kbhit();
