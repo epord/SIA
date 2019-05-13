@@ -17,6 +17,7 @@ octave multiLayerPerceptron.m
 ## Neural Network
 
 The neural network itself has many parameters that must be configured. Copy the `architecture.conf.example` file as `architecture.conf` and tweak parameters as needed.  The example file comes with some sensible but not necessarily optimal parameters.
+There is also an example of the optimal neural network configuration in the file `optimalArchitecture.conf`
 
 ## Command-Line Arguments (only for CLI, not GUI)
 It is posible to provide command-line arguments to the execution:
