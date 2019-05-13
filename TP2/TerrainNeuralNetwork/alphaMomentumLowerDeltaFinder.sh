@@ -7,7 +7,7 @@ trap '
 
 cp architecture.conf architecture.conf.bak
 rm configurationResults.txt > /dev/null 2>&1
-for alphaMomentum in $(seq 0.1 0.1 0.9)
+for alphaMomentum in $(seq 0.20 0.01 0.3)
   do
 		echo "Testing with $alphaMomentum nodes in the hidden layer"
 		sleep 1
