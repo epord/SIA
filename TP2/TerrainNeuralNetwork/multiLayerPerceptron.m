@@ -279,7 +279,7 @@ print(filename, "-dsvg")
 
 # Save dump
 # TODO: save learning factor
-filename = strcat("runs/", strrep(num2str(learningFactor). ".", "_"), ".state");
+filename = strcat("runs/", strrep(num2str(learningFactor), ".", "_"), ".state");
 save(filename, "Weights", "Errors", "ProvidedPatterns", "ProvidedOutputs", "UnitsQuantity")
 
 
