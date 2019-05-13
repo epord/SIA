@@ -12,8 +12,6 @@ file_name = "architecture.conf"
 	    new_contents = contents.
 	    				sub(/learningFactorIncreaseConstant = .+/, "learningFactorIncreaseConstant = #{increaseConstant};").
 	    				sub(/learningFactorDecreaseFactor = .+/, "learningFactorDecreaseFactor = #{decreaseFactor};")
-	    puts new_contents
-	    gets
 	    File.open(file_name, "w") {|file| file.puts new_contents }
 	    `octave multiLayerPerceptron.m --silent --auto-exit | tee -a configurationResults.txt`
 	end

@@ -15,6 +15,7 @@ function adaptiveEtaFn()
     global showPlot;
 	global plotAdaptiveEtaPoints;
 	global plotAdaptiveEtaLearningRate;
+	global LearningFactors;
 	global alphaMomentum; # Adaptive eta can affect momentum too
 	persistent oldAlphaMomentum = alphaMomentum;
 	# Simulated annealing
@@ -63,5 +64,11 @@ function adaptiveEtaFn()
 			endif
 		endif
         epochsCounter++;
+		LearningFactors = [LearningFactors learningFactor];
+		if (showPlot)
+			LearningFactors;
+			figure(3)
+			plot(LearningFactors);
+		endif
 	endif
 endfunction
