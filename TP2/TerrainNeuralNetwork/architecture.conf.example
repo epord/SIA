@@ -14,10 +14,10 @@ global maxEpsilon = 0.07;
 global maxEpochs = 500;
 
 #learning factor should be small
-global learningFactor = 0.2;
+global learningFactor = 0.25;
 
 #array with number of units(without bias) on each layer going from input layer to output layer
-global UnitsQuantity = [2, 2, 1];
+global UnitsQuantity = [2, 18, 18, 18, 1];
 
 #value of 0 for incremental and 1 for batch
 global method = 0;
