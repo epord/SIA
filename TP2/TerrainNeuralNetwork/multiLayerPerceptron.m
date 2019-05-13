@@ -244,8 +244,11 @@ endfor
 # Save errors plot
 figure(1)
 xlabel("Epochs")
+xlim([0 maxEpochs])
+set(gca,'XTick',0:50:maxEpochs) # Set X ticks every 50 epochs
 ylabel("Mean Squared Error")
-title("Mean Squared Error")
+ylim([0 0.2])
+title(cstrcat("Mean Squared Error - Configuration ", num2str(UnitsQuantity)))
 filename = strcat("plots/errors-", num2str(UnitsQuantity));
 filename = strrep(filename, " ", "_");
 print(filename, "-dsvg")
@@ -253,7 +256,7 @@ print(filename, "-dsvg")
 # Save generated terrain positions plot
 figure(2);
 plot3(Positions(2,:), Positions(3,:), plotOutputs, ".", "color", "blue")
-title ("Generated terrain positions");
+title(cstrcat("Generated terrain positions - Configuration ", num2str(UnitsQuantity)))
 axis([-3 3 -3 3 -1 1]);
 xlabel("X")
 ylabel("Y")
@@ -267,7 +270,7 @@ hold on
 # Save generated AND provided terrain positions plot
 plot3(TrainingPatterns(2,:), TrainingPatterns(3,:), TrainingOutputs, "*", "color", "red")
 axis([-3 3 -3 3 -1 1]);
-title ("Both terrain positions");
+title(cstrcat("Both terrain positions - Configuration ", num2str(UnitsQuantity)))
 xlabel("X")
 ylabel("Y")
 zlabel("Z")
