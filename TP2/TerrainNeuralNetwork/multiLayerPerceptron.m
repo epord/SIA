@@ -263,7 +263,7 @@ ylabel("Y")
 zlabel("Z (network output)")
 filename = strcat("plots/generatedPoints-", num2str(UnitsQuantity));
 filename = strrep(filename, " ", "_");
-print(filename, "-dsvg")
+% print(filename, "-dsvg")
 
 hold on
 
