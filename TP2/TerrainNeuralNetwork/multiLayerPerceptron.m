@@ -248,7 +248,7 @@ xlim([0 maxEpochs])
 set(gca,'XTick',0:50:maxEpochs) # Set X ticks every 50 epochs
 ylabel("Mean Squared Error")
 ylim([0 0.2])
-title(cstrcat("Mean Squared Error - trainingPercentage", num2str(trainingPercentage), "%"))
+title(cstrcat("Mean Squared Error - Training Percentage ", num2str(trainingPercentage*100), "%"))
 filename = strcat("plots/errors-", num2str(trainingPercentage));
 filename = strrep(filename, ".", "_");
 print(filename, "-dsvg")
@@ -256,7 +256,7 @@ print(filename, "-dsvg")
 # Save generated terrain positions plot
 figure(2);
 plot3(Positions(2,:), Positions(3,:), plotOutputs, ".", "color", "blue")
-title(cstrcat("Generated terrain positions - trainingPercentage", num2str(trainingPercentage), "%"))
+title(cstrcat("Generated terrain positions - Training Percentage ", num2str(trainingPercentage*100), "%"))
 axis([-3 3 -3 3 -1 1]);
 xlabel("X")
 ylabel("Y")
@@ -271,7 +271,7 @@ hold on
 plot3(TrainingPatterns(2,:), TrainingPatterns(3,:), TrainingOutputs, "*", "color", "red")
 legend("Generated", "Provided");
 axis([-3 3 -3 3 -1 1]);
-title(cstrcat("Both terrain positions - trainingPercentage", num2str(trainingPercentage), "%"))
+title(cstrcat("Both terrain positions - Training Percentage ", num2str(trainingPercentage*100), "%"))
 xlabel("X")
 ylabel("Y")
 zlabel("Z")
