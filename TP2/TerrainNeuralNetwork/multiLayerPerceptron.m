@@ -20,6 +20,7 @@ global DeltaWeights;
 global OldDeltaWeights;
 global UnitsQuantity;
 global maxEpochs;
+global learningFactor;
 
 # Configurations by program arguments
 global silent = false;
@@ -245,21 +246,21 @@ endfor
 figure(1)
 xlabel("Epochs")
 ylabel("Mean Squared Error")
-title("Mean Squared Error")
-filename = strcat("plots/errors-", num2str(UnitsQuantity));
-filename = strrep(filename, " ", "_");
+title(cstrcat("Mean Squared Error - Learning Rate ", num2str(learningFactor)))
+filename = strcat("plots/errors-", num2str(learningFactor));
+filename = strrep(filename, ".", "_");
 print(filename, "-dsvg")
 
 # Save generated terrain positions plot
 figure(2);
 plot3(Positions(2,:), Positions(3,:), plotOutputs, ".", "color", "blue")
-title ("Generated terrain positions");
-axis([-3 3 -3 3 -1 1]);
+title (cstrcat("Generated terrain positions - Learning Rate ", num2str(learningFactor)))
+axis([-3 3 -3 3 -1 1])
 xlabel("X")
 ylabel("Y")
 zlabel("Z (network output)")
-filename = strcat("plots/providedPoints-", num2str(UnitsQuantity));
-filename = strrep(filename, " ", "_");
+filename = strcat("plots/providedPoints-", num2str(learningFactor));
+filename = strrep(filename, ".", "_");
 print(filename, "-dsvg")
 
 hold on
@@ -267,18 +268,18 @@ hold on
 # Save generated AND provided terrain positions plot
 plot3(TrainingPatterns(2,:), TrainingPatterns(3,:), TrainingOutputs, "*", "color", "red")
 axis([-3 3 -3 3 -1 1]);
-title ("Provided terrain positions");
+title (cstrcat("Provided terrain positions - Learning Rate ", num2str(learningFactor)))
 xlabel("X")
 ylabel("Y")
 zlabel("Z")
-filename = strcat("plots/both-", num2str(UnitsQuantity));
-filename = strrep(filename, " ", "_");
+filename = strcat("plots/both-", num2str(learningFactor))
+filename = strrep(filename, ".", "_");
 print(filename, "-dsvg")
 
 
 # Save dump
 # TODO: save learning factor
-filename = strcat("runs/", num2str(UnitsQuantity), ".state");
+filename = strcat("runs/", num2str(learningFactor), ".state");
 save(filename, "Weights", "Errors", "ProvidedPatterns", "ProvidedOutputs", "UnitsQuantity")
 
 
