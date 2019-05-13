@@ -259,7 +259,7 @@ axis([-3 3 -3 3 -1 1])
 xlabel("X")
 ylabel("Y")
 zlabel("Z (network output)")
-filename = strcat("plots/providedPoints-", num2str(learningFactor));
+filename = strcat("plots/generatedPoints-", num2str(learningFactor));
 filename = strrep(filename, ".", "_");
 print(filename, "-dsvg")
 
@@ -268,7 +268,7 @@ hold on
 # Save generated AND provided terrain positions plot
 plot3(TrainingPatterns(2,:), TrainingPatterns(3,:), TrainingOutputs, "*", "color", "red")
 axis([-3 3 -3 3 -1 1]);
-title (cstrcat("Provided terrain positions - Learning Rate ", num2str(learningFactor)))
+title (cstrcat("Both terrain positions - Learning Rate ", num2str(learningFactor)))
 xlabel("X")
 ylabel("Y")
 zlabel("Z")
@@ -279,7 +279,7 @@ print(filename, "-dsvg")
 
 # Save dump
 # TODO: save learning factor
-filename = strcat("runs/", num2str(learningFactor), ".state");
+filename = strcat("runs/", strrep(num2str(learningFactor). ".". "_"), ".state");
 save(filename, "Weights", "Errors", "ProvidedPatterns", "ProvidedOutputs", "UnitsQuantity")
 
 
