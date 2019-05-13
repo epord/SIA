@@ -248,21 +248,21 @@ xlim([0 maxEpochs])
 set(gca,'XTick',0:50:maxEpochs) # Set X ticks every 50 epochs
 ylabel("Mean Squared Error")
 ylim([0 0.2])
-title(cstrcat("Mean Squared Error - Configuration ", num2str(UnitsQuantity)))
-filename = strcat("plots/errors-", num2str(UnitsQuantity));
-filename = strrep(filename, " ", "_");
+title(cstrcat("Mean Squared Error - trainingPercentage", num2str(trainingPercentage), "%"))
+filename = strcat("plots/errors-", num2str(trainingPercentage));
+filename = strrep(filename, ".", "_");
 print(filename, "-dsvg")
 
 # Save generated terrain positions plot
 figure(2);
 plot3(Positions(2,:), Positions(3,:), plotOutputs, ".", "color", "blue")
-title(cstrcat("Generated terrain positions - Configuration ", num2str(UnitsQuantity)))
+title(cstrcat("Generated terrain positions - trainingPercentage", num2str(trainingPercentage), "%"))
 axis([-3 3 -3 3 -1 1]);
 xlabel("X")
 ylabel("Y")
 zlabel("Z (network output)")
-filename = strcat("plots/generatedPoints-", num2str(UnitsQuantity));
-filename = strrep(filename, " ", "_");
+filename = strcat("plots/generatedPoints-", num2str(trainingPercentage));
+filename = strrep(filename, ".", "_");
 % print(filename, "-dsvg")
 
 hold on
@@ -271,18 +271,18 @@ hold on
 plot3(TrainingPatterns(2,:), TrainingPatterns(3,:), TrainingOutputs, "*", "color", "red")
 legend("Generated", "Provided");
 axis([-3 3 -3 3 -1 1]);
-title(cstrcat("Both terrain positions - Configuration ", num2str(UnitsQuantity)))
+title(cstrcat("Both terrain positions - trainingPercentage", num2str(trainingPercentage), "%"))
 xlabel("X")
 ylabel("Y")
 zlabel("Z")
-filename = strcat("plots/both-", num2str(UnitsQuantity));
-filename = strrep(filename, " ", "_");
+filename = strcat("plots/both-", num2str(trainingPercentage));
+filename = strrep(filename, ".", "_");
 print(filename, "-dsvg")
 
 
 # Save dump
 # TODO: save learning factor
-filename = strcat("runs/", num2str(UnitsQuantity), ".state");
+filename = strcat("runs/", num2str(trainingPercentage), ".state");
 save(filename, "Weights", "Errors", "ProvidedPatterns", "ProvidedOutputs", "UnitsQuantity")
 
 	
