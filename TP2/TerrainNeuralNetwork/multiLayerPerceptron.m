@@ -269,6 +269,7 @@ hold on
 
 # Save generated AND provided terrain positions plot
 plot3(TrainingPatterns(2,:), TrainingPatterns(3,:), TrainingOutputs, "*", "color", "red")
+legend("Generated", "Provided");
 axis([-3 3 -3 3 -1 1]);
 title(cstrcat("Both terrain positions - Configuration ", num2str(UnitsQuantity)))
 xlabel("X")
