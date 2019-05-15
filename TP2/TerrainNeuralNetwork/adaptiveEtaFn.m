@@ -25,7 +25,7 @@ function adaptiveEtaFn()
 		errorSize = size(Errors)(2);
 		if (errorSize >= 2) # Can't compare errors if there aren't at least 2 error records
 			deltaError = Errors(end) - Errors(end-1);
-			if (deltaError > 0)
+			if (deltaError > 0 || isnan(currentError))
 				# Error increased, decrease learning factor
 				learningFactor -= learningFactor * learningFactorDecreaseFactor;
 				adaptiveEtaModificationsCount++;
@@ -34,6 +34,7 @@ function adaptiveEtaFn()
 				# Reset weights only unless simulated annealing is enabled
 				if (!simulatedAnnealing)
 					Weights = OldWeights;
+					OldWeights = Weights;
 				endif
 				# printf("Decreased learning factor to %g\n", learningFactor);
 				if (showPlot && plotAdaptiveEtaPoints)

@@ -11,13 +11,15 @@ function incrementalTraining(Patterns, ExpectedOutputs)
 	global adaptiveEta;
 	global Weights;
 	global OldWeights;
+	global epoch;
+	global adaptiveEtaDeltaSteps;
 
 	inputSize		 = size(Patterns)(2);
 	inputOrder 		 = shuffle(1 : inputSize, inputSize);
 	acumError  		 = 0;
 	accumEpsilon	 = 0;
 
-	if (adaptiveEta)
+	if (adaptiveEta && epoch == 1)
 		OldWeights = Weights;
 	endif
 

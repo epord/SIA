@@ -19,6 +19,7 @@ global Errors = [];
 global DeltaWeights;
 global OldDeltaWeights;
 global UnitsQuantity;
+global epoch = 1;
 global maxEpochs;
 
 # Configurations by program arguments
@@ -187,8 +188,6 @@ initializeNeuralNetwork();
 [In, Out] = readDataFile(dataFile);
 In = [(zeros(size(In)(1), 1) -1) In];
 [TrainingPatterns, TrainingOutputs, TestPatterns, TestOutputs] = getPatterns(In, Out);
-
-epoch = 1;
 
 do
 	if(method == 0)
