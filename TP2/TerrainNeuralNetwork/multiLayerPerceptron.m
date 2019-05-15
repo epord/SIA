@@ -25,11 +25,13 @@ global maxEpochs;
 global silent = false;
 global keyToExit = true;
 global showPlot = true;
+global savePlots = false;
 
 function processProgramArgument(argument)
 	global silent;
 	global keyToExit;
 	global showPlot;
+	global savePlots;
 
 	if strcmp(argument, "--silent")
 		silent = true;
@@ -37,6 +39,8 @@ function processProgramArgument(argument)
 		keyToExit = false;
 	elseif strcmp(argument, "--no-plot")
 		showPlot = false;
+	elseif strcmp(argument, "--save")
+		savePlots = true;
 	endif
 endfunction
 
@@ -166,6 +170,14 @@ function [result] = gPrima(output)
 	endif
 endfunction
 
+function surf = points2surf(x, y, z)
+	# Plot surface with triangles instead of rectangles. Use this transform to get triangles formed by the given X's and Y's
+	triangles = delaunay(x, y);
+	surf = trisurf(triangles, x, y, z, "facealpha", 0.5);
+	shading interp;
+	% set(surf, 'FaceAlpha', 0.5)
+endfunction
+
 
 ####################################################################################################
 #------------------------------------->  start of code  <-------------------------------------######
@@ -241,7 +253,7 @@ for index = 1 : inputSize
 	plotOutputs = [plotOutputs Outputs{hiddenLayers + 1}];
 endfor
 
-# Save errors plot
+# Errors plot
 figure(1)
 xlabel("Epochs")
 xlim([0 maxEpochs])
@@ -249,36 +261,42 @@ set(gca,'XTick',0:50:maxEpochs) # Set X ticks every 50 epochs
 ylabel("Mean Squared Error")
 ylim([0 0.2])
 title(cstrcat("Mean Squared Error - Configuration ", num2str(UnitsQuantity)))
-filename = strcat("plots/errors-", num2str(UnitsQuantity));
-filename = strrep(filename, " ", "_");
-print(filename, "-dsvg")
+if (savePlots)
+	filename = strcat("plots/errors-", num2str(UnitsQuantity));
+	filename = strrep(filename, " ", "_");
+	print(filename, "-dsvg")
+endif
 
-# Save generated terrain positions plot
 figure(2);
-plot3(Positions(2,:), Positions(3,:), plotOutputs, ".", "color", "blue")
-title(cstrcat("Generated terrain positions - Configuration ", num2str(UnitsQuantity)))
-axis([-3 3 -3 3 -1 1]);
-xlabel("X")
-ylabel("Y")
-zlabel("Z (network output)")
-filename = strcat("plots/generatedPoints-", num2str(UnitsQuantity));
-filename = strrep(filename, " ", "_");
-% print(filename, "-dsvg")
-
-hold on
-
-# Save generated AND provided terrain positions plot
+# Provided terrain positions plot
 plot3(TrainingPatterns(2,:), TrainingPatterns(3,:), TrainingOutputs, "*", "color", "red")
-legend("Generated", "Provided");
 axis([-3 3 -3 3 -1 1]);
 title(cstrcat("Both terrain positions - Configuration ", num2str(UnitsQuantity)))
 xlabel("X")
 ylabel("Y")
 zlabel("Z")
-filename = strcat("plots/both-", num2str(UnitsQuantity));
-filename = strrep(filename, " ", "_");
-print(filename, "-dsvg")
+if (savePlots)
+	filename = strcat("plots/both-", num2str(UnitsQuantity));
+	filename = strrep(filename, " ", "_");
+	print(filename, "-dsvg")
+endif
 
+hold on
+
+# Generated terrain surface
+points2surf(Positions(2,:), Positions(3,:), plotOutputs);
+% plot3(Positions(2,:), Positions(3,:), plotOutputs, ".", "color", "blue")
+title(cstrcat("Generated terrain positions - Configuration ", num2str(UnitsQuantity)))
+axis([-3 3 -3 3 -1 1]);
+xlabel("X")
+ylabel("Y")
+zlabel("Z (network output)")
+legend("Provided", "Generated");
+if (savePlots)
+	filename = strcat("plots/generatedPoints-", num2str(UnitsQuantity));
+	filename = strrep(filename, " ", "_");
+	print(filename, "-dsvg")
+endif
 
 # Save dump
 # TODO: save learning factor
