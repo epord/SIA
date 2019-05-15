@@ -24,6 +24,7 @@ It is posible to provide command-line arguments to the execution:
 * `--silent`: won't print the current error at each epoch
 * `--no-plot`: won't show the error plot at each epoch
 * `--auto-exit`: won't ask for a key to terminate the program
+* `--save`: save generated plots as SVGs
 
 # Debugging
 ## GUI (all platforms, doesn't always work)
