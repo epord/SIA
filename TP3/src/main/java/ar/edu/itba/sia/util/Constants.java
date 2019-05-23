@@ -33,7 +33,9 @@ public class Constants {
         REPLACEMENT_SELECTION_METHOD_2 = "replacement.selection.method2",
 
         REPLACEMENT_METHOD_2_K = "replacement.method2.k",
-        REPLACEMENT_METHOD_3_K = "replacement.method3.k"
+        REPLACEMENT_METHOD_3_K = "replacement.method3.k",
+
+        POBLATION_NUMBER = "poblation.number"
 
         ;
 }
