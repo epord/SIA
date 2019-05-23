@@ -1,4 +1,4 @@
-package ar.edu.itba.sia;
+package ar.edu.itba.sia.Warriors;
 
 import ar.edu.itba.sia.Items.*;
 
@@ -91,33 +91,33 @@ public abstract class Warrior {
     private void setStrength() {
         double totalStrength = 0;
         totalStrength += boots.getStrength() + gloves.getStrength() + platebody.getStrength() +
-                            helmet.getStrength() + weapon.getStrength();
+                helmet.getStrength() + weapon.getStrength();
         this.strength = totalStrength;
     }
     private void setAgility() {
         double totalAgility = 0;
         totalAgility += boots.getAgility() + gloves.getAgility() + platebody.getAgility() +
-                            helmet.getAgility() + weapon.getAgility();
+                helmet.getAgility() + weapon.getAgility();
         this.agility = totalAgility;
     }
 
     private void setExpertise() {
         double totalExpertise = 0;
         totalExpertise += boots.getExpertise() + gloves.getExpertise() + platebody.getExpertise() +
-                            helmet.getExpertise() + weapon.getExpertise();
+                helmet.getExpertise() + weapon.getExpertise();
         this.expertise = totalExpertise;
     }
 
     private void setResistance() {
         double totalResistance = 0;
         totalResistance += boots.getResistance() + gloves.getResistance() + platebody.getResistance() +
-                            helmet.getResistance() + weapon.getResistance();
+                helmet.getResistance() + weapon.getResistance();
         this.resistance = totalResistance;
     }
     private void setHitpoints() {
         double totalHitpoints = 0;
         totalHitpoints += boots.getHitPoints() + gloves.getHitPoints() + platebody.getHitPoints() +
-                            helmet.getHitPoints() + weapon.getHitPoints();
+                helmet.getHitPoints() + weapon.getHitPoints();
         this.hitpoints = totalHitpoints;
     }
 

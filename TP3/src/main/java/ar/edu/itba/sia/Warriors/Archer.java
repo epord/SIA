@@ -1,4 +1,4 @@
-package ar.edu.itba.sia;
+package ar.edu.itba.sia.Warriors;
 
 import ar.edu.itba.sia.Items.*;
 
