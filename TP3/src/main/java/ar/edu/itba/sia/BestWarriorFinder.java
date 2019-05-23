@@ -19,6 +19,8 @@ import static ar.edu.itba.sia.util.TSVReader.loadItems;
  *
  */
 public class BestWarriorFinder {
+    private static final double MINHEIGHT = 1.3; //should be read from properties TODO
+    private static final double MAXHEIGHT = 2.0; //should be read from properties TODO
     private static List<Item> Boots;
     private static List<Item> Gloves;
     private static List<Item> Platebodies;
@@ -65,12 +67,13 @@ public class BestWarriorFinder {
     }
 
     private static Warrior generateRandomWarrior(WarriorType warriorType) {
-          Boot warriorBoots = (Boot)Boots.get((int)(Math.floor(Math.random() * Boots.size())));
+        Boot warriorBoots = (Boot)Boots.get((int)(Math.floor(Math.random() * Boots.size())));
         Gloves warriorGloves = (ar.edu.itba.sia.Items.Gloves)Gloves.get((int)(Math.floor(Math.random() * Gloves.size())));
         Platebody warriorPlatebody = (Platebody) Platebodies.get((int)(Math.floor(Math.random() * Platebodies.size())));
         Helmet warriorHelmet = (Helmet) Helmets.get((int)(Math.floor(Math.random() * Helmets.size())));
         Weapon warriorWeapon = (Weapon) Weapons.get((int)(Math.floor(Math.random() * Weapons.size())));
-        double warriorHeight = 1.65;//generate between max and min height TODO
+        double warriorHeight = Math.random() * (MAXHEIGHT - MINHEIGHT) + MINHEIGHT;
+
         switch (warriorType) {
             case ARCHER:
                 return new Archer(warriorBoots, warriorGloves, warriorPlatebody, warriorHelmet, warriorWeapon, warriorHeight);
