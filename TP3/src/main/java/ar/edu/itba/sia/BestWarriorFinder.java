@@ -3,6 +3,7 @@ package ar.edu.itba.sia;
 import ar.edu.itba.sia.Items.*;
 import ar.edu.itba.sia.Warriors.Archer;
 import ar.edu.itba.sia.Warriors.Warrior;
+import ar.edu.itba.sia.Warriors.WarriorType;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class BestWarriorFinder {
        //loadSettings("TP3/src/main/settings.properties");
         generateEquipment();
         int poblationNumber = 10; //should be read from properties TODO
-        poblation = generatePoblation(poblationNumber, 0);
+        poblation = generatePoblation(poblationNumber, WarriorType.ARCHER);
         System.out.println(poblation.size());
 
         Boot leatherBoots         = new Boot(10,10,10,10,10);
@@ -47,23 +48,23 @@ public class BestWarriorFinder {
     }
 
     public static void generateEquipment() throws IOException {
-        Boots       = loadItems(0);
-        Gloves      = loadItems(1);
-        Platebodies = loadItems(2);
-        Helmets     = loadItems(3);
-        Weapons     = loadItems(4);
+        Boots       = loadItems(ItemType.BOOT);
+        Gloves      = loadItems(ItemType.GLOVES);
+        Platebodies = loadItems(ItemType.PLATEBODY);
+        Helmets     = loadItems(ItemType.HELMET);
+        Weapons     = loadItems(ItemType.WEAPON);
     }
 
-    public static List<Warrior> generatePoblation(int poblationNumber, int warriorType) {
+    public static List<Warrior> generatePoblation(int poblationNumber, WarriorType warriorType) {
         List<Warrior> warriors = new ArrayList<>();
         for(int i = 0; i < poblationNumber; i++) {
-            warriors.add(generateRandomWarrior(0));
+            warriors.add(generateRandomWarrior(warriorType));
         }
         return warriors;
 
     }
 
-    private static Warrior generateRandomWarrior(int warriorType) {
+    private static Warrior generateRandomWarrior(WarriorType warriorType) {
           Boot warriorBoots = (Boot)Boots.get((int)(Math.floor(Math.random() * Boots.size())));
         Gloves warriorGloves = (ar.edu.itba.sia.Items.Gloves)Gloves.get((int)(Math.floor(Math.random() * Gloves.size())));
         Platebody warriorPlatebody = (Platebody) Platebodies.get((int)(Math.floor(Math.random() * Platebodies.size())));
@@ -71,8 +72,12 @@ public class BestWarriorFinder {
         Weapon warriorWeapon = (Weapon) Weapons.get((int)(Math.floor(Math.random() * Weapons.size())));
         double warriorHeight = 1.65;//generate between max and min height TODO
         switch (warriorType) {
-            case 0:
+            case ARCHER:
                 return new Archer(warriorBoots, warriorGloves, warriorPlatebody, warriorHelmet, warriorWeapon, warriorHeight);
+            case SOLDIER:
+            case DEFENSOR:
+            case ASSASIN:
+                throw new IllegalArgumentException("");
         }
         return null;
     }

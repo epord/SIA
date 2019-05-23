@@ -12,18 +12,10 @@ import java.util.StringTokenizer;
 
 public class TSVReader {
     public static final String files[] = {"botas.tsv", "guantes.tsv", "pecheras.tsv", "cascos.tsv", "armas.tsv"};
-    private static final int BOOT = 0;
-    private static final int GLOVE = 1;
-    private static final int PLATEBODY = 2;
-    private static final int HELMET = 3;
-    private static final int WEAPON = 4;
 
-    public static List<Item> loadItems(int itemNumber) throws IOException {
-        if(itemNumber < 0 || itemNumber > 4) {
-            throw new IllegalArgumentException("");
-        }
+    public static List<Item> loadItems(ItemType type) throws IOException {
 
-        BufferedReader TSVFile = new BufferedReader(new FileReader("TP3/src/main/" + files[itemNumber]));
+        BufferedReader TSVFile = new BufferedReader(new FileReader("TP3/src/main/" + files[type.ordinal()]));
 
         // Read first line with names
         String line = TSVFile.readLine();
@@ -33,7 +25,7 @@ public class TSVReader {
 
         while (line != null){
             stats = line.split("\t");
-            createItem(stats, itemNumber, items);
+            createItem(stats, type, items);
             line = TSVFile.readLine(); // Read next line of data.
         }
 
@@ -42,19 +34,16 @@ public class TSVReader {
         return items;
     }
 
-    private static void createItem(String stats[], int itemNumber, List<Item> items) {
-//    for(String i: stats) {
-//        System.out.println(Double.parseDouble(stats[1]));
-//
-//    }
-                switch (itemNumber) {
+    private static void createItem(String stats[], ItemType type, List<Item> items) {
+
+                switch (type) {
             case BOOT:
                 items.add(new Boot(Double.parseDouble(stats[1]), Double.parseDouble(stats[2]),
                                     Double.parseDouble(stats[3]), Double.parseDouble(stats[4]),
                                     Double.parseDouble(stats[5])));
                 break;
 
-            case GLOVE:
+            case GLOVES:
                 items.add(new Gloves(Double.parseDouble(stats[1]), Double.parseDouble(stats[2]),
                         Double.parseDouble(stats[3]), Double.parseDouble(stats[4]),
                         Double.parseDouble(stats[5])));
