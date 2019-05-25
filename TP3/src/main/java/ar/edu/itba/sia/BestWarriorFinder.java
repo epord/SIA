@@ -40,7 +40,7 @@ public class BestWarriorFinder {
 
        //loadSettings("TP3/src/main/settings.properties");
         generateEquipment();
-        int poblationNumber = 10; //should be read from properties TODO
+        int poblationNumber = 1000; //should be read from properties TODO
         poblation = generatePoblation(poblationNumber, WarriorType.ARCHER);
         int maxGenerations = 10000;
         Warrior bestWarrior = findBestWarrior(poblation, new EliteSelection(), new GenMutation(),

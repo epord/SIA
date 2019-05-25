@@ -13,7 +13,7 @@ public class EliteSelection implements Selection {
         List<Warrior> selectedWarriors = new ArrayList<>();
         Collections.sort(warriors, new Comparator<Warrior>() {
                     public int compare(Warrior w1, Warrior w2)  {
-                        return (int)(w1.getPerformance() - w2.getPerformance());
+                        return (int)(w2.getPerformance() - w1.getPerformance());
                     } }
         );
 
