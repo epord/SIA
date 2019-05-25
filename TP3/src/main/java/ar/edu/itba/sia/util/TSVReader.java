@@ -36,7 +36,7 @@ public class TSVReader {
 
     private static void createItem(String stats[], ItemType type, List<Item> items) {
 
-                switch (type) {
+        switch (type) {
             case BOOTS:
                 items.add(new Boots(Double.parseDouble(stats[1]), Double.parseDouble(stats[2]),
                                     Double.parseDouble(stats[3]), Double.parseDouble(stats[4]),

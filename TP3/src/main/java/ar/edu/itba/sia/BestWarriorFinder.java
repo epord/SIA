@@ -30,7 +30,7 @@ public class BestWarriorFinder {
     public static List<Warrior> children;
 
 
-    public static void main( String[] args ) throws IOException{
+    public static void main(String[] args) throws IOException{
 
        //loadSettings("TP3/src/main/settings.properties");
         generateEquipment();

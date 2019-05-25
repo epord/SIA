@@ -55,6 +55,17 @@ public abstract class Item {
     public void setHitpoints(double hitpoints) {
         this.hitpoints = hitpoints;
     }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "strength=" + strength +
+                ", agility=" + agility +
+                ", expertise=" + expertise +
+                ", resistance=" + resistance +
+                ", hitpoints=" + hitpoints +
+                '}';
+    }
 }
 
 
