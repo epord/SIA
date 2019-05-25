@@ -6,16 +6,16 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 public class TSVReader {
     public static final String files[] = {"botas.tsv", "guantes.tsv", "pecheras.tsv", "cascos.tsv", "armas.tsv"};
 
     public static List<Item> loadItems(ItemType type) throws IOException {
 
-        BufferedReader TSVFile = new BufferedReader(new FileReader("TP3/src/main/" + files[type.ordinal()]));
+// May be different in other systems
+//        BufferedReader TSVFile = new BufferedReader(new FileReader("TP3/src/main/" + files[type.ordinal()]));
+        BufferedReader TSVFile = new BufferedReader(new FileReader("src/main/" + files[type.ordinal()]));
 
         // Read first line with names
         String line = TSVFile.readLine();
@@ -37,8 +37,8 @@ public class TSVReader {
     private static void createItem(String stats[], ItemType type, List<Item> items) {
 
                 switch (type) {
-            case BOOT:
-                items.add(new Boot(Double.parseDouble(stats[1]), Double.parseDouble(stats[2]),
+            case BOOTS:
+                items.add(new Boots(Double.parseDouble(stats[1]), Double.parseDouble(stats[2]),
                                     Double.parseDouble(stats[3]), Double.parseDouble(stats[4]),
                                     Double.parseDouble(stats[5])));
                 break;

@@ -1,8 +1,6 @@
 package ar.edu.itba.sia.GeneticOperators;
 
 import ar.edu.itba.sia.GeneticOperators.Interfaces.CrossOver;
-import ar.edu.itba.sia.Items.Boot;
-import ar.edu.itba.sia.Items.ItemType;
 import ar.edu.itba.sia.Warriors.Archer;
 import ar.edu.itba.sia.Warriors.Warrior;
 
@@ -17,15 +15,16 @@ public class OnePointCrossOver implements CrossOver {
         Genes genesValues[] = Genes.values();
         int locus = (int) Math.random() * genes;
         Genes crossGene = genesValues[locus];
-        Warrior newWarrior1 = null, newWarrior2 = null;
+        Warrior newWarrior1 = null,
+                newWarrior2 = null;
         switch(crossGene) {
             case BOOT:
-                   newWarrior1 =  new Archer(w2.getBoots(), w1.getGloves(), w1.getPlatebody(),
-                                                w1.getHelmet(), w1.getWeapon(), w1.getHeight());
+               newWarrior1 =  new Archer(w2.getBoots(), w1.getGloves(), w1.getPlatebody(),
+                                            w1.getHelmet(), w1.getWeapon(), w1.getHeight());
 
-                   newWarrior2 =  new Archer(w1.getBoots(), w2.getGloves(), w2.getPlatebody(),
-                                                w2.getHelmet(),w2.getWeapon(), w2.getHeight());
-                    break;
+               newWarrior2 =  new Archer(w1.getBoots(), w2.getGloves(), w2.getPlatebody(),
+                                            w2.getHelmet(),w2.getWeapon(), w2.getHeight());
+                break;
 
             case GLOVES:
                 newWarrior1 =  new Archer(w1.getBoots(), w2.getGloves(), w1.getPlatebody(),

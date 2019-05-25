@@ -35,7 +35,5 @@ public class Constants {
         REPLACEMENT_METHOD_2_K = "replacement.method2.k",
         REPLACEMENT_METHOD_3_K = "replacement.method3.k",
 
-        POBLATION_NUMBER = "poblation.number"
-
-        ;
+        POPULATION_NUMBER = "population.number";
 }

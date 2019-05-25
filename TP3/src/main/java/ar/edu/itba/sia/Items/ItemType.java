@@ -1,7 +1,7 @@
 package ar.edu.itba.sia.Items;
 
 public enum ItemType {
-    BOOT,
+    BOOTS,
     GLOVES,
     PLATEBODY,
     HELMET,

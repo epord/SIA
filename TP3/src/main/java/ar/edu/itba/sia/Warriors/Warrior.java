@@ -4,7 +4,7 @@ import ar.edu.itba.sia.Items.*;
 
 public abstract class Warrior {
     //Items
-    private Boot boots;
+    private Boots boots;
     private Gloves gloves;
     private Platebody platebody;
     private Weapon weapon;
@@ -20,7 +20,7 @@ public abstract class Warrior {
     private double hitpoints;
 
 
-    protected Warrior(Boot boots, Gloves gloves, Platebody platebody, Helmet helmet, Weapon weapon, double height) {
+    protected Warrior(Boots boots, Gloves gloves, Platebody platebody, Helmet helmet, Weapon weapon, double height) {
         this.boots     = boots;
         this.gloves    = gloves;
         this.platebody = platebody;
@@ -31,7 +31,7 @@ public abstract class Warrior {
         setStats();
     }
 
-    public Boot getBoots() {
+    public Boots getBoots() {
         return boots;
     }
 
