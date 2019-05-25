@@ -43,7 +43,7 @@ public class MasterRaceFinder {
         Platebody bestPlatebody = (Platebody) findBestItem(platebodies, warriorType, ATM, DEM);
         Weapon bestWeapon = (Weapon) findBestItem(weapons, warriorType, ATM, DEM);
 
-        /// TODO: return appropiate class
+        /// TODO: return appropriate class
         return new Archer(bestBoots, bestGloves, bestPlatebody, bestHelmet, bestWeapon, bestHeight);
     }
 
@@ -51,8 +51,13 @@ public class MasterRaceFinder {
         Item bestItem = null;
         double bestPerformance = 0.0;
         for (Item item: items) {
-            double attack = (item.getAgility() + item.getExpertise()) * item.getStrength() * ATM;
-            double defense = (item.getResistance() + item.getExpertise()) * item.getHitPoints() * DEM;
+            double strength = 100 * Math.tanh(0.01 * item.getStrength());
+            double agility = Math.tanh(0.01 * item.getAgility());
+            double expertise = 0.6 * Math.tanh(0.01 * item.getExpertise());
+            double resistance = Math.tanh(0.01 * item.getResistance());
+            double hitPoints = 100 * Math.tanh(0.01 * item.getHitPoints());
+            double attack = (agility + expertise) * strength * ATM;
+            double defense = (resistance + expertise) * hitPoints * DEM;
             double performance = warriorType.getAttackFactor() * attack + warriorType.getDefenseFactor() * defense;
             if (performance > bestPerformance || bestItem == null) {
                 bestItem = item;
