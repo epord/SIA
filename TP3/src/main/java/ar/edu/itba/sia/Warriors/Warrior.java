@@ -141,19 +141,19 @@ public abstract class Warrior {
 
     @Override
     public String toString() {
-        return "Warrior{" +
-                "   boots=" + boots + ",\n" +
-                "   gloves=" + gloves + ",\n" +
-                "   platebody=" + platebody + ",\n" +
-                "   weapon=" + weapon + ",\n" +
-                "   helmet=" + helmet + ",\n" +
-                "   height=" + height + ",\n" +
-                "   strength=" + strength + ",\n" +
-                "   agility=" + agility + ",\n" +
-                "   expertise=" + expertise + ",\n" +
-                "   resistance=" + resistance + ",\n" +
-                "   hitpoints=" + hitpoints + ",\n" +
-                "   performance=" + getPerformance() + ",\n" +
+        return "Warrior{" + ",\n" +
+                "   boots = " + boots + ",\n" +
+                "   gloves = " + gloves + ",\n" +
+                "   platebody = " + platebody + ",\n" +
+                "   weapon = " + weapon + ",\n" +
+                "   helmet = " + helmet + ",\n" +
+                "   height = " + height + ",\n" +
+                "   strength = " + strength + ",\n" +
+                "   agility = " + agility + ",\n" +
+                "   expertise = " + expertise + ",\n" +
+                "   resistance = " + resistance + ",\n" +
+                "   hitpoints = " + hitpoints + ",\n" +
+                "   performance = " + getPerformance() + "\n" +
                 '}';
     }
 }

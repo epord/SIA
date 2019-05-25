@@ -58,13 +58,13 @@ public abstract class Item {
 
     @Override
     public String toString() {
-        return "Item{" +
-                "strength=" + strength +
-                ", agility=" + agility +
-                ", expertise=" + expertise +
-                ", resistance=" + resistance +
-                ", hitpoints=" + hitpoints +
-                '}';
+        return "Item{" + ",\n" +
+                "      strength = " + strength + ",\n" +
+                "      agility = " + agility + ",\n" +
+                "      expertise = " + expertise + ",\n" +
+                "      resistance = " + resistance + ",\n" +
+                "      hitpoints = " + hitpoints + "\n" +
+                "   }";
     }
 }
 
