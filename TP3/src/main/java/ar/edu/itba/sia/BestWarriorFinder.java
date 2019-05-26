@@ -2,6 +2,8 @@ package ar.edu.itba.sia;
 
 import ar.edu.itba.sia.GeneticOperators.Crossovers.OnePointCrossover;
 import ar.edu.itba.sia.GeneticOperators.Crossovers.UniformCrossover;
+import ar.edu.itba.sia.GeneticOperators.EndConditions.MaxGenerationsEndCondition;
+import ar.edu.itba.sia.GeneticOperators.Interfaces.EndCondition;
 import ar.edu.itba.sia.GeneticOperators.Selections.EliteSelection;
 import ar.edu.itba.sia.GeneticOperators.Mutations.GenMutation;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.CrossOver;
@@ -40,7 +42,8 @@ public class BestWarriorFinder {
         int maxGenerations = 10000;
         Warrior bestWarrior = findBestWarrior(population, new EliteSelection(), new GenMutation(),
                                                 new OnePointCrossover(), new EliteSelection(),
-                                                maxGenerations, 5, poblationNumber);
+                                                maxGenerations, 5, poblationNumber,
+                                                new MaxGenerationsEndCondition(maxGenerations));
 //        System.out.println(poblation.size());
 //
 //        Boots leatherBoots         = new Boots(10,10,10,10,10);
@@ -93,13 +96,13 @@ public class BestWarriorFinder {
     private static Warrior findBestWarrior(List<Warrior> population, Selection selectionMethod,
                                            Mutation mutationMethod, CrossOver crossOverMethod,
                                            Selection replacementMethod, int maxGeneration, int k,
-                                           int populationNumber) {
+                                           int populationNumber, EndCondition endCondition) {
         int currGeneration = 0;
         List <Warrior> generators;
         List <Warrior> nextGeneration;
 
 
-        while(currGeneration < maxGeneration) {
+        while(!endCondition.evaluate(population)) {
             generators = selectionMethod.select(population, k);
             nextGeneration = generateChildren(crossOverMethod, generators, k);
             nextGeneration.addAll(population);
