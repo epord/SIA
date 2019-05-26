@@ -8,7 +8,7 @@ import ar.edu.itba.sia.Warriors.Warrior;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OnePointCrossOver implements CrossOver {
+public class OnePointCrossover implements CrossOver {
 
     public List<Warrior> getCrossOver(Warrior w1, Warrior w2) {
         List<Warrior> newWarriors = new ArrayList<>();

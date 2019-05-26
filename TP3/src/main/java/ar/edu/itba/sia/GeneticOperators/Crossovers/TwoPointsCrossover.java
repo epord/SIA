@@ -6,7 +6,7 @@ import ar.edu.itba.sia.Warriors.Warrior;
 
 import java.util.List;
 
-public class TwoPointsCrossOver implements CrossOver {
+public class TwoPointsCrossover implements CrossOver {
 
 
     public List<Warrior> getCrossOver(Warrior w1, Warrior w2) {
@@ -14,7 +14,7 @@ public class TwoPointsCrossOver implements CrossOver {
         int locus1 = (int) (Math.random() * genes.length);
         int locus2 = (int) (Math.random() * genes.length);
 
-        Annular annular = new Annular();
+        AnnularCrossover annular = new AnnularCrossover();
         return annular.getCrossOver(w1, w2, locus1, locus2 - locus1 + 1);
 
     }

@@ -9,7 +9,7 @@ import ar.edu.itba.sia.Warriors.Warrior;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Annular implements CrossOver {
+public class AnnularCrossover implements CrossOver {
 
     public List<Warrior> getCrossOver(Warrior w1, Warrior w2) {
         Genes[] genes = Genes.values();

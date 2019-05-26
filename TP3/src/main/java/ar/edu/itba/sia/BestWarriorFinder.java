@@ -1,6 +1,7 @@
 package ar.edu.itba.sia;
 
-import ar.edu.itba.sia.GeneticOperators.Crossovers.OnePointCrossOver;
+import ar.edu.itba.sia.GeneticOperators.Crossovers.OnePointCrossover;
+import ar.edu.itba.sia.GeneticOperators.Crossovers.UniformCrossover;
 import ar.edu.itba.sia.GeneticOperators.Selections.EliteSelection;
 import ar.edu.itba.sia.GeneticOperators.Mutations.GenMutation;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.CrossOver;
@@ -38,7 +39,7 @@ public class BestWarriorFinder {
         population = generatePopulation(populationSize, WarriorType.ARCHER);
         int maxGenerations = 1000;
         Warrior bestWarrior = findBestWarrior(population, new EliteSelection(), new GenMutation(),
-                                                new OnePointCrossOver(), new EliteSelection(),
+                                                new UniformCrossover(), new EliteSelection(),
                                                 maxGenerations, 5, populationSize);
 //        System.out.println(population.size());
 //
