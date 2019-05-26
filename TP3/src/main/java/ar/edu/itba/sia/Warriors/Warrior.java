@@ -140,6 +140,18 @@ public abstract class Warrior {
     public abstract double getPerformance();
 
     @Override
+    public boolean equals(Object o) {
+        if( this == o) {
+            return true;
+        }
+        if(o == null || !(o instanceof Warrior)) {
+            return false;
+        }
+        Warrior warrior = (Warrior) o;
+        return warrior.equals(this);
+    }
+
+    @Override
     public String toString() {
         return "Warrior{" + ",\n" +
                 "   boots = " + boots + ",\n" +

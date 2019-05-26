@@ -13,4 +13,18 @@ public class Archer extends Warrior {
     public double getPerformance() {
         return ATTACK_MULTIPLIER * getAttack() + DEFENSE_MULTIPLIER * getDefense();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) {
+            return true;
+        }
+
+        if(o == null || !o.getClass().equals(getClass())) {
+            return false;
+        }
+
+        Archer archer = (Archer)o;
+        return archer.getPerformance() == getPerformance();
+    }
 }
