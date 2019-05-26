@@ -35,13 +35,13 @@ public class BestWarriorFinder {
 
        //loadSettings("TP3/src/main/settings.properties");
         generateEquipment();
-        int populationSize = 50; //should be read from properties TODO
-        population = generatePopulation(populationSize, WarriorType.ARCHER);
-        int maxGenerations = 1000;
+        int poblationNumber = 10; //should be read from properties TODO
+        population = generatePopulation(poblationNumber, WarriorType.ARCHER);
+        int maxGenerations = 10000;
         Warrior bestWarrior = findBestWarrior(population, new EliteSelection(), new GenMutation(),
-                                                new UniformCrossover(), new EliteSelection(),
-                                                maxGenerations, 5, populationSize);
-//        System.out.println(population.size());
+                                                new OnePointCrossover(), new EliteSelection(),
+                                                maxGenerations, 5, poblationNumber);
+//        System.out.println(poblation.size());
 //
 //        Boots leatherBoots         = new Boots(10,10,10,10,10);
 //        Gloves leatherGloves      = new Gloves(10,10,10,10,10);
