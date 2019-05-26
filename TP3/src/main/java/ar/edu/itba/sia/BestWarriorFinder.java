@@ -1,11 +1,11 @@
 package ar.edu.itba.sia;
 
-import ar.edu.itba.sia.GeneticOperators.EliteSelection;
-import ar.edu.itba.sia.GeneticOperators.GenMutation;
+import ar.edu.itba.sia.GeneticOperators.Crossovers.OnePointCrossOver;
+import ar.edu.itba.sia.GeneticOperators.Selections.EliteSelection;
+import ar.edu.itba.sia.GeneticOperators.Mutations.GenMutation;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.CrossOver;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.Mutation;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.Selection;
-import ar.edu.itba.sia.GeneticOperators.OnePointCrossOver;
 import ar.edu.itba.sia.Items.*;
 import ar.edu.itba.sia.Warriors.Archer;
 import ar.edu.itba.sia.Warriors.Warrior;
@@ -34,7 +34,7 @@ public class BestWarriorFinder {
 
        //loadSettings("TP3/src/main/settings.properties");
         generateEquipment();
-        int populationSize = 1000; //should be read from properties TODO
+        int populationSize = 50; //should be read from properties TODO
         population = generatePopulation(populationSize, WarriorType.ARCHER);
         int maxGenerations = 1000;
         Warrior bestWarrior = findBestWarrior(population, new EliteSelection(), new GenMutation(),

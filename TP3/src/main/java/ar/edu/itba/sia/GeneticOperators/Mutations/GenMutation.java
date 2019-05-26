@@ -1,5 +1,6 @@
-package ar.edu.itba.sia.GeneticOperators;
+package ar.edu.itba.sia.GeneticOperators.Mutations;
 
+import ar.edu.itba.sia.GeneticOperators.Genes;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.Mutation;
 import ar.edu.itba.sia.Items.*;
 import ar.edu.itba.sia.Warriors.Archer;

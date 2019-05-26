@@ -1,5 +1,6 @@
-package ar.edu.itba.sia.GeneticOperators;
+package ar.edu.itba.sia.GeneticOperators.Crossovers;
 
+import ar.edu.itba.sia.GeneticOperators.Genes;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.CrossOver;
 import ar.edu.itba.sia.Warriors.Archer;
 import ar.edu.itba.sia.Warriors.Warrior;
@@ -8,12 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OnePointCrossOver implements CrossOver {
-    private static final int genes = 5;
 
     public List<Warrior> getCrossOver(Warrior w1, Warrior w2) {
         List<Warrior> newWarriors = new ArrayList<>();
         Genes genesValues[] = Genes.values();
-        int locus = (int) Math.random() * genes;
+        int locus = (int) (Math.random() * genesValues.length);
         Genes crossGene = genesValues[locus];
         Warrior newWarrior1 = null,
                 newWarrior2 = null;

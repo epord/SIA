@@ -1,4 +1,4 @@
-package ar.edu.itba.sia.GeneticOperators;
+package ar.edu.itba.sia.GeneticOperators.Selections;
 
 import ar.edu.itba.sia.GeneticOperators.Interfaces.Selection;
 import ar.edu.itba.sia.Warriors.Warrior;
