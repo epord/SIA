@@ -14,7 +14,7 @@ public class GenMutation implements Mutation {
     public Warrior mutate(Warrior warrior, List<Item> boots, List<Item> gloves, List<Item> platebodies,
                           List<Item> helmets, List<Item> weapons, double minHeight, double maxHeight) {
         Genes genesValues[] = Genes.values();
-        int locus = (int) Math.random() * genes;
+        int locus = (int) (Math.random() * genes);
         Genes crossGene = genesValues[locus];
         Warrior newWarrior= null;
         switch(crossGene) {
@@ -59,6 +59,6 @@ public class GenMutation implements Mutation {
     }
 
     private static Item getRandomItem(List<Item> items) {
-        return items.get((int)Math.random() * items.size());
+        return items.get((int) (Math.random() * items.size()));
     }
 }
