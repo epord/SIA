@@ -80,7 +80,7 @@ public class BestWarriorFinder {
             case SOLDIER:
             case DEFENSOR:
             case ASSASIN:
-                throw new IllegalArgumentException("");
+                throw new UnsupportedOperationException(warriorType.name() + " not implemented yet");
         }
         return null;
     }
