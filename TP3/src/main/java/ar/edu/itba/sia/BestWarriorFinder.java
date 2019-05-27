@@ -101,8 +101,8 @@ public class BestWarriorFinder {
         List <Warrior> generators;
         List <Warrior> nextGeneration;
 
-
-        while(!endCondition.evaluate(population)) {
+        // Metodo de reemplazo 3 TODO implementar los otros dos y poder elegir
+        while(!endCondition.test(population)) {
             generators = selectionMethod.select(population, k);
             nextGeneration = generateChildren(crossOverMethod, generators, k);
             nextGeneration.addAll(population);

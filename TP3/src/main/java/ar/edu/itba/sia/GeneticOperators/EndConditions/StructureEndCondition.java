@@ -13,7 +13,7 @@ public class StructureEndCondition implements EndCondition {
         lastPopulation = null;
     }
 
-    public boolean evaluate(List<Warrior> population) {
+    public boolean test(List<Warrior> population) {
         if(lastPopulation == null) {
             lastPopulation = population;
             return false;

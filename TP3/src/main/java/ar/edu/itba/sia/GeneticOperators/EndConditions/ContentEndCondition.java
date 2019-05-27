@@ -17,7 +17,7 @@ public class ContentEndCondition implements EndCondition {
         this.maxConsecutiveGenerations  = maxConsecutiveGenerations;
 
     }
-    public boolean evaluate(List<Warrior> population) {
+    public boolean test(List<Warrior> population) {
         double bestPerformance = getBestPerformance(population);
 
         if(bestPerformance > currentBestPerformance) {

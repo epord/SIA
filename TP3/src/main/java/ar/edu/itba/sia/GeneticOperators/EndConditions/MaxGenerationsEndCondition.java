@@ -13,7 +13,7 @@ public class MaxGenerationsEndCondition implements EndCondition {
         this.maxGenerations = maxGenerations;
         currentGeneration   = 0;
     }
-    public boolean evaluate(List<Warrior> population) {
+    public boolean test(List<Warrior> population) {
         if(currentGeneration < maxGenerations) {
             currentGeneration ++;
             return false;

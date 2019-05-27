@@ -15,7 +15,7 @@ public class NearOptimalEndCondition implements EndCondition {
         this.delta              = delta;
     }
 
-    public boolean evaluate(List<Warrior> population) {
+    public boolean test(List<Warrior> population) {
         double bestPerformance = getBestPerformance(population);
         return Math.abs(optimalPerformance - bestPerformance) < delta;
     }
