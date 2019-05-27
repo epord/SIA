@@ -67,11 +67,11 @@ public class BestWarriorFinder {
     }
 
     private static Warrior generateRandomWarrior(WarriorType warriorType) {
-        ar.edu.itba.sia.Items.Boots warriorBoots = (ar.edu.itba.sia.Items.Boots)Boots.get((int)(Math.floor(Math.random() * Boots.size())));
-        Gloves warriorGloves = (ar.edu.itba.sia.Items.Gloves)Gloves.get((int)(Math.floor(Math.random() * Gloves.size())));
-        Platebody warriorPlatebody = (Platebody) Platebodies.get((int)(Math.floor(Math.random() * Platebodies.size())));
-        Helmet warriorHelmet = (Helmet) Helmets.get((int)(Math.floor(Math.random() * Helmets.size())));
-        Weapon warriorWeapon = (Weapon) Weapons.get((int)(Math.floor(Math.random() * Weapons.size())));
+        Boots warriorBoots = (Boots) Boots.get((int) (Math.random() * Boots.size()));
+        Gloves warriorGloves = (Gloves) Gloves.get((int) (Math.random() * Gloves.size()));
+        Platebody warriorPlatebody = (Platebody) Platebodies.get((int) (Math.random() * Platebodies.size()));
+        Helmet warriorHelmet = (Helmet) Helmets.get((int) (Math.random() * Helmets.size()));
+        Weapon warriorWeapon = (Weapon) Weapons.get((int) (Math.random() * Weapons.size()));
         double warriorHeight = Math.random() * (MAXHEIGHT - MINHEIGHT) + MINHEIGHT;
 
         switch (warriorType) {
@@ -110,8 +110,8 @@ public class BestWarriorFinder {
     private  static List<Warrior> generateChildren(CrossOver crossOverMethod, List<Warrior> generators, int k) {
         List<Warrior> children = new ArrayList<>();
         for(int i = 0; i < k; i++) {
-            Warrior w1 = generators.get((int)(Math.random() * generators.size()));
-            Warrior w2 = generators.get((int)(Math.random() * generators.size()));
+            Warrior w1 = generators.get((int) (Math.random() * generators.size()));
+            Warrior w2 = generators.get((int) (Math.random() * generators.size()));
             children.addAll(crossOverMethod.getCrossOver(w1, w2));
         }
         return children;
