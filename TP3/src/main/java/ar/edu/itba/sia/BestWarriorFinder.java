@@ -1,7 +1,6 @@
 package ar.edu.itba.sia;
 
 import ar.edu.itba.sia.GeneticOperators.Crossovers.OnePointCrossover;
-import ar.edu.itba.sia.GeneticOperators.Crossovers.UniformCrossover;
 import ar.edu.itba.sia.GeneticOperators.EndConditions.MaxGenerationsEndCondition;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.EndCondition;
 import ar.edu.itba.sia.GeneticOperators.Selections.EliteSelection;
@@ -17,6 +16,8 @@ import ar.edu.itba.sia.Warriors.WarriorType;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static ar.edu.itba.sia.util.TSVReader.loadItems;
 
@@ -34,27 +35,20 @@ public class BestWarriorFinder {
 
 
     public static void main(String[] args) throws IOException{
-
        //loadSettings("TP3/src/main/settings.properties");
+        Warrior bestWarrior = findBestWarrior();
+        System.out.println("Best warrior performance: " + bestWarrior.getPerformance() );
+    }
+
+    public static Warrior findBestWarrior() throws IOException {
         generateEquipment();
-        int poblationNumber = 10; //should be read from properties TODO
-        population = generatePopulation(poblationNumber, WarriorType.ARCHER);
+        int populationSize = 10; //should be read from properties TODO
+        population = generatePopulation(populationSize, WarriorType.ARCHER);
         int maxGenerations = 10000;
-        Warrior bestWarrior = findBestWarrior(population, new EliteSelection(), new GenMutation(),
+        return findBestWarrior(population, new EliteSelection(), new GenMutation(),
                                                 new OnePointCrossover(), new EliteSelection(),
-                                                maxGenerations, 5, poblationNumber,
+                                                maxGenerations, 5, populationSize,
                                                 new MaxGenerationsEndCondition(maxGenerations));
-//        System.out.println(poblation.size());
-//
-//        Boots leatherBoots         = new Boots(10,10,10,10,10);
-//        Gloves leatherGloves      = new Gloves(10,10,10,10,10);
-//        Platebody cooperPlatebody = new Platebody(10,10,10,10,10);
-//        Helmet cooperHelmet = new Helmet(10,10,10,10,10);
-//        Weapon cooperBow = new Weapon(10,10,10,10,10);
-//
-//        Archer archer = new Archer(leatherBoots, leatherGloves, cooperPlatebody, cooperHelmet, cooperBow, 1.65);
-       // System.out.println("archers performance:" + archer.getPerformance());
-        System.out.println( "bestWarrior performance:" + bestWarrior.getPerformance() );
     }
 
     public static void generateEquipment() throws IOException {
@@ -66,12 +60,10 @@ public class BestWarriorFinder {
     }
 
     public static List<Warrior> generatePopulation(int populationNumber, WarriorType warriorType) {
-        List<Warrior> warriors = new ArrayList<>();
-        for(int i = 0; i < populationNumber; i++) {
-            warriors.add(generateRandomWarrior(warriorType));
-        }
-        return warriors;
-
+        return Stream
+                .generate(() -> generateRandomWarrior(warriorType))
+                .limit(populationNumber)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     private static Warrior generateRandomWarrior(WarriorType warriorType) {
@@ -106,6 +98,7 @@ public class BestWarriorFinder {
             generators = selectionMethod.select(population, k);
             nextGeneration = generateChildren(crossOverMethod, generators, k);
             nextGeneration.addAll(population);
+            // FIXME mutar sólo hijos antes de agregar el resto de la población
             nextGeneration = mutatePopulation(mutationMethod, nextGeneration, 0.01);
             population = replacePopulation(replacementMethod, nextGeneration, populationNumber);
             currGeneration ++;
