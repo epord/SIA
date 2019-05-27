@@ -116,7 +116,7 @@ public class BestWarriorFinder {
         for(int i = 0; i < k; i++) {
             Warrior w1 = generators.get((int) (Math.random() * generators.size()));
             Warrior w2 = generators.get((int) (Math.random() * generators.size()));
-            children.addAll(crossOverMethod.getCrossOver(w1, w2));
+            children.addAll(crossOverMethod.apply(w1, w2));
         }
         return children;
     }

@@ -4,7 +4,6 @@ import ar.edu.itba.sia.GeneticOperators.Interfaces.Selection;
 import ar.edu.itba.sia.Warriors.Warrior;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class UniversalSelection implements Selection {
@@ -45,11 +44,10 @@ public class UniversalSelection implements Selection {
     }
 
     private static double getTotalPerformance(List<Warrior> warriors) {
-        double totalPerformance = 0.0;
-        for(Warrior w : warriors) {
-            totalPerformance += w.getPerformance();
-        }
-        return totalPerformance;
+        return warriors.stream()
+                .map(Warrior::getPerformance)
+                .reduce(Double::sum)
+                .orElse(0D);
     }
 
 }

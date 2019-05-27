@@ -1,6 +1,5 @@
 package ar.edu.itba.sia.GeneticOperators.Crossovers;
 
-import ar.edu.itba.sia.GeneticOperators.Genes;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.CrossOver;
 import ar.edu.itba.sia.Items.*;
 import ar.edu.itba.sia.Warriors.Archer;
@@ -9,11 +8,16 @@ import ar.edu.itba.sia.Warriors.Warrior;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Uniform crossover function. Each gene has a {@link #p} chance of being swapped.  Note that we don't exclude equal
+ * alleles since swapping them is the same as not doing anything, and adding that logic adds unneeded complexity to the
+ * code.
+ */
 public class UniformCrossover implements CrossOver {
 
-    public static final double p = 0.5;
+    public static final double p = 0.5; // TODO read this from file
 
-    public List<Warrior> getCrossOver(Warrior w1, Warrior w2) {
+    public List<Warrior> apply(Warrior w1, Warrior w2) {
         List<Warrior> newWarriors = new ArrayList<>();
         Warrior newWarrior1, newWarrior2;
 

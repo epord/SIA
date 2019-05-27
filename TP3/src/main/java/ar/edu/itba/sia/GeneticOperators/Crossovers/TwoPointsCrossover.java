@@ -9,13 +9,13 @@ import java.util.List;
 public class TwoPointsCrossover implements CrossOver {
 
 
-    public List<Warrior> getCrossOver(Warrior w1, Warrior w2) {
+    public List<Warrior> apply(Warrior w1, Warrior w2) {
         Genes[] genes = Genes.values();
         int locus1 = (int) (Math.random() * genes.length);
         int locus2 = (int) (Math.random() * genes.length);
 
         AnnularCrossover annular = new AnnularCrossover();
-        return annular.getCrossOver(w1, w2, locus1, locus2 - locus1 + 1);
+        return annular.getCrossOver(w1, w2, Math.min(locus1, locus2), Math.abs(locus2 - locus1) + 1);
 
     }
 }

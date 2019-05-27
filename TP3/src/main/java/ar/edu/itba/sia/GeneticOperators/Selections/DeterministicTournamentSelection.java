@@ -4,7 +4,6 @@ import ar.edu.itba.sia.GeneticOperators.Interfaces.Selection;
 import ar.edu.itba.sia.Warriors.Warrior;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class DeterministicTournamentSelection implements Selection {
@@ -34,7 +33,7 @@ public class DeterministicTournamentSelection implements Selection {
     }
 
     private Warrior getBestWarrior(List<Warrior> population) {
-        Collections.sort(population, (w1, w2) -> (int)(w2.getPerformance() - w1.getPerformance()));
+        population.sort(Warrior.BEST_FITNESS_FIRST);
         return population.get(0);
     }
 }

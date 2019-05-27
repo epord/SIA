@@ -10,7 +10,7 @@ import java.util.List;
 
 public class OnePointCrossover implements CrossOver {
 
-    public List<Warrior> getCrossOver(Warrior w1, Warrior w2) {
+    public List<Warrior> apply(Warrior w1, Warrior w2) {
         List<Warrior> newWarriors = new ArrayList<>();
         Genes genesValues[] = Genes.values();
         int locus = (int) (Math.random() * genesValues.length);

@@ -2,7 +2,12 @@ package ar.edu.itba.sia.Warriors;
 
 import ar.edu.itba.sia.Items.*;
 
+import java.util.Comparator;
+
 public abstract class Warrior {
+    public static final Comparator<Warrior> WORST_FITNESS_FIRST = Comparator.comparing(Warrior::getPerformance),
+            BEST_FITNESS_FIRST = WORST_FITNESS_FIRST.reversed();
+
     //Items
     private Boots boots;
     private Gloves gloves;

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class AnnularCrossover implements CrossOver {
 
-    public List<Warrior> getCrossOver(Warrior w1, Warrior w2) {
+    public List<Warrior> apply(Warrior w1, Warrior w2) {
         Genes[] genes = Genes.values();
         int locus1 = (int) (Math.random() * genes.length);
         int length = (int) (Math.random() * genes.length);
@@ -20,7 +20,7 @@ public class AnnularCrossover implements CrossOver {
 
 
     /**
-     * Returns two warriors swapping length locus from locus1 in an anular way
+     * Returns two warriors swapping length locus from locus1 in an annular way
      */
     protected List<Warrior> getCrossOver(Warrior w1, Warrior w2, int locus1, int length) {
         List<Warrior> newWarriors = new ArrayList<>();
