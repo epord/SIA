@@ -66,26 +66,26 @@ public abstract class Warrior {
     }
 
     public double getStrength() {
-        return strength;
+        return 100 * Math.tanh(0.01 * strength);
     }
 
 
     public double getAgility() {
-        return agility;
+        return Math.tanh(0.01 * agility);
     }
 
     public double getExpertise() {
-        return expertise;
+        return 0.6 * Math.tanh(0.01 * expertise);
     }
 
 
     public double getResistance() {
-        return resistance;
+        return Math.tanh(0.01 * resistance);
     }
 
 
     public double getHitPoints() {
-        return hitpoints;
+        return 100 * Math.tanh(0.01 * hitpoints);
     }
 
     private void setStrength() {
