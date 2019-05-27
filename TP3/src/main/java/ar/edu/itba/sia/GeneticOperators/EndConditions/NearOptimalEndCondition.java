@@ -21,7 +21,7 @@ public class NearOptimalEndCondition implements EndCondition {
     }
 
     private double getBestPerformance(List<Warrior> population) {
-        Collections.sort(population, (w1, w2) -> (int)(w2.getPerformance() - w1.getPerformance()));
+        population.sort(Warrior.BEST_FITNESS_FIRST);
         return population.get(0).getPerformance();
     }
 }

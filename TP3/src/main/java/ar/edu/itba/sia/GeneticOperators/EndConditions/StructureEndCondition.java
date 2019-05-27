@@ -3,7 +3,6 @@ package ar.edu.itba.sia.GeneticOperators.EndConditions;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.EndCondition;
 import ar.edu.itba.sia.Warriors.Warrior;
 
-import java.util.Collections;
 import java.util.List;
 
 public class StructureEndCondition implements EndCondition {
@@ -14,7 +13,7 @@ public class StructureEndCondition implements EndCondition {
     }
 
     public boolean test(List<Warrior> population) {
-        if(lastPopulation == null) {
+        if (lastPopulation == null) {
             lastPopulation = population;
             return false;
         }

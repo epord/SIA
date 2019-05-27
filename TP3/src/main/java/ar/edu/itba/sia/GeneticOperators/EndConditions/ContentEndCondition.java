@@ -3,7 +3,6 @@ package ar.edu.itba.sia.GeneticOperators.EndConditions;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.EndCondition;
 import ar.edu.itba.sia.Warriors.Warrior;
 
-import java.util.Collections;
 import java.util.List;
 
 public class ContentEndCondition implements EndCondition {
@@ -26,18 +25,13 @@ public class ContentEndCondition implements EndCondition {
             return false;
         }
         else {
-            currentConsecutiveGenerations ++;
-            if(currentConsecutiveGenerations < maxConsecutiveGenerations) {
-                return false;
-            }
-            else {
-                return true;
-            }
+            currentConsecutiveGenerations++;
+            return currentConsecutiveGenerations >= maxConsecutiveGenerations;
         }
     }
 
     private double getBestPerformance(List<Warrior> population) {
-        Collections.sort(population, (w1, w2) -> (int)(w2.getPerformance() - w1.getPerformance()));
+        population.sort(Warrior.BEST_FITNESS_FIRST);
         return population.get(0).getPerformance();
     }
 }

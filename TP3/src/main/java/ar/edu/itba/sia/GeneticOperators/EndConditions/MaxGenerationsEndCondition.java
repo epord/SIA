@@ -14,7 +14,7 @@ public class MaxGenerationsEndCondition implements EndCondition {
         currentGeneration   = 0;
     }
     public boolean test(List<Warrior> population) {
-        if(currentGeneration < maxGenerations) {
+        if (currentGeneration < maxGenerations) {
             currentGeneration ++;
             return false;
         }
