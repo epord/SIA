@@ -95,13 +95,17 @@ public class BestWarriorFinder {
 
         // Metodo de reemplazo 3 TODO implementar los otros dos y poder elegir
         while(!endCondition.test(population)) {
+            // Select K fittest parents
             generators = selectionMethod.select(population, k);
+            // Cross them (generate children)
             nextGeneration = generateChildren(crossOverMethod, generators, k);
-            nextGeneration.addAll(population);
-            // FIXME mutar sólo hijos antes de agregar el resto de la población
+            // Mutate children
             nextGeneration = mutatePopulation(mutationMethod, nextGeneration, 0.01);
+            // Add previous generation
+            nextGeneration.addAll(population);
+
             population = replacePopulation(replacementMethod, nextGeneration, populationNumber);
-            currGeneration ++;
+            currGeneration++;
         }
         EliteSelection selector = new EliteSelection();
         return selector.select(population, 1).get(0);
