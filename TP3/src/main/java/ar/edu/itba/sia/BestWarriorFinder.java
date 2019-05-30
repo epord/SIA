@@ -62,14 +62,23 @@ public class BestWarriorFinder {
         Weapons     = loadItems(ItemType.WEAPON);
     }
 
-    public static void loadGeneticOperators() {
-        int maxGenerations      = 10000;
+    public static void loadGeneticOperators() throws IOException {
+        int maxGenerations = 10000;
+        int maxConsecutiveGenerations = 10;
+        Warrior masterRaceWarrior = MasterRaceFinder.find(WarriorType.ARCHER);
+        double nearOptimalError = 0.05;
+        double NonChangingPopulationPercentage = 1.0;
         //TODO everything should be read from properties
         selectionMethod         = new EliteSelection();
         mutationMethod          = new SingleGeneMutation();
         crossOverMethod         = new OnePointCrossover();
         replacementSelection    = new EliteSelection();
-        endCondition            = new MaxGenerationsEndCondition(maxGenerations);
+        endCondition            = new EndConditionsCombiner(
+                                        new MaxGenerationsEndCondition(maxGenerations)
+                                        , new ContentEndCondition(maxConsecutiveGenerations)
+                                        , new NearOptimalEndCondition(masterRaceWarrior.getFitness(), nearOptimalError)
+                                        , new StructuralEndCondition(NonChangingPopulationPercentage)
+                                    );
         replacementMethod       = new ReplacementMethod3(selectionMethod, mutationMethod,
                                                             crossOverMethod, replacementSelection);
     }
