@@ -67,8 +67,6 @@ public class MasterRaceFinder {
         return bestItem;
     }
 
-
-
     public static void generateEquipment() throws IOException {
         boots = TSVReader.loadItems(ItemType.BOOTS);
         gloves = TSVReader.loadItems(ItemType.GLOVES);
@@ -76,5 +74,4 @@ public class MasterRaceFinder {
         helmets = TSVReader.loadItems(ItemType.HELMET);
         weapons = TSVReader.loadItems(ItemType.WEAPON);
     }
-
 }

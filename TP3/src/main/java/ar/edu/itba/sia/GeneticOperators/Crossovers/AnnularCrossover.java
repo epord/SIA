@@ -20,7 +20,7 @@ public class AnnularCrossover implements CrossOver {
 
 
     /**
-     * Returns two warriors swapping length locus from locus1 in an annular way
+     * Returns two warriors swapping {@code length} loci from {@code locus1} in an annular way (ie. wrapping around).
      */
     protected List<Warrior> getCrossOver(Warrior w1, Warrior w2, int locus1, int length) {
         List<Warrior> newWarriors = new ArrayList<>();

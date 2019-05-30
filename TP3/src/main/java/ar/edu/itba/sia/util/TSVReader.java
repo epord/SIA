@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TSVReader {
-    public static final String files[] = {"botas.tsv", "guantes.tsv", "pecheras.tsv", "cascos.tsv", "armas.tsv"};
+    public static final String[] files = {"botas.tsv", "guantes.tsv", "pecheras.tsv", "cascos.tsv", "armas.tsv"};
 
     public static List<Item> loadItems(ItemType type) throws IOException {
 
@@ -19,7 +19,7 @@ public class TSVReader {
 
         // Read first line with names
         String line = TSVFile.readLine();
-        String stats[];
+        String[] stats;
         line = TSVFile.readLine();
         List<Item> items = new ArrayList<>();
 
@@ -34,7 +34,7 @@ public class TSVReader {
         return items;
     }
 
-    private static void createItem(String stats[], ItemType type, List<Item> items) {
+    private static void createItem(String[] stats, ItemType type, List<Item> items) {
 
         switch (type) {
             case BOOTS:

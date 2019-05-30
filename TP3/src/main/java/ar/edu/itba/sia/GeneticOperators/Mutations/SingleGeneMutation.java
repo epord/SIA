@@ -8,14 +8,16 @@ import ar.edu.itba.sia.Warriors.Warrior;
 
 import java.util.List;
 
-public class GenMutation implements Mutation {
-    private static final int genes = 5;
+/**
+ * Single-gene mutation.  Chooses a single random locus and mutates it.
+ */
+public class SingleGeneMutation implements Mutation {
 
     public Warrior mutate(Warrior warrior, List<Item> boots, List<Item> gloves, List<Item> platebodies,
                           List<Item> helmets, List<Item> weapons, double minHeight, double maxHeight) {
-        Genes genesValues[] = Genes.values();
-        int locus = (int) (Math.random() * genes);
-        Genes crossGene = genesValues[locus];
+        Genes[] genes = Genes.values();
+        int locus = (int) (Math.random() * genes.length);
+        Genes crossGene = genes[locus];
         Warrior newWarrior= null;
         switch(crossGene) {
             case BOOT:

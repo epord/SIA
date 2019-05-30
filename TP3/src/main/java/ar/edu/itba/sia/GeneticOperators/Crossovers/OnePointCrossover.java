@@ -12,7 +12,7 @@ public class OnePointCrossover implements CrossOver {
 
     public List<Warrior> apply(Warrior w1, Warrior w2) {
         List<Warrior> newWarriors = new ArrayList<>();
-        Genes genesValues[] = Genes.values();
+        Genes[] genesValues = Genes.values();
         int locus = (int) (Math.random() * genesValues.length);
         Genes crossGene = genesValues[locus];
         Warrior newWarrior1 = null,
@@ -65,11 +65,10 @@ public class OnePointCrossover implements CrossOver {
                 newWarrior2 =  new Archer(w2.getBoots(), w2.getGloves(), w2.getPlatebody(),
                                              w2.getHelmet(), w2.getWeapon(), w1.getHeight());
                 break;
-
-
         }
         newWarriors.add(newWarrior1);
         newWarriors.add(newWarrior2);
+
         return newWarriors;
     }
 }

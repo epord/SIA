@@ -19,14 +19,13 @@ public class ContentEndCondition implements EndCondition {
     public boolean test(List<Warrior> population) {
         double bestPerformance = getBestPerformance(population);
 
-        if(bestPerformance > currentBestPerformance) {
+        if (bestPerformance > currentBestPerformance) {
             currentBestPerformance          = bestPerformance;
             currentConsecutiveGenerations   = 0;
             return false;
         }
         else {
-            currentConsecutiveGenerations++;
-            return currentConsecutiveGenerations >= maxConsecutiveGenerations;
+            return ++currentConsecutiveGenerations >= maxConsecutiveGenerations;
         }
     }
 

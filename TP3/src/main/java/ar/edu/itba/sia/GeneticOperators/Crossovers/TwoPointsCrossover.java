@@ -14,8 +14,7 @@ public class TwoPointsCrossover implements CrossOver {
         int locus1 = (int) (Math.random() * genes.length);
         int locus2 = (int) (Math.random() * genes.length);
 
-        AnnularCrossover annular = new AnnularCrossover();
-        return annular.getCrossOver(w1, w2, Math.min(locus1, locus2), Math.abs(locus2 - locus1) + 1);
-
+        // Perform an annular crossover from min locus to max locus, which will NOT wrap around
+        return new AnnularCrossover().getCrossOver(w1, w2, Math.min(locus1, locus2), Math.abs(locus2 - locus1) + 1);
     }
 }

@@ -4,7 +4,7 @@ import ar.edu.itba.sia.GeneticOperators.Crossovers.OnePointCrossover;
 import ar.edu.itba.sia.GeneticOperators.EndConditions.MaxGenerationsEndCondition;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.EndCondition;
 import ar.edu.itba.sia.GeneticOperators.Selections.EliteSelection;
-import ar.edu.itba.sia.GeneticOperators.Mutations.GenMutation;
+import ar.edu.itba.sia.GeneticOperators.Mutations.SingleGeneMutation;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.CrossOver;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.Mutation;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.Selection;
@@ -37,7 +37,7 @@ public class BestWarriorFinder {
     public static void main(String[] args) throws IOException{
        //loadSettings("TP3/src/main/settings.properties");
         Warrior bestWarrior = findBestWarrior();
-        System.out.println("Best warrior performance: " + bestWarrior.getPerformance() );
+        System.out.println("Best warrior performance: " + bestWarrior.getPerformance());
     }
 
     public static Warrior findBestWarrior() throws IOException {
@@ -45,7 +45,7 @@ public class BestWarriorFinder {
         int populationSize = 10; //should be read from properties TODO
         population = generatePopulation(populationSize, WarriorType.ARCHER);
         int maxGenerations = 10000;
-        return findBestWarrior(population, new EliteSelection(), new GenMutation(),
+        return findBestWarrior(population, new EliteSelection(), new SingleGeneMutation(),
                                                 new OnePointCrossover(), new EliteSelection(),
                                                 maxGenerations, 5, populationSize,
                                                 new MaxGenerationsEndCondition(maxGenerations));
