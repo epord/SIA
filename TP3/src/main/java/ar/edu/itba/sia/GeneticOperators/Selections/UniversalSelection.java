@@ -36,13 +36,13 @@ public class UniversalSelection implements Selection {
         return selectedWarriors;
     }
 
-    private static void initializeRandoms(double randoms[], int quantity, double r) {
+    protected void initializeRandoms(double[] randoms, int quantity, double r) {
         for(int i = 0; i < quantity; i++) {
             randoms[i] = (r + i) / quantity; // j = i + 1 -> j - 1 = i
         }
     }
 
-    private double getTotalPerformance(List<Warrior> warriors) {
+    static double getTotalPerformance(List<Warrior> warriors) {
         return warriors.stream()
                 .map(Warrior::getPerformance)
                 .reduce(Double::sum)
