@@ -8,17 +8,20 @@ import java.util.Collections;
 import java.util.List;
 
 public class DeterministicTournamentSelection implements Selection {
-    private int quantityOfChoices;
+    private int numPickedWarriors;
 
-    public DeterministicTournamentSelection(int quantityOfChoices) {
-        this.quantityOfChoices = quantityOfChoices;
+    /**
+     * @param numPickedWarriors Number of warriors to pick on every tournament.
+     */
+    public DeterministicTournamentSelection(int numPickedWarriors) {
+        this.numPickedWarriors = numPickedWarriors;
     }
 
-    public List<Warrior> select(List<Warrior> warriors, int quantity) {
+    public List<Warrior> select(List<Warrior> warriors, int numTournaments) {
         List<Warrior> currentChoices;
         List<Warrior> selectedWarriors = new ArrayList<>();
-        for(int i = 0; i < quantity; i++) {
-            currentChoices = getWarriorsRandomly(quantityOfChoices, warriors);
+        for(int i = 0; i < numTournaments; i++) {
+            currentChoices = getWarriorsRandomly(numPickedWarriors, warriors);
             selectedWarriors.add(getBestWarrior(currentChoices));
         }
         return selectedWarriors;
