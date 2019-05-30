@@ -2,12 +2,10 @@ package ar.edu.itba.sia;
 
 import ar.edu.itba.sia.GeneticOperators.Crossovers.OnePointCrossover;
 import ar.edu.itba.sia.GeneticOperators.EndConditions.MaxGenerationsEndCondition;
-import ar.edu.itba.sia.GeneticOperators.Interfaces.EndCondition;
+import ar.edu.itba.sia.GeneticOperators.Interfaces.*;
+import ar.edu.itba.sia.GeneticOperators.ReplacementMethod.ReplacementMethod3;
 import ar.edu.itba.sia.GeneticOperators.Selections.EliteSelection;
 import ar.edu.itba.sia.GeneticOperators.Mutations.SingleGeneMutation;
-import ar.edu.itba.sia.GeneticOperators.Interfaces.CrossOver;
-import ar.edu.itba.sia.GeneticOperators.Interfaces.Mutation;
-import ar.edu.itba.sia.GeneticOperators.Interfaces.Selection;
 import ar.edu.itba.sia.Items.*;
 import ar.edu.itba.sia.Warriors.Archer;
 import ar.edu.itba.sia.Warriors.Warrior;
@@ -19,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static ar.edu.itba.sia.BestWarriorFinder.loadGeneticOperators;
 import static ar.edu.itba.sia.util.TSVReader.loadItems;
 
 
@@ -31,7 +30,13 @@ public class BestWarriorFinder {
     private static List<Item> Helmets;
     private static List<Item> Weapons;
     private static List<Warrior> population;
-    public static List<Warrior> children;
+    private static List<Warrior> children;
+    private static Selection selectionMethod;
+    private static Mutation mutationMethod;
+    private static CrossOver crossOverMethod;
+    private static Selection replacementSelection;
+    private static EndCondition endCondition;
+    private static ReplacementMethod replacementMethod;
 
 
     public static void main(String[] args) throws IOException{
@@ -42,13 +47,11 @@ public class BestWarriorFinder {
 
     public static Warrior findBestWarrior() throws IOException {
         generateEquipment();
+        loadGeneticOperators();
         int populationSize = 10; //should be read from properties TODO
         population = generatePopulation(populationSize, WarriorType.ARCHER);
         int maxGenerations = 10000;
-        return findBestWarrior(population, new EliteSelection(), new SingleGeneMutation(),
-                                                new OnePointCrossover(), new EliteSelection(),
-                                                maxGenerations, 5, populationSize,
-                                                new MaxGenerationsEndCondition(maxGenerations));
+        return findBestWarrior(population, 5, replacementMethod, endCondition);
     }
 
     public static void generateEquipment() throws IOException {
@@ -57,6 +60,18 @@ public class BestWarriorFinder {
         Platebodies = loadItems(ItemType.PLATEBODY);
         Helmets     = loadItems(ItemType.HELMET);
         Weapons     = loadItems(ItemType.WEAPON);
+    }
+
+    public static void loadGeneticOperators() {
+        int maxGenerations      = 10000;
+        //TODO everything should be read from properties
+        selectionMethod         = new EliteSelection();
+        mutationMethod          = new SingleGeneMutation();
+        crossOverMethod         = new OnePointCrossover();
+        replacementSelection    = new EliteSelection();
+        endCondition            = new MaxGenerationsEndCondition(maxGenerations);
+        replacementMethod       = new ReplacementMethod3(selectionMethod, mutationMethod,
+                                                            crossOverMethod, replacementSelection);
     }
 
     public static List<Warrior> generatePopulation(int populationNumber, WarriorType warriorType) {
@@ -85,33 +100,48 @@ public class BestWarriorFinder {
         return null;
     }
 
-    private static Warrior findBestWarrior(List<Warrior> population, Selection selectionMethod,
-                                           Mutation mutationMethod, CrossOver crossOverMethod,
-                                           Selection replacementMethod, int maxGeneration, int k,
-                                           int populationNumber, EndCondition endCondition) {
+    private static Warrior findBestWarrior(List<Warrior> population, int k, ReplacementMethod replacementMethod,
+                                            EndCondition endCondition) {
         int currGeneration = 0;
         List <Warrior> generators;
         List <Warrior> nextGeneration;
 
-        // Metodo de reemplazo 3 TODO implementar los otros dos y poder elegir
         while(!endCondition.test(population)) {
-            // Select K fittest parents
-            generators = selectionMethod.select(population, k);
-            // Cross them (generate children)
-            nextGeneration = generateChildren(crossOverMethod, generators, k);
-            // Mutate children
-            nextGeneration = mutatePopulation(mutationMethod, nextGeneration, 0.01);
-            // Add previous generation
-            nextGeneration.addAll(population);
-
-            population = replacePopulation(replacementMethod, nextGeneration, populationNumber);
+            population = replacementMethod.getNetGeneration(population, k);
             currGeneration++;
         }
+
         EliteSelection selector = new EliteSelection();
         return selector.select(population, 1).get(0);
     }
 
-    private  static List<Warrior> generateChildren(CrossOver crossOverMethod, List<Warrior> generators, int k) {
+//    private static Warrior findBestWarrior(List<Warrior> population, Selection selectionMethod,
+//                                           Mutation mutationMethod, CrossOver crossOverMethod,
+//                                           Selection replacementMethod, int maxGeneration, int k,
+//                                           int populationNumber, EndCondition endCondition) {
+//        int currGeneration = 0;
+//        List <Warrior> generators;
+//        List <Warrior> nextGeneration;
+//
+//        // Metodo de reemplazo 3 TODO implementar los otros dos y poder elegir
+//        while(!endCondition.test(population)) {
+//            // Select K fittest parents
+//            generators = selectionMethod.select(population, k);
+//            // Cross them (generate children)
+//            nextGeneration = generateChildren(crossOverMethod, generators, k);
+//            // Mutate children
+//            nextGeneration = mutatePopulation(mutationMethod, nextGeneration, 0.01);
+//            // Add previous generation
+//            nextGeneration.addAll(population);
+//
+//            population = replacePopulation(replacementMethod, nextGeneration, populationNumber);
+//            currGeneration++;
+//        }
+//        EliteSelection selector = new EliteSelection();
+//        return selector.select(population, 1).get(0);
+//    }
+
+    public  static List<Warrior> generateChildren(CrossOver crossOverMethod, List<Warrior> generators, int k) {
         List<Warrior> children = new ArrayList<>();
         for(int i = 0; i < k; i++) {
             Warrior w1 = generators.get((int) (Math.random() * generators.size()));
@@ -121,7 +151,7 @@ public class BestWarriorFinder {
         return children;
     }
 
-    private static List<Warrior> mutatePopulation(Mutation mutationMethod, List<Warrior> population,
+    public static List<Warrior> mutatePopulation(Mutation mutationMethod, List<Warrior> population,
                                                   double mutationPercentage) {
         List<Warrior> newPopulation = new ArrayList<>();
 
@@ -138,7 +168,7 @@ public class BestWarriorFinder {
         return newPopulation;
     }
 
-    private static List<Warrior> replacePopulation(Selection replacementMethod, List<Warrior> population,
+    public static List<Warrior> replacePopulation(Selection replacementMethod, List<Warrior> population,
                                                    int populationNumber) {
         return replacementMethod.select(population, populationNumber);
     }
