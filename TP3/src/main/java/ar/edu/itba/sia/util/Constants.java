@@ -1,7 +1,8 @@
 package ar.edu.itba.sia.util;
 
 public class Constants {
-    public static final String ATTACK_MULTIPLIER = "character.attackMultiplier",
+    public static final String POPULATION_SIZE = "general.populationSize",
+        ATTACK_MULTIPLIER = "character.attackMultiplier",
         DEFENSE_MULTIPLIER = "character.defenseMultiplier",
         STRENGTH_MULTIPLIER = "character.strengthMultiplier",
         AGILITY_MULTIPLIER = "character.agilityMultiplier",
@@ -26,6 +27,8 @@ public class Constants {
         TOURNAMENT_RANDOM_PROBABILITY = "selection.tournament.random.p",
 
         MUTATION_PROBABILITY = "mutation.p",
+        MUTATION_UNIFORMITY = "mutation.uniform",
+        MUTATION_UNIFORM_GENERATIONS = "mutation.uniformGenerations",
 
         REPLACEMENT_GENERATION_GAP = "replacement.generation_gap",
         REPLACEMENT_B = "replacement.selection.B",
@@ -33,7 +36,5 @@ public class Constants {
         REPLACEMENT_SELECTION_METHOD_2 = "replacement.selection.method2",
 
         REPLACEMENT_METHOD_2_K = "replacement.method2.k",
-        REPLACEMENT_METHOD_3_K = "replacement.method3.k",
-
-        POPULATION_NUMBER = "population.number";
+        REPLACEMENT_METHOD_3_K = "replacement.method3.k";
 }
