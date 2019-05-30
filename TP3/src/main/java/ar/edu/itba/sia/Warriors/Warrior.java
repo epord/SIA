@@ -3,6 +3,7 @@ package ar.edu.itba.sia.Warriors;
 import ar.edu.itba.sia.Items.*;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 public abstract class Warrior {
     public static final Comparator<Warrior> WORST_FITNESS_FIRST = Comparator.comparing(Warrior::getPerformance),
@@ -154,6 +155,11 @@ public abstract class Warrior {
         }
         Warrior warrior = (Warrior) o;
         return warrior.equals(this);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(boots, gloves, platebody, weapon, helmet, height, strength, agility, expertise, resistance, hitpoints);
     }
 
     @Override
