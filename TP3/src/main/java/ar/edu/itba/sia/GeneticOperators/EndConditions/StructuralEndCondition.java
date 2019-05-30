@@ -38,30 +38,76 @@ public class StructuralEndCondition implements EndCondition {
         }
     }
 
+//    private double percentageDifference(List<Warrior> lastPopulation, List<Warrior> currentPopulation) {
+//        List<Warrior> difference;
+//        int totalSize;
+//        if (lastPopulation.size() > currentPopulation.size()) {
+//            difference = new ArrayList<>(lastPopulation);
+//            difference.removeAll(currentPopulation);
+//            totalSize = lastPopulation.size();
+//        } else {
+//            difference = new ArrayList<>(currentPopulation);
+//            difference.removeAll(lastPopulation);
+//            totalSize = currentPopulation.size();
+//        }
+//
+//        return (double) difference.size() / totalSize;
+//
+//        // TODO try to use this code but instead of calculating whether population is different or not, compute HOW different they are
+////        Map<Warrior, Integer> currentPopulationMap = fillOccurrenceMap(currentPopulation); // This step is always required otherwise the map will get outdated
+////        if (currentPopulation.size() != lastPopulation.size()) {
+////            lastPopulationMap = currentPopulationMap;
+////            return false;
+////        }
+////        boolean result = lastPopulationMap.equals(currentPopulationMap);
+////        lastPopulationMap = currentPopulationMap;
+////        return result;
+//    }
     private double percentageDifference(List<Warrior> lastPopulation, List<Warrior> currentPopulation) {
-        List<Warrior> difference;
-        int totalSize;
-        if (lastPopulation.size() > currentPopulation.size()) {
-            difference = new ArrayList<>(lastPopulation);
-            difference.removeAll(currentPopulation);
-            totalSize = lastPopulation.size();
-        } else {
-            difference = new ArrayList<>(currentPopulation);
-            difference.removeAll(lastPopulation);
-            totalSize = currentPopulation.size();
+        double totalSize = 2 * lastPopulation.size();
+        HashMap<Warrior, Integer> lastPopulationMap     = new HashMap<>();
+        HashMap<Warrior, Integer> currentPopulationMap  = new HashMap<>();
+
+        loadMap(lastPopulationMap, lastPopulation);
+        loadMap(currentPopulationMap, currentPopulation);
+        double difference = 0;
+
+        difference += getDifference(lastPopulationMap, currentPopulation);
+        difference += getDifference(currentPopulationMap, lastPopulation);
+
+        return  difference / totalSize;
+    }
+
+    private void loadMap(HashMap<Warrior, Integer> map, List<Warrior> population) {
+        for(Warrior w : population) {
+            if(map.containsKey(w)) {
+                Integer value = map.get(w);
+                map.put(w, value + 1);
+            }
+            else {
+                map.put(w, 1);
+            }
+        }
+    }
+
+    private int getDifference(HashMap<Warrior, Integer> map, List<Warrior> population) {
+        int difference = 0;
+        for(Warrior w : population) {
+            if(map.containsKey(w)) {
+                Integer value = map.get(w);
+                if(value == 0) {
+                    difference ++;
+                }
+                else {
+                    map.put(w, value - 1);
+                }
+            }
+            else {
+                difference++;
+            }
         }
 
-        return (double) difference.size() / totalSize;
-
-        // TODO try to use this code but instead of calculating whether population is different or not, compute HOW different they are
-//        Map<Warrior, Integer> currentPopulationMap = fillOccurrenceMap(currentPopulation); // This step is always required otherwise the map will get outdated
-//        if (currentPopulation.size() != lastPopulation.size()) {
-//            lastPopulationMap = currentPopulationMap;
-//            return false;
-//        }
-//        boolean result = lastPopulationMap.equals(currentPopulationMap);
-//        lastPopulationMap = currentPopulationMap;
-//        return result;
+        return difference;
     }
 
     /**
