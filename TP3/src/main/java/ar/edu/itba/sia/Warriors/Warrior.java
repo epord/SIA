@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.Objects;
 
 public abstract class Warrior {
-    public static final Comparator<Warrior> WORST_FITNESS_FIRST = Comparator.comparing(Warrior::getPerformance),
+    public static final Comparator<Warrior> WORST_FITNESS_FIRST = Comparator.comparing(Warrior::getFitness),
             BEST_FITNESS_FIRST = WORST_FITNESS_FIRST.reversed();
 
     //Items
@@ -143,7 +143,7 @@ public abstract class Warrior {
         setResistance();
         setHitpoints();
     }
-    public abstract double getPerformance();
+    public abstract double getFitness();
 
     @Override
     public boolean equals(Object o) {
@@ -176,7 +176,7 @@ public abstract class Warrior {
                 "   expertise = " + expertise + ",\n" +
                 "   resistance = " + resistance + ",\n" +
                 "   hitpoints = " + hitpoints + ",\n" +
-                "   performance = " + getPerformance() + "\n" +
+                "   fitness = " + getFitness() + "\n" +
                 '}';
     }
 }

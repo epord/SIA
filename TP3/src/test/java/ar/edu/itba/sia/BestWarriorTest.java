@@ -13,15 +13,15 @@ public class BestWarriorTest {
     @Test
     public void shouldNeverExceedMaximum() throws IOException {
         Warrior bestWarrior = MasterRaceFinder.find(WarriorType.ARCHER);
-        final double MAX_PERFORMANCE = bestWarrior.getPerformance();
+        final double MAX_FITNESS = bestWarrior.getFitness();
         final int NUM_TESTS = 1000;
-        System.out.println("Maximum performance: " + MAX_PERFORMANCE);
+        System.out.println("Maximum fitness: " + MAX_FITNESS);
 
         for (int i = 0; i < NUM_TESTS; i++) {
             System.out.format("Test run %d/%d...", i+1, NUM_TESTS);
             Warrior warrior = BestWarriorFinder.findBestWarrior();
-            double performance = warrior.getPerformance();
-            assertTrue(String.format("\nBest performance exceeded: %g > %g\nOffending warrior: %s", performance, MAX_PERFORMANCE, warrior), MAX_PERFORMANCE > performance);
+            double fitness = warrior.getFitness();
+            assertTrue(String.format("\nBest fitness exceeded: %g > %g\nOffending warrior: %s", fitness, MAX_FITNESS, warrior), MAX_FITNESS > fitness);
             System.out.println("OK");
         }
     }

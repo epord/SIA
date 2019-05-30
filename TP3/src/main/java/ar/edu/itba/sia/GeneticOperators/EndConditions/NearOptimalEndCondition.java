@@ -7,21 +7,21 @@ import java.util.Collections;
 import java.util.List;
 
 public class NearOptimalEndCondition implements EndCondition {
-    private double optimalPerformance;
+    private double optimalFitness;
     private double delta;
 
-    public NearOptimalEndCondition(double optimalPerformance, double delta) {
-        this.optimalPerformance = optimalPerformance;
+    public NearOptimalEndCondition(double optimalFitness, double delta) {
+        this.optimalFitness = optimalFitness;
         this.delta              = delta;
     }
 
     public boolean test(List<Warrior> population) {
-        double bestPerformance = getBestPerformance(population);
-        return Math.abs(optimalPerformance - bestPerformance) < delta;
+        double bestFitness = getBestFitness(population);
+        return Math.abs(optimalFitness - bestFitness) < delta;
     }
 
-    private double getBestPerformance(List<Warrior> population) {
+    private double getBestFitness(List<Warrior> population) {
         population.sort(Warrior.BEST_FITNESS_FIRST);
-        return population.get(0).getPerformance();
+        return population.get(0).getFitness();
     }
 }

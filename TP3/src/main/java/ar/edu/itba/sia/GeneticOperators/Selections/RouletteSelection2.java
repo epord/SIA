@@ -21,14 +21,14 @@ public class RouletteSelection2 implements Selection {
     public List<Warrior> select(List<Warrior> warriors, int quantity) {
         List<Double> randoms = Stream.generate(Math::random).limit(quantity).collect(Collectors.toList());
         List<Warrior> selectedWarriors = new ArrayList<>(quantity);
-        double totalPerformance = UniversalSelection.getTotalPerformance(warriors);
-        List<Double> relativePerformances = warriors.stream().map(w -> w.getPerformance() / totalPerformance).collect(Collectors.toCollection(ArrayList::new)),
-                accumulatedPerformances = new ArrayList<>(warriors.size()+1);
-        accumulatedPerformances.add(0d);
-        double accumulatedPerformance = 0;
-        for (Double relativePerformance : relativePerformances) {
-            accumulatedPerformance += relativePerformance;
-            accumulatedPerformances.add(accumulatedPerformance);
+        double totalFitness = UniversalSelection.getTotalFitness(warriors);
+        List<Double> relativeFitnesses = warriors.stream().map(w -> w.getFitness() / totalFitness).collect(Collectors.toCollection(ArrayList::new)),
+                accumulatedFitnesses = new ArrayList<>(warriors.size()+1);
+        accumulatedFitnesses.add(0d);
+        double accumulatedFitness = 0;
+        for (Double relativeFitness : relativeFitnesses) {
+            accumulatedFitness += relativeFitness;
+            accumulatedFitnesses.add(accumulatedFitness);
         }
 
         int warriorIndex = 0;
@@ -37,7 +37,7 @@ public class RouletteSelection2 implements Selection {
         // maybe shuffle warrior collection? TODO
 
         while(selectedWarriors.size() < quantity) {
-            if (accumulatedPerformances.get(warriorIndex) < randoms.get(randomIndex) && randoms.get(randomIndex) < accumulatedPerformances.get(warriorIndex+1)) {
+            if (accumulatedFitnesses.get(warriorIndex) < randoms.get(randomIndex) && randoms.get(randomIndex) < accumulatedFitnesses.get(warriorIndex+1)) {
                 selectedWarriors.add(warriors.get(warriorIndex));
                 randomIndex++;
                 warriorIndex = 0;

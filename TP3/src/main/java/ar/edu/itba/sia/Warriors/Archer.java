@@ -10,7 +10,7 @@ public class Archer extends Warrior {
         super(boots, gloves, platebody, helmet, weapon, height);
     }
 
-    public double getPerformance() {
+    public double getFitness() {
         return ATTACK_MULTIPLIER * getAttack() + DEFENSE_MULTIPLIER * getDefense();
     }
 
@@ -25,6 +25,6 @@ public class Archer extends Warrior {
         }
 
         Archer archer = (Archer)o;
-        return archer.getPerformance() == getPerformance();
+        return archer.getFitness() == getFitness();
     }
 }

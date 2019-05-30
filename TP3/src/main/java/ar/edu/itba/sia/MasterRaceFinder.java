@@ -49,7 +49,7 @@ public class MasterRaceFinder {
 
     private static Item findBestItem(List<Item> items, WarriorType warriorType, double ATM, double DEM) {
         Item bestItem = null;
-        double bestPerformance = 0.0;
+        double bestFitness = 0.0;
         for (Item item: items) {
             double strength = 100 * Math.tanh(0.01 * item.getStrength());
             double agility = Math.tanh(0.01 * item.getAgility());
@@ -58,10 +58,10 @@ public class MasterRaceFinder {
             double hitPoints = 100 * Math.tanh(0.01 * item.getHitPoints());
             double attack = (agility + expertise) * strength * ATM;
             double defense = (resistance + expertise) * hitPoints * DEM;
-            double performance = warriorType.getAttackFactor() * attack + warriorType.getDefenseFactor() * defense;
-            if (performance > bestPerformance || bestItem == null) {
+            double fitness = warriorType.getAttackFactor() * attack + warriorType.getDefenseFactor() * defense;
+            if (fitness > bestFitness || bestItem == null) {
                 bestItem = item;
-                bestPerformance = performance;
+                bestFitness = fitness;
             }
         }
         return bestItem;

@@ -37,7 +37,7 @@ public class BestWarriorFinder {
     public static void main(String[] args) throws IOException{
        //loadSettings("TP3/src/main/settings.properties");
         Warrior bestWarrior = findBestWarrior();
-        System.out.println("Best warrior performance: " + bestWarrior.getPerformance());
+        System.out.println("Best warrior fitness: " + bestWarrior.getFitness());
     }
 
     public static Warrior findBestWarrior() throws IOException {

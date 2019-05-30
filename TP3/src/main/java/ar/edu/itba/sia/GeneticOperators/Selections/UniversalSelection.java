@@ -14,21 +14,21 @@ public class UniversalSelection implements Selection {
         List<Warrior> selectedWarriors = new ArrayList<>();
         int warriorIndex = 0;
         int randomIndex  = 0;
-        double totalPerformance = getTotalPerformance(warriors);
+        double totalFitness = getTotalFitness(warriors);
         //maybe shuffle warrior collection? TODO
         int selectedQuantity = 0;
-        double accumulatedPerformance = warriors.get(warriorIndex).getPerformance();
+        double accumulatedFitness = warriors.get(warriorIndex).getFitness();
 
         while(selectedQuantity < quantity) {
 
-            if(accumulatedPerformance / totalPerformance > randoms[randomIndex]) {
+            if(accumulatedFitness / totalFitness > randoms[randomIndex]) {
                 selectedWarriors.add(warriors.get(warriorIndex));
                 randomIndex++;
                 selectedQuantity++;
             }
             else {
                 warriorIndex++;
-                accumulatedPerformance += warriors.get(warriorIndex).getPerformance();
+                accumulatedFitness += warriors.get(warriorIndex).getFitness();
 
             }
         }
@@ -42,9 +42,9 @@ public class UniversalSelection implements Selection {
         }
     }
 
-    static double getTotalPerformance(List<Warrior> warriors) {
+    static double getTotalFitness(List<Warrior> warriors) {
         return warriors.stream()
-                .map(Warrior::getPerformance)
+                .map(Warrior::getFitness)
                 .reduce(Double::sum)
                 .orElse(0D);
     }
