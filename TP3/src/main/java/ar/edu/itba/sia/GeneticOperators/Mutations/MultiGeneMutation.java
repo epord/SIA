@@ -10,29 +10,33 @@ import java.util.List;
 /**
  * Multi-gene mutation.  Each gene may mutate with a particular probability independent of other genes.
  */
-public class MultiGeneMutation implements Mutation {
-    private static double p = 0.03; // TODO read this from file
+public class MultiGeneMutation extends GeneralMutation implements Mutation {
 
     public Warrior mutate(Warrior warrior, List<Item> boots, List<Item> gloves, List<Item> platebodies,
                           List<Item> helmets, List<Item> weapons, double minHeight, double maxHeight) {
 
         double rand = Math.random();
-        Boots newBoots = rand <= p ? (Boots) getRandomItem(boots) : warrior.getBoots();
+        double currentProbability = getProbability();
+        Boots newBoots = rand <= currentProbability ? (Boots) getRandomItem(boots) : warrior.getBoots();
 
         rand = Math.random();
-        Gloves newGloves = rand <= p ? (Gloves) getRandomItem(gloves) : warrior.getGloves();
+        Gloves newGloves = rand <= currentProbability ? (Gloves) getRandomItem(gloves) : warrior.getGloves();
 
         rand = Math.random();
-        Platebody newPlatebody = rand <= p ? (Platebody) getRandomItem(platebodies) : warrior.getPlatebody();
+        Platebody newPlatebody = rand <= currentProbability ? (Platebody) getRandomItem(platebodies) : warrior.getPlatebody();
 
         rand = Math.random();
-        Helmet newHelmet = rand <= p ? (Helmet) getRandomItem(helmets) : warrior.getHelmet();
+        Helmet newHelmet = rand <= currentProbability ? (Helmet) getRandomItem(helmets) : warrior.getHelmet();
 
         rand = Math.random();
-        Weapon newWeapon = rand <= p ? (Weapon) getRandomItem(weapons) : warrior.getWeapon();
+        Weapon newWeapon = rand <= currentProbability ? (Weapon) getRandomItem(weapons) : warrior.getWeapon();
 
         rand = Math.random();
-        double newHeight = rand <= p ? Math.random() * (maxHeight - minHeight) + minHeight : warrior.getHeight();
+        double newHeight = rand <= currentProbability ? Math.random() * (maxHeight - minHeight) + minHeight : warrior.getHeight();
+
+        if(!isUniform()) {
+            modifyProbability();
+        }
 
         return new Archer(newBoots, newGloves, newPlatebody, newHelmet, newWeapon, newHeight);
     }
