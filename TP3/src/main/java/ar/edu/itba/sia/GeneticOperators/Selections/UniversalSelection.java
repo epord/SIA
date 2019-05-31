@@ -30,7 +30,7 @@ public class UniversalSelection implements CustomizableSelection {
         List<Warrior> selectedWarriors = new ArrayList<>();
         int warriorIndex = 0;
         int randomIndex  = 0;
-        double totalFitness = FitnessUtils.getTotalFitness(warriors);
+        double totalFitness = customFitnesses == null ? FitnessUtils.getTotalFitness(warriors) : FitnessUtils.getTotalCustomFitness(customFitnesses);
         //maybe shuffle warrior collection? TODO
         int selectedQuantity = 0;
         double accumulatedFitness = customFitnesses == null ? warriors.get(warriorIndex).getFitness() : customFitnesses.get(warriorIndex);
