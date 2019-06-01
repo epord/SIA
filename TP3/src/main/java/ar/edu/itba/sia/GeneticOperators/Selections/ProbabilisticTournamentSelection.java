@@ -7,7 +7,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Equivalent to a deterministic tournament selection with {@code numPickedWarriors = 2} where there is a set probability
+ * for the fittest individual to win a tournament.
+ */
 public class ProbabilisticTournamentSelection implements Selection {
+
+    private final double p;
+
+    /**
+     * @param p Probability of the fittest individual to win a tournament.
+     */
+    public ProbabilisticTournamentSelection(double p) {
+        this.p = p;
+    }
 
     public List<Warrior> select(List<Warrior> warriors, int quantity) {
         List<Warrior> currentChoices;
@@ -29,7 +42,6 @@ public class ProbabilisticTournamentSelection implements Selection {
         double r = Math.random();
         population.sort(Warrior.BEST_FITNESS_FIRST);
 
-        // TODO read 0.75 from settings
-        return (r >= 0.75) ? population.get(population.size() - 1) : population.get(0);
+        return (r < p) ? population.get(0) : population.get(population.size() - 1);
     }
 }

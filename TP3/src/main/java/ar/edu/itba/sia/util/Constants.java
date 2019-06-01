@@ -18,12 +18,9 @@ public class Constants {
         CROSSOVER_SELECTION_METHOD_2 = "crossover.selection.method2",
         CROSSOVER_UNIFORM_PROBABILITY = "crossover.uniform.p",
 
-        WHEEL_K = "selection.wheel.k",
-        UNIVERSAL_K = "selection.universal.k",
-        UNIVERSAL_J = "selection.universal.j",
+        SELECTION_K = "selection.k",
         BOLTZMANN_TEMPERATURE_FUNCTION = "selection.boltzmann.tempFunction",
         TOURNAMENT_DETERMINISTIC_M = "selection.tournament.deterministic.m",
-        TOURNAMENT_DETERMINISTIC_K = "selection.tournament.deterministic.k",
         TOURNAMENT_RANDOM_PROBABILITY = "selection.tournament.random.p",
 
         MUTATION_PROBABILITY = "mutation.p",

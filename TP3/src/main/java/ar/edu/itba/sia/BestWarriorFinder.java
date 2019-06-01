@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static ar.edu.itba.sia.util.Settings.getInt;
 import static ar.edu.itba.sia.util.Settings.loadSettings;
 import static ar.edu.itba.sia.util.TSVReader.loadItems;
 
@@ -57,7 +58,7 @@ public class BestWarriorFinder {
         loadGeneticOperators();
         int populationSize = Settings.getInt(Constants.POPULATION_SIZE);
         population = generatePopulation(populationSize, WarriorType.ARCHER);
-        return findBestWarrior(population, 5, replacementMethod, endCondition);
+        return findBestWarrior(population, getInt(Constants.SELECTION_K), replacementMethod, endCondition);
     }
 
     public static void generateEquipment() throws IOException {
@@ -75,7 +76,7 @@ public class BestWarriorFinder {
         double nearOptimalError = 0.05;
         double NonChangingPopulationPercentage = 0.05;
         //TODO everything should be read from properties
-        selectionMethod         = new EliteSelection();
+        selectionMethod         = Settings.getSelectionMethod();
         mutationMethod          = new SingleGeneMutation();
         crossOverMethod         = new OnePointCrossover();
         replacementSelection    = new EliteSelection();
@@ -159,7 +160,7 @@ public class BestWarriorFinder {
 //        return selector.select(population, 1).get(0);
 //    }
 
-    public  static List<Warrior> generateChildren(CrossOver crossOverMethod, List<Warrior> generators, int k) {
+    public static List<Warrior> generateChildren(CrossOver crossOverMethod, List<Warrior> generators, int k) {
         List<Warrior> children = new ArrayList<>();
         for(int i = 0; i < k; i++) {
             Warrior w1 = generators.get((int) (Math.random() * generators.size()));
