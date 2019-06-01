@@ -1,16 +1,17 @@
 package ar.edu.itba.sia;
 
 import ar.edu.itba.sia.GeneticOperators.Crossovers.OnePointCrossover;
-import ar.edu.itba.sia.GeneticOperators.EndConditions.MaxGenerationsEndCondition;
+import ar.edu.itba.sia.GeneticOperators.EndConditions.*;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.*;
-import ar.edu.itba.sia.GeneticOperators.ReplacementMethod.ReplacementMethod3;
-import ar.edu.itba.sia.GeneticOperators.Selections.EliteSelection;
 import ar.edu.itba.sia.GeneticOperators.Mutations.SingleGeneMutation;
+import ar.edu.itba.sia.GeneticOperators.ReplacementMethod.ReplacementMethod2;
+import ar.edu.itba.sia.GeneticOperators.Selections.EliteSelection;
 import ar.edu.itba.sia.Items.*;
 import ar.edu.itba.sia.Warriors.Archer;
 import ar.edu.itba.sia.Warriors.Warrior;
 import ar.edu.itba.sia.Warriors.WarriorType;
 import ar.edu.itba.sia.util.Constants;
+import ar.edu.itba.sia.util.MetricsGenerator;
 import ar.edu.itba.sia.util.Settings;
 
 import java.io.IOException;
@@ -56,7 +57,6 @@ public class BestWarriorFinder {
         loadGeneticOperators();
         int populationSize = Settings.getInt(Constants.POPULATION_SIZE);
         population = generatePopulation(populationSize, WarriorType.ARCHER);
-        int maxGenerations = 10000;
         return findBestWarrior(population, 5, replacementMethod, endCondition);
     }
 
@@ -68,15 +68,24 @@ public class BestWarriorFinder {
         Weapons     = loadItems(ItemType.WEAPON);
     }
 
-    public static void loadGeneticOperators() {
-        int maxGenerations      = 10000;
+    public static void loadGeneticOperators() throws IOException {
+        int maxGenerations = 10000;
+        int maxConsecutiveGenerations = 50;
+        Warrior masterRaceWarrior = MasterRaceFinder.find(WarriorType.ARCHER);
+        double nearOptimalError = 0.05;
+        double NonChangingPopulationPercentage = 0.05;
         //TODO everything should be read from properties
         selectionMethod         = new EliteSelection();
         mutationMethod          = new SingleGeneMutation();
         crossOverMethod         = new OnePointCrossover();
         replacementSelection    = new EliteSelection();
-        endCondition            = new MaxGenerationsEndCondition(maxGenerations);
-        replacementMethod       = new ReplacementMethod3(selectionMethod, mutationMethod,
+        endCondition            = new EndConditionsCombiner(
+                                        new MaxGenerationsEndCondition(maxGenerations)
+                                        , new ContentEndCondition(maxConsecutiveGenerations)
+                                        , new NearOptimalEndCondition(masterRaceWarrior.getFitness(), nearOptimalError)
+                                        , new StructuralEndCondition(NonChangingPopulationPercentage)
+                                    );
+        replacementMethod       = new ReplacementMethod2(selectionMethod, mutationMethod,
                                                             crossOverMethod, replacementSelection);
     }
 
@@ -111,12 +120,15 @@ public class BestWarriorFinder {
         int currGeneration = 0;
         List <Warrior> generators;
         List <Warrior> nextGeneration;
+        MetricsGenerator.addGeneration(population);
 
         while(!endCondition.test(population)) {
             population = replacementMethod.getNetGeneration(population, k);
+            MetricsGenerator.addGeneration(population);
             currGeneration++;
         }
 
+        System.out.println(MetricsGenerator.getOctaveCode());
         EliteSelection selector = new EliteSelection();
         return selector.select(population, 1).get(0);
     }
