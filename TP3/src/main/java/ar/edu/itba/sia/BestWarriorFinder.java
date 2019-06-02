@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static ar.edu.itba.sia.util.Properties.loadSettings;
 import static ar.edu.itba.sia.util.TSVReader.loadItems;
 
 
@@ -40,7 +41,7 @@ public class BestWarriorFinder {
 
 
     public static void main(String[] args) throws IOException{
-       //loadSettings("TP3/src/main/settings.properties");
+       loadSettings("example.properties");
         Warrior bestWarrior = findBestWarrior();
         System.out.println("Best warrior fitness: " + bestWarrior.getFitness());
     }

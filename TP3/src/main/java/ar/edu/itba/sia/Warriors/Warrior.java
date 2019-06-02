@@ -1,9 +1,12 @@
 package ar.edu.itba.sia.Warriors;
 
 import ar.edu.itba.sia.Items.*;
+import ar.edu.itba.sia.util.Constants;
 
 import java.util.Comparator;
 import java.util.Objects;
+
+import static ar.edu.itba.sia.util.Properties.getDouble;
 
 public abstract class Warrior {
     public static final Comparator<Warrior> WORST_FITNESS_FIRST = Comparator.comparing(Warrior::getFitness),
@@ -24,6 +27,13 @@ public abstract class Warrior {
     private double expertise;
     private double resistance;
     private double hitpoints;
+
+    //Stats multiplier
+    private static final double STRENGTH_MULTIPLIER = getDouble(Constants.STRENGTH_MULTIPLIER);
+    private static final double AGILITY_MULTIPLIER = getDouble(Constants.AGILITY_MULTIPLIER);
+    private static final double EXPERTISE_MULTIPLIER = getDouble(Constants.EXPERTISE_MULTIPLIER);
+    private static final double RESISTANCE_MULTIPLIER = getDouble(Constants.RESISTANCE_MULTIPLIER);
+    private static final double HEALTH_MULTIPLIER = getDouble(Constants.HEALTH_MULTIPLIER);
 
 
     protected Warrior(Boots boots, Gloves gloves, Platebody platebody, Helmet helmet, Weapon weapon, double height) {
@@ -72,26 +82,26 @@ public abstract class Warrior {
     }
 
     public double getStrength() {
-        return 100 * Math.tanh(0.01 * strength);
+        return 100 * Math.tanh(0.01 * strength * STRENGTH_MULTIPLIER);
     }
 
 
     public double getAgility() {
-        return Math.tanh(0.01 * agility);
+        return Math.tanh(0.01 * agility * AGILITY_MULTIPLIER);
     }
 
     public double getExpertise() {
-        return 0.6 * Math.tanh(0.01 * expertise);
+        return 0.6 * Math.tanh(0.01 * expertise * EXPERTISE_MULTIPLIER);
     }
 
 
     public double getResistance() {
-        return Math.tanh(0.01 * resistance);
+        return Math.tanh(0.01 * resistance * RESISTANCE_MULTIPLIER);
     }
 
 
     public double getHitPoints() {
-        return 100 * Math.tanh(0.01 * hitpoints);
+        return 100 * Math.tanh(0.01 * hitpoints * HEALTH_MULTIPLIER);
     }
 
     private void setStrength() {
