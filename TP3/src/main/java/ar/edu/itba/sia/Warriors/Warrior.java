@@ -6,7 +6,7 @@ import ar.edu.itba.sia.util.Constants;
 import java.util.Comparator;
 import java.util.Objects;
 
-import static ar.edu.itba.sia.util.Properties.getDouble;
+import static ar.edu.itba.sia.util.Settings.getDouble;
 
 public abstract class Warrior {
     public static final Comparator<Warrior> WORST_FITNESS_FIRST = Comparator.comparing(Warrior::getFitness),
