@@ -11,7 +11,7 @@ public class DeterministicTournamentSelection implements Selection {
     private int numPickedWarriors;
 
     /**
-     * @param numPickedWarriors Number of warriors to pick on every tournament.
+     * @param numPickedWarriors Number of warriors to randomly on every tournament. Of these, the best one will win.
      */
     public DeterministicTournamentSelection(int numPickedWarriors) {
         this.numPickedWarriors = numPickedWarriors;

@@ -1,12 +1,14 @@
 package ar.edu.itba.sia.GeneticOperators.Mutations;
 
 import ar.edu.itba.sia.GeneticOperators.Interfaces.Mutation;
+import ar.edu.itba.sia.util.Constants;
+import ar.edu.itba.sia.util.Settings;
 
 public abstract class GeneralMutation implements Mutation {
-    private static double probability = 0.03; // TODO read this from file
+    private static double probability = Settings.getDouble(Constants.MUTATION_PROBABILITY);
     private static double minProbability = 0.04; //TODO read this from file
-    private static boolean uniform = true; //TODO read this ftom file
-    private static int generations = 1; //number of generations with constant probability TODO read from file
+    private static boolean uniform = Settings.getBoolean(Constants.MUTATION_UNIFORMITY);
+    private static int generations = Settings.getInt(Constants.MUTATION_UNIFORM_GENERATIONS); // Number of generations with constant probability
     private static int modifyingFunction = 0; //TODO read from file can be an enum
     private static int generationCounter = 0;
 
@@ -33,8 +35,6 @@ public abstract class GeneralMutation implements Mutation {
         }
 
     }
-
-
 
     private void modifyingProbabilityFunction() {
         double randomModifier = Math.random() / 10;

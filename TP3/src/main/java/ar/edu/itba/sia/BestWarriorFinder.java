@@ -10,7 +10,9 @@ import ar.edu.itba.sia.Items.*;
 import ar.edu.itba.sia.Warriors.Archer;
 import ar.edu.itba.sia.Warriors.Warrior;
 import ar.edu.itba.sia.Warriors.WarriorType;
+import ar.edu.itba.sia.util.Constants;
 import ar.edu.itba.sia.util.MetricsGenerator;
+import ar.edu.itba.sia.util.Settings;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,13 +20,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static ar.edu.itba.sia.util.Properties.loadSettings;
+import static ar.edu.itba.sia.util.Settings.getInt;
+import static ar.edu.itba.sia.util.Settings.loadSettings;
 import static ar.edu.itba.sia.util.TSVReader.loadItems;
 
 
 public class BestWarriorFinder {
-    private static final double MINHEIGHT = 1.3; //should be read from properties TODO
-    private static final double MAXHEIGHT = 2.0; //should be read from properties TODO
+    private static final String DEFAULT_PROPERTIES_PATH = "settings.properties";
+
+    private static double MIN_HEIGHT, MAX_HEIGHT;
+
     private static List<Item> Boots;
     private static List<Item> Gloves;
     private static List<Item> Platebodies;
@@ -39,9 +44,11 @@ public class BestWarriorFinder {
     private static EndCondition endCondition;
     private static GeneticAlgorithm algorithm;
 
+    public static void main(String[] args) throws IOException {
+        loadSettings(args.length == 0 ? DEFAULT_PROPERTIES_PATH : args[0]);
+        MIN_HEIGHT = Settings.getDouble(Constants.MIN_HEIGHT);
+        MAX_HEIGHT = Settings.getDouble(Constants.MAX_HEIGHT);
 
-    public static void main(String[] args) throws IOException{
-       loadSettings("example.properties");
         Warrior bestWarrior = findBestWarrior();
         System.out.println("Best warrior fitness: " + bestWarrior.getFitness());
     }
@@ -49,7 +56,7 @@ public class BestWarriorFinder {
     public static Warrior findBestWarrior() throws IOException {
         generateEquipment();
         loadGeneticOperators();
-        int populationSize = 50; //should be read from properties TODO
+        int populationSize = getInt(Constants.POPULATION_SIZE);
         population = generatePopulation(populationSize, WarriorType.ARCHER);
         return findBestWarrior(population, algorithm, endCondition);
     }
@@ -72,7 +79,7 @@ public class BestWarriorFinder {
         double nearOptimalError = 0.05;
         double NonChangingPopulationPercentage = 0.05;
         //TODO everything should be read from properties
-        selectionMethod         = new EliteSelection();
+        selectionMethod         = Settings.getSelectionMethod();
         mutationMethod          = new SingleGeneMutation();
         crossOverMethod         = new OnePointCrossover();
         replacementSelection    = new EliteSelection();
@@ -83,7 +90,7 @@ public class BestWarriorFinder {
                                         , new StructuralEndCondition(NonChangingPopulationPercentage)
                                     );
         algorithm = new Algorithm2(selectionMethod, crossOverMethod, 1d, mutationMethod, 0.03, 0.75, replacementSelection,
-                Helmets, Platebodies, Gloves, Weapons, Boots, MINHEIGHT, MAXHEIGHT);
+                Helmets, Platebodies, Gloves, Weapons, Boots, MIN_HEIGHT, MAX_HEIGHT);
     }
 
     public static List<Warrior> generatePopulation(int populationNumber, WarriorType warriorType) {
@@ -99,7 +106,7 @@ public class BestWarriorFinder {
         Platebody warriorPlatebody = (Platebody) Platebodies.get((int) (Math.random() * Platebodies.size()));
         Helmet warriorHelmet = (Helmet) Helmets.get((int) (Math.random() * Helmets.size()));
         Weapon warriorWeapon = (Weapon) Weapons.get((int) (Math.random() * Weapons.size()));
-        double warriorHeight = Math.random() * (MAXHEIGHT - MINHEIGHT) + MINHEIGHT;
+        double warriorHeight = Math.random() * (MAX_HEIGHT - MIN_HEIGHT) + MIN_HEIGHT;
 
         switch (warriorType) {
             case ARCHER:
@@ -156,7 +163,7 @@ public class BestWarriorFinder {
 //        return selector.select(population, 1).get(0);
 //    }
 
-    public  static List<Warrior> generateChildren(CrossOver crossOverMethod, List<Warrior> parents, int numChildren) {
+    public static List<Warrior> generateChildren(CrossOver crossOverMethod, List<Warrior> parents, int numChildren) {
         List<Warrior> children = new ArrayList<>();
         for(int i = 0; i < numChildren; i++) {
             Warrior w1 = parents.get((int) (Math.random() * parents.size()));
@@ -173,8 +180,7 @@ public class BestWarriorFinder {
         for(Warrior w : population) {
             if(Math.random() <= mutationPercentage) {
                 newPopulation.add(mutationMethod.mutate(w, Boots, Gloves, Platebodies, Helmets,
-                                                        Weapons, MINHEIGHT, MAXHEIGHT));
-
+                                                        Weapons, MIN_HEIGHT, MAX_HEIGHT));
             }
             else {
                 newPopulation.add(w);
