@@ -97,7 +97,6 @@ public abstract class GeneticAlgorithm {
         // Select K parents
         List <Warrior> parents = selectionMethod.select(population, K);
         // Generate K children
-        Collections.shuffle(parents);
         List<Warrior> children = new ArrayList<>(K);
         for (int i = 0; i < K - 1; i++) {
             if (Math.random() <= crossOverProbability) {
