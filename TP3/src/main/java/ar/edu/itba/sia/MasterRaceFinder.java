@@ -4,10 +4,13 @@ import ar.edu.itba.sia.Items.*;
 import ar.edu.itba.sia.Warriors.Archer;
 import ar.edu.itba.sia.Warriors.Warrior;
 import ar.edu.itba.sia.Warriors.WarriorType;
+import ar.edu.itba.sia.util.Constants;
 import ar.edu.itba.sia.util.TSVReader;
 
 import java.io.IOException;
 import java.util.List;
+
+import static ar.edu.itba.sia.util.Settings.getDouble;
 
 
 public class MasterRaceFinder {
@@ -17,6 +20,13 @@ public class MasterRaceFinder {
     private static List<Item> platebodies;
     private static List<Item> helmets;
     private static List<Item> weapons;
+
+    // Multipliers
+    private static final double STRENGTH_MULTIPLIER = getDouble(Constants.STRENGTH_MULTIPLIER);
+    private static final double AGILITY_MULTIPLIER = getDouble(Constants.AGILITY_MULTIPLIER);
+    private static final double EXPERTISE_MULTIPLIER = getDouble(Constants.EXPERTISE_MULTIPLIER);
+    private static final double RESISTANCE_MULTIPLIER = getDouble(Constants.RESISTANCE_MULTIPLIER);
+    private static final double HEALTH_MULTIPLIER = getDouble(Constants.HEALTH_MULTIPLIER);
 
     public static void main(String[] args) throws IOException {
         Warrior masterRace = find(WarriorType.ARCHER);
@@ -65,11 +75,11 @@ public class MasterRaceFinder {
         Item bestItem = null;
         double bestFitness = 0.0;
         for (Item item: items) {
-            double strength = 100 * Math.tanh(0.01 * item.getStrength());
-            double agility = Math.tanh(0.01 * item.getAgility());
-            double expertise = 0.6 * Math.tanh(0.01 * item.getExpertise());
-            double resistance = Math.tanh(0.01 * item.getResistance());
-            double hitPoints = 100 * Math.tanh(0.01 * item.getHitPoints());
+            double strength = 100 * Math.tanh(0.01 * item.getStrength() * STRENGTH_MULTIPLIER);
+            double agility = Math.tanh(0.01 * item.getAgility() * AGILITY_MULTIPLIER);
+            double expertise = 0.6 * Math.tanh(0.01 * item.getExpertise() * EXPERTISE_MULTIPLIER);
+            double resistance = Math.tanh(0.01 * item.getResistance() * RESISTANCE_MULTIPLIER);
+            double hitPoints = 100 * Math.tanh(0.01 * item.getHitPoints() * HEALTH_MULTIPLIER);
             double attack = (agility + expertise) * strength * ATM;
             double defense = (resistance + expertise) * hitPoints * DEM;
             double fitness = warriorType.getAttackFactor() * attack + warriorType.getDefenseFactor() * defense;
