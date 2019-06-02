@@ -24,7 +24,21 @@ public class MasterRaceFinder {
     }
 
     public static Warrior find(WarriorType warriorType) throws IOException {
-        generateEquipment();
+        return find(warriorType,  null, null, null, null, null);
+    }
+
+    public static Warrior find(WarriorType warriorType, List<Item> helmets, List<Item> platebodies, List<Item> gloves, List<Item> weapons, List<Item> boots) throws IOException {
+        MasterRaceFinder.helmets = helmets;
+        MasterRaceFinder.platebodies = platebodies;
+        MasterRaceFinder.gloves = gloves;
+        MasterRaceFinder.weapons = weapons;
+        MasterRaceFinder.boots = boots;
+
+        if (helmets == null) {
+            generateEquipment();
+            // TODO menos cabeza pls
+        }
+
         double bestHeight, ATM, DEM;
 
         // This is pre-calculated and depends on the functions ATM and DFM
@@ -37,11 +51,11 @@ public class MasterRaceFinder {
             ATM = 1.32634;
             DEM = 1.17366;
         }
-        Boots bestBoots = (Boots) findBestItem(boots, warriorType, ATM, DEM);
-        Gloves bestGloves = (Gloves) findBestItem(gloves, warriorType, ATM, DEM);
-        Helmet bestHelmet = (Helmet) findBestItem(helmets, warriorType, ATM, DEM);
-        Platebody bestPlatebody = (Platebody) findBestItem(platebodies, warriorType, ATM, DEM);
-        Weapon bestWeapon = (Weapon) findBestItem(weapons, warriorType, ATM, DEM);
+        Boots bestBoots = (Boots) findBestItem(MasterRaceFinder.boots, warriorType, ATM, DEM);
+        Gloves bestGloves = (Gloves) findBestItem(MasterRaceFinder.gloves, warriorType, ATM, DEM);
+        Helmet bestHelmet = (Helmet) findBestItem(MasterRaceFinder.helmets, warriorType, ATM, DEM);
+        Platebody bestPlatebody = (Platebody) findBestItem(MasterRaceFinder.platebodies, warriorType, ATM, DEM);
+        Weapon bestWeapon = (Weapon) findBestItem(MasterRaceFinder.weapons, warriorType, ATM, DEM);
 
         /// TODO: return appropriate class
         return new Archer(bestBoots, bestGloves, bestPlatebody, bestHelmet, bestWeapon, bestHeight);
