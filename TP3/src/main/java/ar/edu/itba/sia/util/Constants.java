@@ -2,6 +2,7 @@ package ar.edu.itba.sia.util;
 
 public class Constants {
     public static final String POPULATION_SIZE = "general.populationSize",
+        WARRIOR_TYPE = "character.type",
         ATTACK_MULTIPLIER = "character.attackMultiplier",
         DEFENSE_MULTIPLIER = "character.defenseMultiplier",
         STRENGTH_MULTIPLIER = "character.strengthMultiplier",

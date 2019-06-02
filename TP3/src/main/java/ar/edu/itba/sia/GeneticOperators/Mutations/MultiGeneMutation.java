@@ -7,6 +7,8 @@ import ar.edu.itba.sia.Warriors.Warrior;
 
 import java.util.List;
 
+import static ar.edu.itba.sia.Warriors.WarriorBuilder.buildWarrior;
+
 /**
  * Multi-gene mutation.  Each gene may mutate with a particular probability independent of other genes.
  */
@@ -38,7 +40,7 @@ public class MultiGeneMutation extends GeneralMutation implements Mutation {
             modifyProbability();
         }
 
-        return new Archer(newBoots, newGloves, newPlatebody, newHelmet, newWeapon, newHeight);
+        return buildWarrior(newBoots, newGloves, newPlatebody, newHelmet, newWeapon, newHeight, getWarriortype());
     }
 
     private static Item getRandomItem(List<Item> items) {

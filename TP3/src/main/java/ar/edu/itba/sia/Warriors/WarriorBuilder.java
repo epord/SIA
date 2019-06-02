@@ -7,15 +7,16 @@ public class WarriorBuilder {
                                        Weapon weapon, double height, WarriorType type) {
         Warrior newWarrior = null;
         switch(type) {
-            case ASSASIN:
-                break;
-            case DEFENSOR:
-                break;
             case SOLDIER:
                 break;
             case ARCHER:
                 newWarrior = new Archer(boots, gloves, platebody, helmet, weapon, height);
                 break;
+            case DEFENSOR:
+                break;
+            case ASSASIN:
+                break;
+
         }
 
         return newWarrior;

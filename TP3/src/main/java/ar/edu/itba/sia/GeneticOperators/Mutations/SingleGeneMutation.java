@@ -8,6 +8,8 @@ import ar.edu.itba.sia.Warriors.Warrior;
 
 import java.util.List;
 
+import static ar.edu.itba.sia.Warriors.WarriorBuilder.buildWarrior;
+
 /**
  * Single-gene mutation.  Chooses a single random locus and mutates it.
  */
@@ -26,38 +28,38 @@ public class SingleGeneMutation extends GeneralMutation implements Mutation {
             switch (crossGene) {
                 case BOOT:
                     Boots newBoots = (Boots) getRandomItem(boots);
-                    newWarrior = new Archer(newBoots, warrior.getGloves(), warrior.getPlatebody(),
-                            warrior.getHelmet(), warrior.getWeapon(), warrior.getHeight());
+                    newWarrior = buildWarrior(newBoots, warrior.getGloves(), warrior.getPlatebody(),
+                            warrior.getHelmet(), warrior.getWeapon(), warrior.getHeight(), getWarriortype());
                     break;
 
                 case GLOVES:
                     Gloves newGlove = (Gloves) getRandomItem(gloves);
-                    newWarrior = new Archer(warrior.getBoots(), newGlove, warrior.getPlatebody(),
-                            warrior.getHelmet(), warrior.getWeapon(), warrior.getHeight());
+                    newWarrior = buildWarrior(warrior.getBoots(), newGlove, warrior.getPlatebody(),
+                            warrior.getHelmet(), warrior.getWeapon(), warrior.getHeight(), getWarriortype());
                     break;
 
                 case PLATEBODY:
                     Platebody newPlatebody = (Platebody) getRandomItem(platebodies);
-                    newWarrior = new Archer(warrior.getBoots(), warrior.getGloves(), newPlatebody,
-                            warrior.getHelmet(), warrior.getWeapon(), warrior.getHeight());
+                    newWarrior = buildWarrior(warrior.getBoots(), warrior.getGloves(), newPlatebody,
+                            warrior.getHelmet(), warrior.getWeapon(), warrior.getHeight(), getWarriortype());
                     break;
 
                 case HELMET:
                     Helmet newHelmet = (Helmet) getRandomItem(helmets);
-                    newWarrior = new Archer(warrior.getBoots(), warrior.getGloves(), warrior.getPlatebody(),
-                            newHelmet, warrior.getWeapon(), warrior.getHeight());
+                    newWarrior = buildWarrior(warrior.getBoots(), warrior.getGloves(), warrior.getPlatebody(),
+                            newHelmet, warrior.getWeapon(), warrior.getHeight(), getWarriortype());
                     break;
 
                 case WEAPON:
                     Weapon newWeapon = (Weapon) getRandomItem(weapons);
-                    newWarrior = new Archer(warrior.getBoots(), warrior.getGloves(), warrior.getPlatebody(),
-                            warrior.getHelmet(), newWeapon, warrior.getHeight());
+                    newWarrior = buildWarrior(warrior.getBoots(), warrior.getGloves(), warrior.getPlatebody(),
+                            warrior.getHelmet(), newWeapon, warrior.getHeight(), getWarriortype());
                     break;
 
                 case HEIGHT:
                     double newHeight = Math.random() * (maxHeight - minHeight) + minHeight;
-                    newWarrior = new Archer(warrior.getBoots(), warrior.getGloves(), warrior.getPlatebody(),
-                            warrior.getHelmet(), warrior.getWeapon(), newHeight);
+                    newWarrior = buildWarrior(warrior.getBoots(), warrior.getGloves(), warrior.getPlatebody(),
+                            warrior.getHelmet(), warrior.getWeapon(), newHeight, getWarriortype());
 
                     break;
             }

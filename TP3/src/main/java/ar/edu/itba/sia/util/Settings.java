@@ -3,6 +3,7 @@ package ar.edu.itba.sia.util;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.CustomizableSelection;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.Selection;
 import ar.edu.itba.sia.GeneticOperators.Selections.*;
+import ar.edu.itba.sia.Warriors.WarriorType;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -129,5 +130,27 @@ public class Settings {
                 throw new IllegalArgumentException(requiredParam + " is required");
             }
         }
+    }
+
+    public static WarriorType getType(int type) {
+        WarriorType currType = null;
+        switch(type) {
+            case 0:
+                currType = WarriorType.SOLDIER;
+                break;
+
+            case 1:
+                currType = WarriorType.ARCHER;
+                break;
+
+            case 2:
+                currType = WarriorType.DEFENSOR;
+                break;
+
+            case 3:
+                currType = WarriorType.ASSASIN;
+                break;
+        }
+        return currType;
     }
 }

@@ -3,7 +3,6 @@ package ar.edu.itba.sia.Warriors;
 import ar.edu.itba.sia.Items.*;
 import ar.edu.itba.sia.util.Constants;
 
-import static ar.edu.itba.sia.util.Properties.getDouble;
 
 public class Archer extends Warrior {
 
