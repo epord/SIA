@@ -4,7 +4,6 @@ import ar.edu.itba.sia.Items.*;
 import ar.edu.itba.sia.Warriors.Warrior;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,9 +18,10 @@ import java.util.stream.Collectors;
  */
 public abstract class GeneticAlgorithm {
 
-    protected final Selection selectionMethod;
-    protected final CrossOver crossOverMethod;
     protected final double crossOverProbability;
+    protected final double crossOverSelectionMethodProportion;
+    protected final Selection crossOverSelectionMethod1, crossOverSelectionMethod2;
+    protected final CrossOver crossOverMethod;
     protected final Mutation mutationMethod;
     protected final double mutationProbability;
     protected final List<Item> helmets;
@@ -33,15 +33,17 @@ public abstract class GeneticAlgorithm {
     protected double generationGap;
 
 
-    public GeneticAlgorithm(Selection selectionMethod,
-                            CrossOver crossOverMethod, double crossOverProbability,
-                            Mutation mutationMethod, double mutationProbability,
+    public GeneticAlgorithm(double crossOverProbability, double crossOverSelectionProportion, Selection crossOverSelectionMethod1,
+                            Selection crossOverSelectionMethod2, CrossOver crossOverMethod,
+                            double mutationProbability, Mutation mutationMethod,
                             double generationGap,
                             List<Item> helmets, List<Item> platebodies, List<Item> gloves, List<Item> weapons, List<Item> boots,
                             double minHeight, double maxHeight) {
-        this.selectionMethod = selectionMethod;
-        this.crossOverMethod = crossOverMethod;
         this.crossOverProbability = crossOverProbability;
+        this.crossOverSelectionMethodProportion = crossOverSelectionProportion;
+        this.crossOverSelectionMethod1 = crossOverSelectionMethod1;
+        this.crossOverSelectionMethod2 = crossOverSelectionMethod2;
+        this.crossOverMethod = crossOverMethod;
         this.mutationMethod = mutationMethod;
         this.mutationProbability = mutationProbability;
         this.generationGap = generationGap;
@@ -75,6 +77,14 @@ public abstract class GeneticAlgorithm {
     }
 
     /**
+     * @param population Entire population
+     * @return Number of children to create with selection method 1.
+     */
+    protected int numChildrenToCreateWithMethod1(List<Warrior> population) {
+        return (int) (crossOverSelectionMethodProportion * numChildrenToCreate(population));
+    }
+
+    /**
      * Calculate the number of individuals to pass directly to the next generation according to generation gap.
      *
      * @param entirePopulation Entire population of the current generation.
@@ -94,8 +104,13 @@ public abstract class GeneticAlgorithm {
      */
     protected List<Warrior> generateChildren(List<Warrior> population) {
         int K = numChildrenToCreate(population);
-        // Select K parents
-        List <Warrior> parents = selectionMethod.select(population, K);
+        int method1NumChildren = numChildrenToCreateWithMethod1(population);
+
+        // Select A*K parents with method 1
+        List <Warrior> parents = crossOverSelectionMethod1.select(population, method1NumChildren);
+        // Select (1-A)*K parents with method 2
+        parents.addAll(crossOverSelectionMethod2.select(population, K-method1NumChildren));
+
         // Generate K children
         List<Warrior> children = new ArrayList<>(K);
         for (int i = 0; i < K; i++) {

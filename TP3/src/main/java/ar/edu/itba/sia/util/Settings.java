@@ -45,6 +45,9 @@ public class Settings {
             }
         }
 
+        validateWithinRange(Constants.CROSSOVER_A, 0, 1);
+        validateWithinRange(Constants.REPLACEMENT_B, 0, 1);
+
         validateSelectionParams();
         // TODO more
     }
@@ -64,11 +67,17 @@ public class Settings {
     /**
      * Get the configured selection method, with its configured parameters.
      *
+     * @param mode <ul>
+     *             <li>1 for selection method(s) 1</li>
+     *             <li>2 for selection method(s) 2</li>
+     *             <li>3 for replacement method(s) 1</li>
+     *             <li>4 for replacement method(s) 2</li>
+     * </ol>
      * @return The configured selection method, with all its parameters as configured in the settings file.
      * @throws RuntimeException On configuration errors.
      */
-    public static Selection getSelectionMethod(int selectionMethod) throws RuntimeException {
-        return getSelectionMethodRecursive(getChosenSelectionMethods(selectionMethod));
+    public static Selection getSelectionMethod(int mode) throws RuntimeException {
+        return getSelectionMethodRecursive(getChosenSelectionMethods(mode));
     }
 
     private static Function<Integer, Double> getBoltzmannTemperatureFunction() {
@@ -99,31 +108,48 @@ public class Settings {
     /**
      * Get the 1 or 2 selection methods chosen in the settings.
      *
+     * @param mode See {@link #getSelectionMethod(int)}.
      * @return The selection method(s).
      */
-    private static List<SelectionMethod> getChosenSelectionMethods(int selectionMethod) {
+    private static List<SelectionMethod> getChosenSelectionMethods(int mode) {
         List<SelectionMethod> result = new ArrayList<>(2);
-        if (selectionMethod == 0) {
-            result.add(SelectionMethod.fromSettings(getInt(Constants.CROSSOVER_SELECTION_METHOD_1)));
-            if (properties.containsKey(Constants.CROSSOVER_SECOND_SELECTION_METHOD_1)) {
-                result.add(SelectionMethod.fromSettings(getInt(Constants.CROSSOVER_SECOND_SELECTION_METHOD_1)));
-            }
-        } else if (selectionMethod == 1) {
-            result.add(SelectionMethod.fromSettings(getInt(Constants.CROSSOVER_SELECTION_METHOD_2)));
-            if (properties.containsKey(Constants.CROSSOVER_SECOND_SELECTION_METHOD_2)) {
-                result.add(SelectionMethod.fromSettings(getInt(Constants.CROSSOVER_SECOND_SELECTION_METHOD_2)));
-            }
+        switch(mode) {
+            case 1:
+                result.add(SelectionMethod.fromSettings(getInt(Constants.CROSSOVER_SELECTION_METHOD_1)));
+                if (properties.containsKey(Constants.CROSSOVER_SECOND_SELECTION_METHOD_1)) {
+                    result.add(SelectionMethod.fromSettings(getInt(Constants.CROSSOVER_SECOND_SELECTION_METHOD_1)));
+                }
+                break;
+            case 2:
+                result.add(SelectionMethod.fromSettings(getInt(Constants.CROSSOVER_SELECTION_METHOD_2)));
+                if (properties.containsKey(Constants.CROSSOVER_SECOND_SELECTION_METHOD_2)) {
+                    result.add(SelectionMethod.fromSettings(getInt(Constants.CROSSOVER_SECOND_SELECTION_METHOD_2)));
+                }
+            case 3:
+                result.add(SelectionMethod.fromSettings(getInt(Constants.REPLACEMENT_SELECTION_METHOD_1)));
+                if (properties.containsKey(Constants.REPLACEMENT_SECOND_SELECTION_METHOD_1)) {
+                    result.add(SelectionMethod.fromSettings(getInt(Constants.REPLACEMENT_SECOND_SELECTION_METHOD_1)));
+                }
+                break;
+            case 4:
+                result.add(SelectionMethod.fromSettings(getInt(Constants.REPLACEMENT_SELECTION_METHOD_2)));
+                if (properties.containsKey(Constants.REPLACEMENT_SECOND_SELECTION_METHOD_2)) {
+                    result.add(SelectionMethod.fromSettings(getInt(Constants.REPLACEMENT_SECOND_SELECTION_METHOD_2)));
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("Valid values are 1 through 4");
         }
         return result;
     }
 
     private static void validateSelectionParams() {
-        int selectionMehtodsCount = 2;
-        for (int i = 0; i < selectionMehtodsCount; i++) {
+        List<SelectionMethod> methodsThatNeedASecondMethod = new ArrayList<>();
+        methodsThatNeedASecondMethod.add(SelectionMethod.RANKING);
+        methodsThatNeedASecondMethod.add(SelectionMethod.BOLTZMANN);
+        int selectionMehtodsCount = 4;
+        for (int i = 1; i <= selectionMehtodsCount; i++) {
             List<SelectionMethod> selectionMethods = getChosenSelectionMethods(i);
-            List<SelectionMethod> methodsThatNeedASecondMethod = new ArrayList<>();
-            methodsThatNeedASecondMethod.add(SelectionMethod.RANKING);
-            methodsThatNeedASecondMethod.add(SelectionMethod.BOLTZMANN);
 
             if (selectionMethods.size() == 1 && methodsThatNeedASecondMethod.contains(selectionMethods.get(0))) {
                 throw new IllegalArgumentException(selectionMethods.get(0).name() + " requires a secondary selection method but none was chosen");
@@ -169,5 +195,12 @@ public class Settings {
                 break;
         }
         return currType;
+    }
+
+    private static void validateWithinRange(String propertyName, double min, double max) {
+        double num = getDouble(propertyName);
+        if (num < min || num > max) {
+            throw new IllegalArgumentException(String.format("%s must be within %g and %g but is %g", propertyName, min, max, num));
+        }
     }
 }

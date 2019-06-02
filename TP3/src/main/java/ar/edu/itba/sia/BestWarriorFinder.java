@@ -20,8 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static ar.edu.itba.sia.util.Settings.getInt;
-import static ar.edu.itba.sia.util.Settings.loadSettings;
+import static ar.edu.itba.sia.util.Settings.*;
 import static ar.edu.itba.sia.util.TSVReader.loadItems;
 
 
@@ -79,18 +78,26 @@ public class BestWarriorFinder {
         double nearOptimalError = 0.05;
         double NonChangingPopulationPercentage = 0.05;
         //TODO everything should be read from properties
-        selectionMethod         = Settings.getSelectionMethod(0);
         mutationMethod          = new SingleGeneMutation();
         crossOverMethod         = new OnePointCrossover();
-        replacementSelection    = Settings.getSelectionMethod(1);
         endCondition            = new EndConditionsCombiner(
                                         new MaxGenerationsEndCondition(maxGenerations)
                                         , new ContentEndCondition(maxConsecutiveGenerations)
                                         , new NearOptimalEndCondition(masterRaceWarrior.getFitness(), nearOptimalError)
                                         , new StructuralEndCondition(NonChangingPopulationPercentage)
                                     );
-        algorithm = new Algorithm2(selectionMethod, crossOverMethod, 1d, mutationMethod, 0.03, 0.75, replacementSelection,
-                Helmets, Platebodies, Gloves, Weapons, Boots, MIN_HEIGHT, MAX_HEIGHT);
+
+        algorithm = new Algorithm2(
+                // Crossover params
+                getDouble(Constants.CROSSOVER_PROBABILITY), getDouble(Constants.CROSSOVER_A), Settings.getSelectionMethod(1), Settings.getSelectionMethod(2), crossOverMethod,
+                // Mutation params
+                getDouble(Constants.MUTATION_PROBABILITY), mutationMethod,
+                // Replacement params
+                getDouble(Constants.REPLACEMENT_GENERATION_GAP), getDouble(Constants.REPLACEMENT_B), Settings.getSelectionMethod(3), Settings.getSelectionMethod(4),
+                // Available equipment
+                Helmets, Platebodies, Gloves, Weapons, Boots,
+                // Height restrictions
+                MIN_HEIGHT, MAX_HEIGHT);
     }
 
     public static List<Warrior> generatePopulation(int populationNumber, WarriorType warriorType) {
