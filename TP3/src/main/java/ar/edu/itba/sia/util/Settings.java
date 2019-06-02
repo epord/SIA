@@ -121,9 +121,8 @@ public class Settings {
                 Constants.ATTACK_MULTIPLIER, Constants.DEFENSE_MULTIPLIER, Constants.STRENGTH_MULTIPLIER, Constants.AGILITY_MULTIPLIER,
                 Constants.EXPERTISE_MULTIPLIER, Constants.RESISTANCE_MULTIPLIER, Constants.HEALTH_MULTIPLIER, Constants.MIN_HEIGHT,
                 Constants.MAX_HEIGHT, Constants.CROSSOVER_PROBABILITY, Constants.CROSSOVER_A, Constants.CROSSOVER_SELECTION_METHOD_1,
-                Constants.CROSSOVER_SELECTION_METHOD_2, Constants.CROSSOVER_UNIFORM_PROBABILITY, Constants.SELECTION_K,
-                Constants.MUTATION_PROBABILITY, Constants.MUTATION_UNIFORMITY, Constants.REPLACEMENT_B,
-                Constants.REPLACEMENT_SELECTION_METHOD_1, Constants.REPLACEMENT_SELECTION_METHOD_2
+                Constants.MUTATION_PROBABILITY, Constants.MUTATION_UNIFORMITY, Constants.REPLACEMENT_GENERATION_GAP, Constants.REPLACEMENT_B,
+                Constants.REPLACEMENT_SELECTION_METHOD_1
         };
         for (String requiredParam : requiredParams) {
             if (!properties.containsKey(requiredParam)) {
