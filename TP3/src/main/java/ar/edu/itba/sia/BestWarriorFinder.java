@@ -79,10 +79,10 @@ public class BestWarriorFinder {
         double nearOptimalError = 0.05;
         double NonChangingPopulationPercentage = 0.05;
         //TODO everything should be read from properties
-        selectionMethod         = Settings.getSelectionMethod();
+        selectionMethod         = Settings.getSelectionMethod(0);
         mutationMethod          = new SingleGeneMutation();
         crossOverMethod         = new OnePointCrossover();
-        replacementSelection    = new EliteSelection();
+        replacementSelection    = Settings.getSelectionMethod(1);
         endCondition            = new EndConditionsCombiner(
                                         new MaxGenerationsEndCondition(maxGenerations)
                                         , new ContentEndCondition(maxConsecutiveGenerations)

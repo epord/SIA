@@ -3,6 +3,8 @@ package ar.edu.itba.sia.util;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.CustomizableSelection;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.Selection;
 import ar.edu.itba.sia.GeneticOperators.Selections.*;
+import ar.edu.itba.sia.GeneticOperators.Selections.Boltzmann.BoltzmannSelection;
+import ar.edu.itba.sia.GeneticOperators.Selections.Boltzmann.TemperatureFunction;
 import ar.edu.itba.sia.Warriors.WarriorType;
 
 import java.io.FileReader;
@@ -11,6 +13,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.function.Function;
 
 public class Settings {
     private static final Properties properties = new Properties();
@@ -64,8 +67,12 @@ public class Settings {
      * @return The configured selection method, with all its parameters as configured in the settings file.
      * @throws RuntimeException On configuration errors.
      */
-    public static Selection getSelectionMethod() throws RuntimeException {
-        return getSelectionMethodRecursive(getChosenSelectionMethods());
+    public static Selection getSelectionMethod(int selectionMethod) throws RuntimeException {
+        return getSelectionMethodRecursive(getChosenSelectionMethods(selectionMethod));
+    }
+
+    private static Function<Integer, Double> getBoltzmannTemperatureFunction() {
+        return TemperatureFunction.fromSettings(getInt(Constants.BOLTZMANN_TEMPERATURE_FUNCTION)).getTemperatureFunction();
     }
 
     private static Selection getSelectionMethodRecursive(List<SelectionMethod> selectionMethods) {
@@ -83,7 +90,7 @@ public class Settings {
             case RANKING:
                 return new RankingSelection((CustomizableSelection) (getSelectionMethodRecursive(selectionMethods.subList(1, 2))));
             case BOLTZMANN:
-                // TODO
+                return new BoltzmannSelection((CustomizableSelection) (getSelectionMethodRecursive(selectionMethods.subList(1, 2))), getBoltzmannTemperatureFunction());
             default:
                 throw new UnsupportedOperationException("Not implemented");
         }
@@ -94,23 +101,33 @@ public class Settings {
      *
      * @return The selection method(s).
      */
-    private static List<SelectionMethod> getChosenSelectionMethods() {
+    private static List<SelectionMethod> getChosenSelectionMethods(int selectionMethod) {
         List<SelectionMethod> result = new ArrayList<>(2);
-        result.add(SelectionMethod.fromSettings(getInt(Constants.CROSSOVER_SELECTION_METHOD_1)));
-        if (properties.containsKey(Constants.CROSSOVER_SELECTION_METHOD_2)) {
+        if (selectionMethod == 0) {
+            result.add(SelectionMethod.fromSettings(getInt(Constants.CROSSOVER_SELECTION_METHOD_1)));
+            if (properties.containsKey(Constants.CROSSOVER_SECOND_SELECTION_METHOD_1)) {
+                result.add(SelectionMethod.fromSettings(getInt(Constants.CROSSOVER_SECOND_SELECTION_METHOD_1)));
+            }
+        } else if (selectionMethod == 1) {
             result.add(SelectionMethod.fromSettings(getInt(Constants.CROSSOVER_SELECTION_METHOD_2)));
+            if (properties.containsKey(Constants.CROSSOVER_SECOND_SELECTION_METHOD_2)) {
+                result.add(SelectionMethod.fromSettings(getInt(Constants.CROSSOVER_SECOND_SELECTION_METHOD_2)));
+            }
         }
         return result;
     }
 
     private static void validateSelectionParams() {
-        List<SelectionMethod> selectionMethods = getChosenSelectionMethods();
-        List<SelectionMethod> methodsThatNeedASecondMethod = new ArrayList<>();
-        methodsThatNeedASecondMethod.add(SelectionMethod.RANKING);
-        methodsThatNeedASecondMethod.add(SelectionMethod.BOLTZMANN);
+        int selectionMehtodsCount = 2;
+        for (int i = 0; i < selectionMehtodsCount; i++) {
+            List<SelectionMethod> selectionMethods = getChosenSelectionMethods(i);
+            List<SelectionMethod> methodsThatNeedASecondMethod = new ArrayList<>();
+            methodsThatNeedASecondMethod.add(SelectionMethod.RANKING);
+            methodsThatNeedASecondMethod.add(SelectionMethod.BOLTZMANN);
 
-        if (selectionMethods.size() == 1 && methodsThatNeedASecondMethod.contains(selectionMethods.get(0))) {
-            throw new IllegalArgumentException(selectionMethods.get(0).name() + " requires a secondary selection method but none was chosen");
+            if (selectionMethods.size() == 1 && methodsThatNeedASecondMethod.contains(selectionMethods.get(0))) {
+                throw new IllegalArgumentException(selectionMethods.get(0).name() + " requires a secondary selection method but none was chosen");
+            }
         }
     }
 

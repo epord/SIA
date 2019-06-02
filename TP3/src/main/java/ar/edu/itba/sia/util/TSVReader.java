@@ -14,7 +14,7 @@ public class TSVReader {
     public static List<Item> loadItems(ItemType type) throws IOException {
 
 // May be different in other systems
-        BufferedReader TSVFile = new BufferedReader(new FileReader("Data/Full/" + files[type.ordinal()]));
+        BufferedReader TSVFile = new BufferedReader(new FileReader("Data/Test/" + files[type.ordinal()]));
 //        BufferedReader TSVFile = new BufferedReader(new FileReader("src/main/" + files[type.ordinal()]));
 
         // Read first line with names

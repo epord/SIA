@@ -26,12 +26,12 @@ public class RankingSelection implements Selection {
     public List<Warrior> select(List<Warrior> warriors, int quantity) {
         List<Warrior> sortedWarriors = new ArrayList<>(warriors);
         sortedWarriors.sort(Warrior.WORST_FITNESS_FIRST);
-        double rankSum = (quantity+1) * quantity / 2; // 1 + 2 + ... + N = (N+1)* N / 2
+        double rankSum = (quantity+1) * quantity / 2.0; // 1 + 2 + ... + N = (N+1)* N / 2
         List<Double> customFitnesses = new ArrayList<>(quantity);
         for (int i = 0; i < quantity; i++) {
             customFitnesses.add(i / rankSum);
         }
 
-        return secondSelection.select(sortedWarriors, quantity, customFitnesses);
+        return secondSelection.select(new ArrayList<>(sortedWarriors.subList(0, quantity)), quantity, customFitnesses);
     }
 }
