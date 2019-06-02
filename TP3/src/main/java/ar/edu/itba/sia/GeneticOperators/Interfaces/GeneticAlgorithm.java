@@ -97,16 +97,17 @@ public abstract class GeneticAlgorithm {
         // Select K parents
         List <Warrior> parents = selectionMethod.select(population, K);
         // Generate K children
-        Collections.shuffle(parents);
         List<Warrior> children = new ArrayList<>(K);
-        for (int i = 0; i < K - 1; i++) {
+        for (int i = 0; i < K; i++) {
+            Warrior w1 = parents.get((int) (Math.random() * parents.size()));
+            Warrior w2 = parents.get((int) (Math.random() * parents.size()));
             if (Math.random() <= crossOverProbability) {
-                children.addAll(
-                        mutate(crossOverMethod.apply(parents.get(i), parents.get(i+1)))
+                // Cross parents, mutate children, choose only one
+                children.add(
+                        mutate(crossOverMethod.apply(w1, w2)).get((int) (Math.random() * 2))
                 );
             } else {
-                children.add(parents.get(i));
-                children.add(parents.get(i+1));
+                children.add(Math.random() <= 0.5 ? w1 : w2);
             }
         }
         return children;

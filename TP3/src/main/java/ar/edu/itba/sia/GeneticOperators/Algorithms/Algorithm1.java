@@ -23,7 +23,8 @@ public class Algorithm1 extends GeneticAlgorithm {
         while (newGeneration.size() < N) {
             // Select 2 fittest parents
             List<Warrior> fittestParents = selectionMethod.select(parents, 2);
-            parents.removeAll(fittestParents);
+            //parents.removeAll(fittestParents);
+
             // Potentially generateChildren them (generate children), otherwise pass them directly
             List<Warrior> children = Math.random() <= crossOverProbability
                     ? crossOverMethod.apply(fittestParents.get(0), fittestParents.get(1))

@@ -62,17 +62,20 @@ public class BestWarriorFinder {
     }
 
     public static void generateEquipment() throws IOException {
+        System.out.print("Reading items from file...");
         Boots       = loadItems(ItemType.BOOTS);
         Gloves      = loadItems(ItemType.GLOVES);
         Platebodies = loadItems(ItemType.PLATEBODY);
         Helmets     = loadItems(ItemType.HELMET);
         Weapons     = loadItems(ItemType.WEAPON);
+        System.out.println("done");
     }
 
     public static void loadGeneticOperators() throws IOException {
         int maxGenerations = 10000;
         int maxConsecutiveGenerations = 50;
-        Warrior masterRaceWarrior = MasterRaceFinder.find(WarriorType.ARCHER);
+        Warrior masterRaceWarrior = MasterRaceFinder.find(WarriorType.ARCHER, Helmets, Platebodies, Gloves, Weapons, Boots);
+        System.out.println("Best fitness according to master race finder: " + masterRaceWarrior.getFitness() + "\n");
         double nearOptimalError = 0.05;
         double NonChangingPopulationPercentage = 0.05;
         //TODO everything should be read from properties
