@@ -22,7 +22,7 @@ public class ProbabilisticTournamentSelection implements Selection {
     private List<Warrior> getWarriorsRandomly(int quantity, List<Warrior> warriors) {
         List<Warrior> selectedWarriors = new ArrayList<>(warriors);
         Collections.shuffle(selectedWarriors);
-        return selectedWarriors.subList(0, quantity);
+        return new ArrayList<>(selectedWarriors.subList(0, quantity));
     }
 
     private Warrior getBestOrWorstWarrior(List<Warrior> population) {
