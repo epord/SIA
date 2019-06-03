@@ -11,8 +11,10 @@ import ar.edu.itba.sia.Warriors.Archer;
 import ar.edu.itba.sia.Warriors.Warrior;
 import ar.edu.itba.sia.Warriors.WarriorType;
 import ar.edu.itba.sia.util.Constants;
+import ar.edu.itba.sia.util.FileManager;
 import ar.edu.itba.sia.util.MetricsGenerator;
 import ar.edu.itba.sia.util.Settings;
+import com.sun.javafx.font.Metrics;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -75,8 +77,8 @@ public class BestWarriorFinder {
         int maxConsecutiveGenerations = 50;
         Warrior masterRaceWarrior = MasterRaceFinder.find(WarriorType.ARCHER, Helmets, Platebodies, Gloves, Weapons, Boots);
         System.out.println("Best fitness according to master race finder: " + masterRaceWarrior.getFitness() + "\n");
-        double nearOptimalError = 0.05;
-        double NonChangingPopulationPercentage = 0.05;
+        double nearOptimalError = 0.5;
+        double nonChangingPopulationPercentage = 0.1;
         //TODO everything should be read from properties
         mutationMethod          = new SingleGeneMutation();
         crossOverMethod         = new OnePointCrossover();
@@ -84,7 +86,7 @@ public class BestWarriorFinder {
                                         new MaxGenerationsEndCondition(maxGenerations)
                                         , new ContentEndCondition(maxConsecutiveGenerations)
                                         , new NearOptimalEndCondition(masterRaceWarrior.getFitness(), nearOptimalError)
-                                        , new StructuralEndCondition(NonChangingPopulationPercentage)
+                                        , new StructuralEndCondition(nonChangingPopulationPercentage)
                                     );
 
         algorithm = new Algorithm2(
@@ -127,7 +129,7 @@ public class BestWarriorFinder {
     }
 
     private static Warrior findBestWarrior(List<Warrior> population, GeneticAlgorithm geneticAlgorithm,
-                                           EndCondition endCondition) {
+                                           EndCondition endCondition)  throws IOException{
         int currGeneration = 0;
         List <Warrior> generators;
         List <Warrior> nextGeneration;
@@ -139,7 +141,15 @@ public class BestWarriorFinder {
             currGeneration++;
         }
 
-        System.out.println(MetricsGenerator.getOctaveCode());
+        System.out.print("Calculating metrics...");
+        // Write Octave output file
+        FileManager fm = new FileManager();
+        fm.writeStringToFile("out.m", MetricsGenerator.getOctaveCode());
+
+        // Write visualization file
+        System.out.println(MetricsGenerator.getVisualizationData());
+        System.out.println("done");
+
         EliteSelection selector = new EliteSelection();
         return selector.select(population, 1).get(0);
     }

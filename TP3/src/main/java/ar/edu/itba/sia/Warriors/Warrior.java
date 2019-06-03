@@ -47,6 +47,23 @@ public abstract class Warrior {
         setStats();
     }
 
+    public Item getItem(ItemType itemType) {
+        switch (itemType) {
+            case HELMET:
+                return helmet;
+            case PLATEBODY:
+                return platebody;
+            case GLOVES:
+                return gloves;
+            case WEAPON:
+                return weapon;
+            case BOOTS:
+                return boots;
+            default:
+                throw new IllegalArgumentException("Invalid item type");
+        }
+    }
+
     public Boots getBoots() {
         return boots;
     }
