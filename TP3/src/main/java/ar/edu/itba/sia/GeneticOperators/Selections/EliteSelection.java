@@ -11,6 +11,6 @@ public class EliteSelection implements Selection {
         // Create a new list so as to not modify the original one
         List<Warrior> sortedWarriors = new ArrayList<>(warriors);
         sortedWarriors.sort(Warrior.BEST_FITNESS_FIRST);
-        return new ArrayList<>(warriors.subList(0, quantity));
+        return new ArrayList<>(sortedWarriors.subList(0, quantity));
     }
 }
