@@ -3,10 +3,10 @@ package ar.edu.itba.sia.util;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.EndCondition;
 import ar.edu.itba.sia.Items.*;
 import ar.edu.itba.sia.Warriors.Warrior;
-import javafx.util.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.AbstractMap.SimpleEntry;
 
 public class MetricsGenerator {
     private static List<Double> bestFitnesses = new ArrayList<>();
@@ -45,7 +45,7 @@ public class MetricsGenerator {
         generations.clear();
     }
 
-    private static Pair<Item, Long> mostRepeatedItem(List<Warrior> warriors, ItemType itemType) {
+    private static Map.Entry<Item, Long> mostRepeatedItem(List<Warrior> warriors, ItemType itemType) {
         Map<Item, Long> itemCounter;
         switch (itemType) {
             case HELMET:
@@ -74,7 +74,7 @@ public class MetricsGenerator {
                 mostCommonItem = entry.getKey();
             }
         }
-        return new Pair<>(mostCommonItem, maxRepetition);
+        return new SimpleEntry<>(mostCommonItem, maxRepetition);
     }
 
     private static Item meanItem(List<Warrior> warriors, ItemType itemType) {
@@ -139,14 +139,16 @@ public class MetricsGenerator {
 
 
             // Find most common items
-            Pair<Item, Long> commonHelmet = mostRepeatedItem(generation, ItemType.HELMET);
-            Pair<Item, Long> commonPlatebody = mostRepeatedItem(generation, ItemType.PLATEBODY);
-            Pair<Item, Long> commonGloves = mostRepeatedItem(generation, ItemType.GLOVES);
-            Pair<Item, Long> commonWeapon = mostRepeatedItem(generation, ItemType.WEAPON);
-            Pair<Item, Long> commonBoots = mostRepeatedItem(generation, ItemType.BOOTS);
+            Map.Entry<Item, Long> commonHelmet = mostRepeatedItem(generation, ItemType.HELMET);
+            Map.Entry<Item, Long> commonPlatebody = mostRepeatedItem(generation, ItemType.PLATEBODY);
+            Map.Entry<Item, Long> commonGloves = mostRepeatedItem(generation, ItemType.GLOVES);
+            Map.Entry<Item, Long> commonWeapon = mostRepeatedItem(generation, ItemType.WEAPON);
+            Map.Entry<Item, Long> commonBoots = mostRepeatedItem(generation, ItemType.BOOTS);
 
-            Pair<Item, Long>[] commonItems = new Pair[]{commonHelmet, commonPlatebody, commonGloves, commonWeapon, commonBoots};
-            for (Pair<Item, Long> commonItem: commonItems) {
+            @SuppressWarnings("unchecked")
+            Map.Entry<Item, Long>[] commonItems = new Map.Entry[] {commonHelmet, commonPlatebody, commonGloves, commonWeapon, commonBoots};
+
+            for (Map.Entry<Item, Long> commonItem: commonItems) {
                 sb.append(commonBoots.getValue()).append(' ')
                         .append(commonItem.getKey().getStrength()).append(' ')
                         .append(commonItem.getKey().getAgility()).append(' ')
