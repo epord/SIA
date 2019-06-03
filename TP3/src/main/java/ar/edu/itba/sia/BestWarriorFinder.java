@@ -151,7 +151,7 @@ public class BestWarriorFinder {
         fm.writeStringToFile("out.m", MetricsGenerator.getOctaveCode());
 
         // Write visualization file
-        System.out.println(MetricsGenerator.getVisualizationData());
+        fm.writeStringToFile("frontend/data.p5", MetricsGenerator.getVisualizationData());
         System.out.println("done");
 
         EliteSelection selector = new EliteSelection();
