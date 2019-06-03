@@ -129,10 +129,23 @@ const drawMeanItems = () => {
     textAlign(CENTER);
     fill('black');
     text("Mean\nitems", 40, 640);
+    text("Helmet", 150, 440);
     drawMeanItem(100, 600, meanHelmet, 27);
+    textSize(20);
+    textAlign(CENTER);
+    text("Platebody", 300, 440);
     drawMeanItem(250, 600, meanPlatebody, 37);
+    textSize(20);
+    textAlign(CENTER);
+    text("Gloves", 450, 440);
     drawMeanItem(400, 600, meanGloves, 9);
+    textSize(20);
+    textAlign(CENTER);
+    text("Weapon", 600, 440);
     drawMeanItem(550, 600, meanWeapon, 47);
+    textSize(20);
+    textAlign(CENTER);
+    text("Boots", 750, 440);
     drawMeanItem(700, 600, meanBoots, 9);
 };
 
