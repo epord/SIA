@@ -1,10 +1,7 @@
 package ar.edu.itba.sia;
 
 import ar.edu.itba.sia.GeneticOperators.Algorithms.Algorithm2;
-import ar.edu.itba.sia.GeneticOperators.Crossovers.OnePointCrossover;
-import ar.edu.itba.sia.GeneticOperators.EndConditions.*;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.*;
-import ar.edu.itba.sia.GeneticOperators.Mutations.SingleGeneMutation;
 import ar.edu.itba.sia.GeneticOperators.Selections.EliteSelection;
 import ar.edu.itba.sia.Items.*;
 import ar.edu.itba.sia.Warriors.Archer;
@@ -14,7 +11,6 @@ import ar.edu.itba.sia.util.Constants;
 import ar.edu.itba.sia.util.FileManager;
 import ar.edu.itba.sia.util.MetricsGenerator;
 import ar.edu.itba.sia.util.Settings;
-import com.sun.javafx.font.Metrics;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,9 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static ar.edu.itba.sia.util.Constants.CROSSOVER_TYPE;
-import static ar.edu.itba.sia.util.Constants.END_CONDITION_TYPE;
-import static ar.edu.itba.sia.util.Constants.MUTATION_TYPE;
+import static ar.edu.itba.sia.util.Constants.*;
 import static ar.edu.itba.sia.util.Settings.*;
 import static ar.edu.itba.sia.util.TSVReader.loadItems;
 
