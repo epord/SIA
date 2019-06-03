@@ -119,13 +119,13 @@ public abstract class GeneticAlgorithm {
             if (Math.random() <= crossOverProbability) {
                 // Cross parents, mutate children, choose only one
                 children.add(
-                        mutate(crossOverMethod.apply(w1, w2)).get((int) (Math.random() * 2))
+                        crossOverMethod.apply(w1, w2).get((int) (Math.random() * 2))
                 );
             } else {
                 children.add(Math.random() <= 0.5 ? w1 : w2);
             }
         }
-        return children;
+        return mutate(children);
     }
 
     /**
