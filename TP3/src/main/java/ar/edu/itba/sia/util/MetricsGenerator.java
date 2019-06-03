@@ -118,9 +118,6 @@ public class MetricsGenerator {
     public static String getVisualizationData() {
         StringBuilder sb = new StringBuilder();
 
-        System.out.println(biodiversityIndex);
-        System.out.println(simpsonIndex);
-
         generations.forEach(generation -> {
 
             // Warriors classification by fitness (in percentage)
