@@ -5,17 +5,17 @@ import ar.edu.itba.sia.Items.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TSVReader {
     public static final String[] files = {"botas.tsv", "guantes.tsv", "pecheras.tsv", "cascos.tsv", "armas.tsv"};
 
-    public static List<Item> loadItems(ItemType type) throws IOException {
-
-// May be different in other systems
-        BufferedReader TSVFile = new BufferedReader(new FileReader("Data/Full/" + files[type.ordinal()]));
-//        BufferedReader TSVFile = new BufferedReader(new FileReader("src/main/" + files[type.ordinal()]));
+    public static List<Item> loadItems(ItemType type, boolean useFullData) throws IOException {
+        Path fullPath = Paths.get("Data", useFullData ? "Full" : "Test", files[type.ordinal()]);
+        BufferedReader TSVFile = new BufferedReader(new FileReader(fullPath.toFile()));
 
         // Read first line with names
         String line = TSVFile.readLine();

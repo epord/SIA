@@ -44,6 +44,7 @@ public class BestWarriorFinder {
 
 
     public static void main(String[] args) throws IOException {
+        // Read configuration
         loadSettings(args.length == 0 ? DEFAULT_PROPERTIES_PATH : args[0]);
         MIN_HEIGHT = Settings.getDouble(Constants.MIN_HEIGHT);
         MAX_HEIGHT = Settings.getDouble(Constants.MAX_HEIGHT);
@@ -67,11 +68,13 @@ public class BestWarriorFinder {
 
     public static void generateEquipment() throws IOException {
         System.out.print("Reading items from file...");
-        Boots       = loadItems(ItemType.BOOTS);
-        Gloves      = loadItems(ItemType.GLOVES);
-        Platebodies = loadItems(ItemType.PLATEBODY);
-        Helmets     = loadItems(ItemType.HELMET);
-        Weapons     = loadItems(ItemType.WEAPON);
+        boolean readFullData = Settings.getBoolean(Constants.READ_FULL_DATA);
+
+        Boots       = loadItems(ItemType.BOOTS, readFullData);
+        Gloves      = loadItems(ItemType.GLOVES, readFullData);
+        Platebodies = loadItems(ItemType.PLATEBODY, readFullData);
+        Helmets     = loadItems(ItemType.HELMET, readFullData);
+        Weapons     = loadItems(ItemType.WEAPON, readFullData);
         System.out.println("done");
     }
 

@@ -248,7 +248,7 @@ public class Settings {
                 Constants.EXPERTISE_MULTIPLIER, Constants.RESISTANCE_MULTIPLIER, Constants.HEALTH_MULTIPLIER, Constants.MIN_HEIGHT,
                 Constants.MAX_HEIGHT, Constants.CROSSOVER_PROBABILITY, Constants.CROSSOVER_A, Constants.CROSSOVER_SELECTION_METHOD_1,
                 Constants.MUTATION_PROBABILITY, Constants.MUTATION_UNIFORMITY, Constants.REPLACEMENT_GENERATION_GAP, Constants.REPLACEMENT_B,
-                Constants.REPLACEMENT_SELECTION_METHOD_1, Constants.ALGORITHM,
+                Constants.REPLACEMENT_SELECTION_METHOD_1, Constants.ALGORITHM, Constants.READ_FULL_DATA
         };
         for (String requiredParam : requiredParams) {
             if (!properties.containsKey(requiredParam)) {

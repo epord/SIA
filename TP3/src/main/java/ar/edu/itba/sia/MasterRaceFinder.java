@@ -5,6 +5,7 @@ import ar.edu.itba.sia.Warriors.Archer;
 import ar.edu.itba.sia.Warriors.Warrior;
 import ar.edu.itba.sia.Warriors.WarriorType;
 import ar.edu.itba.sia.util.Constants;
+import ar.edu.itba.sia.util.Settings;
 import ar.edu.itba.sia.util.TSVReader;
 
 import java.io.IOException;
@@ -92,10 +93,12 @@ public class MasterRaceFinder {
     }
 
     public static void generateEquipment() throws IOException {
-        boots = TSVReader.loadItems(ItemType.BOOTS);
-        gloves = TSVReader.loadItems(ItemType.GLOVES);
-        platebodies = TSVReader.loadItems(ItemType.PLATEBODY);
-        helmets = TSVReader.loadItems(ItemType.HELMET);
-        weapons = TSVReader.loadItems(ItemType.WEAPON);
+        boolean readFullData = Settings.getBoolean(Constants.READ_FULL_DATA);
+
+        boots = TSVReader.loadItems(ItemType.BOOTS, readFullData);
+        gloves = TSVReader.loadItems(ItemType.GLOVES, readFullData);
+        platebodies = TSVReader.loadItems(ItemType.PLATEBODY, readFullData);
+        helmets = TSVReader.loadItems(ItemType.HELMET, readFullData);
+        weapons = TSVReader.loadItems(ItemType.WEAPON, readFullData);
     }
 }
