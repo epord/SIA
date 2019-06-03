@@ -13,6 +13,8 @@ public class Constants {
         MIN_HEIGHT = "character.minHeight",
         MAX_HEIGHT = "character.maxHeight",
 
+        ALGORITHM = "algorithm",
+
         CROSSOVER_TYPE = "crossover.type",
         CROSSOVER_PROBABILITY = "crossover.p",
         CROSSOVER_A = "crossover.selection.A",
