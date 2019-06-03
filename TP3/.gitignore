@@ -21,6 +21,10 @@ buildNumber.properties
 *.iml
 *.ipr
 
+# Data output
+frontend/data.p5
+out.m
+
 # File-based project format
 *.iws
 
