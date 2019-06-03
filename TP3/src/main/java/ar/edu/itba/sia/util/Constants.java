@@ -37,5 +37,12 @@ public class Constants {
         REPLACEMENT_SECOND_SELECTION_METHOD_2 = "replacement.selection.second.method2",
 
         REPLACEMENT_METHOD_2_K = "replacement.method2.k",
-        REPLACEMENT_METHOD_3_K = "replacement.method3.k";
+        REPLACEMENT_METHOD_3_K = "replacement.method3.k",
+
+        END_CONDITION_TYPE = "end.condition.type",
+        MAX_GENERATIONS = "max.generations",
+        STRUCTURAL_PERCENTAGE = "structural.percentage",
+        CONTENT_CONSECUTIVE_GENERATIONS = "content.consecutive,generations",
+        NEAR_OPTIMAL_FITNESS = "near.optimal.fitness",
+        NEAR_OPTIMAL_DELTA = "near.optimal.delta";
 }

@@ -1,6 +1,8 @@
 package ar.edu.itba.sia.util;
 
+import ar.edu.itba.sia.GeneticOperators.EndConditions.*;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.CustomizableSelection;
+import ar.edu.itba.sia.GeneticOperators.Interfaces.EndCondition;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.Selection;
 import ar.edu.itba.sia.GeneticOperators.Selections.*;
 import ar.edu.itba.sia.GeneticOperators.Selections.Boltzmann.BoltzmannSelection;
@@ -14,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.function.Function;
+
+import static ar.edu.itba.sia.util.Constants.*;
 
 public class Settings {
     private static final Properties properties = new Properties();
@@ -143,6 +147,47 @@ public class Settings {
         return result;
     }
 
+    public static EndCondition getEndCondition(int type) {
+
+        EndCondition endCondition = null;
+        switch(type) {
+            case 0:
+                int maxGenerations = getInt(MAX_GENERATIONS);
+                endCondition = new MaxGenerationsEndCondition(maxGenerations);
+                break;
+            case 1:
+                double percentage = getDouble(STRUCTURAL_PERCENTAGE);
+                endCondition = new StructuralEndCondition(percentage);
+                break;
+
+            case 2:
+                int consecutiveGenerations = getInt(CONTENT_CONSECUTIVE_GENERATIONS);
+                endCondition = new ContentEndCondition(consecutiveGenerations);
+                break;
+
+            case 3:
+                double bestFitness = getDouble(NEAR_OPTIMAL_FITNESS);
+                double delta = getDouble(NEAR_OPTIMAL_DELTA);
+                endCondition = new NearOptimalEndCondition(bestFitness, delta);
+                break;
+            case 4:
+                maxGenerations = getInt(MAX_GENERATIONS);
+                EndCondition maxGenerationEndCondition = new MaxGenerationsEndCondition(maxGenerations);
+                percentage = getDouble(STRUCTURAL_PERCENTAGE);
+                EndCondition structuralEndCondition = new StructuralEndCondition(percentage);
+                consecutiveGenerations = getInt(CONTENT_CONSECUTIVE_GENERATIONS);
+                EndCondition contentEndCondition = new ContentEndCondition(consecutiveGenerations);
+                bestFitness = getDouble(NEAR_OPTIMAL_FITNESS);
+                delta = getDouble(NEAR_OPTIMAL_DELTA);
+                EndCondition nearOptimalEndCondition = new NearOptimalEndCondition(bestFitness, delta);
+                endCondition = new EndConditionsCombiner(maxGenerationEndCondition, structuralEndCondition,
+                                                        contentEndCondition, nearOptimalEndCondition);
+                break;
+
+        }
+
+        return endCondition;
+    }
     private static void validateSelectionParams() {
         List<SelectionMethod> methodsThatNeedASecondMethod = new ArrayList<>();
         methodsThatNeedASecondMethod.add(SelectionMethod.RANKING);

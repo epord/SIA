@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static ar.edu.itba.sia.util.Constants.END_CONDITION_TYPE;
 import static ar.edu.itba.sia.util.Settings.*;
 import static ar.edu.itba.sia.util.TSVReader.loadItems;
 
@@ -73,21 +74,22 @@ public class BestWarriorFinder {
     }
 
     public static void loadGeneticOperators() throws IOException {
-        int maxGenerations = 10000;
-        int maxConsecutiveGenerations = 50;
+//        int maxGenerations = 1000;
+//        int maxConsecutiveGenerations = 50;
         Warrior masterRaceWarrior = MasterRaceFinder.find(WarriorType.ARCHER, Helmets, Platebodies, Gloves, Weapons, Boots);
         System.out.println("Best fitness according to master race finder: " + masterRaceWarrior.getFitness() + "\n");
-        double nearOptimalError = 0.5;
-        double nonChangingPopulationPercentage = 0.1;
+//        double nearOptimalError = 0.05;
+//        double NonChangingPopulationPercentage = 0.05;
         //TODO everything should be read from properties
         mutationMethod          = new SingleGeneMutation();
         crossOverMethod         = new OnePointCrossover();
-        endCondition            = new EndConditionsCombiner(
-                                        new MaxGenerationsEndCondition(maxGenerations)
-                                        , new ContentEndCondition(maxConsecutiveGenerations)
-                                        , new NearOptimalEndCondition(masterRaceWarrior.getFitness(), nearOptimalError)
-                                        , new StructuralEndCondition(nonChangingPopulationPercentage)
-                                    );
+        endCondition            = getEndCondition(getInt(END_CONDITION_TYPE));
+//        endCondition            = new EndConditionsCombiner(
+//                                        new MaxGenerationsEndCondition(maxGenerations)
+//                                        , new ContentEndCondition(maxConsecutiveGenerations)
+//                                        , new NearOptimalEndCondition(masterRaceWarrior.getFitness(), nearOptimalError)
+//                                        , new StructuralEndCondition(NonChangingPopulationPercentage)
+//                                    );
 
         algorithm = new Algorithm2(
                 // Crossover params
