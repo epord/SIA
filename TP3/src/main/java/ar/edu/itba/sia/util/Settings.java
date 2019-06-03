@@ -3,7 +3,10 @@ package ar.edu.itba.sia.util;
 import ar.edu.itba.sia.GeneticOperators.EndConditions.*;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.CustomizableSelection;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.EndCondition;
+import ar.edu.itba.sia.GeneticOperators.Interfaces.Mutation;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.Selection;
+import ar.edu.itba.sia.GeneticOperators.Mutations.MultiGeneMutation;
+import ar.edu.itba.sia.GeneticOperators.Mutations.SingleGeneMutation;
 import ar.edu.itba.sia.GeneticOperators.Selections.*;
 import ar.edu.itba.sia.GeneticOperators.Selections.Boltzmann.BoltzmannSelection;
 import ar.edu.itba.sia.GeneticOperators.Selections.Boltzmann.TemperatureFunction;
@@ -145,6 +148,19 @@ public class Settings {
                 throw new IllegalArgumentException("Valid values are 1 through 4");
         }
         return result;
+    }
+
+    public static Mutation getMutationMethod(int type) {
+        Mutation mutationMethod = null;
+        switch(type) {
+            case 0:
+                mutationMethod = new SingleGeneMutation();
+                break;
+            case 1:
+                mutationMethod = new MultiGeneMutation();
+                break;
+        }
+        return mutationMethod;
     }
 
     public static EndCondition getEndCondition(int type) {

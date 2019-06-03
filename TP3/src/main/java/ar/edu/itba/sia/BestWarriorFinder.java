@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static ar.edu.itba.sia.util.Constants.END_CONDITION_TYPE;
+import static ar.edu.itba.sia.util.Constants.MUTATION_TYPE;
 import static ar.edu.itba.sia.util.Settings.*;
 import static ar.edu.itba.sia.util.TSVReader.loadItems;
 
@@ -81,7 +82,7 @@ public class BestWarriorFinder {
 //        double nearOptimalError = 0.05;
 //        double NonChangingPopulationPercentage = 0.05;
         //TODO everything should be read from properties
-        mutationMethod          = new SingleGeneMutation();
+        mutationMethod          = getMutationMethod(getInt(MUTATION_TYPE));
         crossOverMethod         = new OnePointCrossover();
         endCondition            = getEndCondition(getInt(END_CONDITION_TYPE));
 //        endCondition            = new EndConditionsCombiner(

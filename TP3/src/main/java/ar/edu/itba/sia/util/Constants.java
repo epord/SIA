@@ -25,6 +25,7 @@ public class Constants {
         TOURNAMENT_DETERMINISTIC_M = "selection.tournament.deterministic.m",
         TOURNAMENT_RANDOM_PROBABILITY = "selection.tournament.random.p",
 
+        MUTATION_TYPE = "mutation.type",
         MUTATION_PROBABILITY = "mutation.p",
         MUTATION_UNIFORMITY = "mutation.uniform",
         MUTATION_UNIFORM_GENERATIONS = "mutation.uniformGenerations",
