@@ -54,7 +54,7 @@ function draw() {
     drawCommonItems();
     drawMeanItems();
 
-    currentGeneration = min(currentGeneration + 1, generationsCount);
+    currentGeneration = min(currentGeneration + 1, generationsCount - 1);
 
 }
 const drawGenerationCounter = () => {

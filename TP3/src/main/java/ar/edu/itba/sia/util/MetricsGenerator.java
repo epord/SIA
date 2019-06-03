@@ -184,14 +184,14 @@ public class MetricsGenerator {
         sb.append("bestFitnesses = [");
         bestFitnesses.forEach(f -> sb.append(f).append(' '));
         sb.append("];\n");
-        sb.append("subplot(2, 1, 1);\n");
+        sb.append("subplot(4, 1, 1);\n");
         sb.append("plot([1:").append(bestFitnesses.size()).append("], bestFitnesses, \"color\", \"red\");\n");
         sb.append("hold on;\n");
 
         sb.append("meanFitnesses = [");
         meanFitnesses.forEach(f -> sb.append(f).append(' '));
         sb.append("];\n");
-        sb.append("subplot(2, 1, 1);\n");
+        sb.append("subplot(4, 1, 1);\n");
         sb.append("plot([1:").append(meanFitnesses.size()).append("], meanFitnesses, \"color\", \"blue\");\n");
 
         sb.append("title(\"Fitness over generations\", 'fontsize',14);\n");
@@ -202,12 +202,32 @@ public class MetricsGenerator {
         sb.append("meanHeights = [");
         meanHeights.forEach(f -> sb.append(f).append(' '));
         sb.append("];\n");
-        sb.append("subplot(2, 1, 2);\n");
+        sb.append("subplot(4, 1, 2);\n");
         sb.append("plot([1:").append(meanHeights.size()).append("], meanHeights, \"color\", \"blue\");\n");
 
         sb.append("title(\"Mean height over generations\", 'fontsize',14);\n");
         sb.append("xlabel(\"generations\");\n");
         sb.append("ylabel(\"height (m)\");\n");
+
+        sb.append("diversity = [");
+        biodiversityIndex.forEach(f -> sb.append(f).append(' '));
+        sb.append("];\n");
+        sb.append("subplot(4, 1, 3);\n");
+        sb.append("plot([1:").append(biodiversityIndex.size()).append("], diversity, \"color\", \"blue\");\n");
+
+        sb.append("title(\"Biodiversity over generations\", 'fontsize',14);\n");
+        sb.append("xlabel(\"generations\");\n");
+        sb.append("ylabel(\"biodiversity index\");\n");
+
+        sb.append("simpson = [");
+        simpsonIndex.forEach(f -> sb.append(f).append(' '));
+        sb.append("];\n");
+        sb.append("subplot(4, 1, 4);\n");
+        sb.append("plot([1:").append(simpsonIndex.size()).append("], simpson, \"color\", \"blue\");\n");
+
+        sb.append("title(\"Simpson index over generations\", 'fontsize',14);\n");
+        sb.append("xlabel(\"generations\");\n");
+        sb.append("ylabel(\"Simpson index\");\n");
 
         return sb.toString();
     }
