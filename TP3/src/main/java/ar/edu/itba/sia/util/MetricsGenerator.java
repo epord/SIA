@@ -1,5 +1,6 @@
 package ar.edu.itba.sia.util;
 
+import ar.edu.itba.sia.GeneticOperators.Interfaces.EndCondition;
 import ar.edu.itba.sia.Items.*;
 import ar.edu.itba.sia.Warriors.Warrior;
 import javafx.util.Pair;
@@ -12,6 +13,8 @@ public class MetricsGenerator {
     private static List<Double> meanFitnesses = new ArrayList<>();
     private static List<Double> meanHeights = new ArrayList<>();
     private static List<List<Warrior>> generations = new ArrayList<>();
+    private static List<Integer> biodiversityIndex = new ArrayList<>();
+    private static List<Double> simpsonIndex = new ArrayList<>();
 
     public static void addGeneration(List<Warrior> warriors) {
         if (warriors.size() == 0) return;
@@ -19,6 +22,20 @@ public class MetricsGenerator {
         bestFitnesses.add(warriors.stream().max(Comparator.comparingDouble(Warrior::getFitness)).get().getFitness());
         meanFitnesses.add(warriors.stream().mapToDouble(Warrior::getFitness).sum() / warriors.size());
         meanHeights.add(warriors.stream().mapToDouble(Warrior::getHeight).sum() / warriors.size());
+
+        // Calculate biodiversity
+        Set<Warrior> nonRepeatedWarriors = new HashSet<>();
+        nonRepeatedWarriors.addAll(warriors);
+        biodiversityIndex.add(nonRepeatedWarriors.size());
+
+        // Calculate Simpson index
+        HashMap<Warrior, Integer> warriorCounter = new HashMap<>();
+        WarriorUtils.loadMap(warriorCounter, warriors);
+        Double accumulatedRelativeDiversity = 0.0;
+        for (Map.Entry<Warrior, Integer> entry : warriorCounter.entrySet()) {
+            accumulatedRelativeDiversity += Math.pow(entry.getValue().doubleValue() / warriors.size(), 2);
+        }
+        simpsonIndex.add(1 - accumulatedRelativeDiversity);
     }
 
     public static void clearData() {
@@ -100,6 +117,9 @@ public class MetricsGenerator {
 
     public static String getVisualizationData() {
         StringBuilder sb = new StringBuilder();
+
+        System.out.println(biodiversityIndex);
+        System.out.println(simpsonIndex);
 
         generations.forEach(generation -> {
 

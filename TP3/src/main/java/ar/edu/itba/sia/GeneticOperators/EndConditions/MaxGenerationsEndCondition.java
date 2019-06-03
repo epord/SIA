@@ -19,6 +19,7 @@ public class MaxGenerationsEndCondition implements EndCondition {
             return false;
         }
         else {
+            System.out.println("Max generation reached: " + maxGenerations);
             return true;
         }
     }

@@ -2,6 +2,7 @@ package ar.edu.itba.sia.GeneticOperators.EndConditions;
 
 import ar.edu.itba.sia.GeneticOperators.Interfaces.EndCondition;
 import ar.edu.itba.sia.Warriors.Warrior;
+import ar.edu.itba.sia.util.WarriorUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +35,9 @@ public class StructuralEndCondition implements EndCondition {
         else {
             boolean end = percentageDifference(lastPopulation, population) < requiredPercentage;
             lastPopulation = population;
+            if (end) {
+                System.out.println("Structural end");
+            }
             return end;
         }
     }
@@ -68,26 +72,14 @@ public class StructuralEndCondition implements EndCondition {
         HashMap<Warrior, Integer> lastPopulationMap     = new HashMap<>();
         HashMap<Warrior, Integer> currentPopulationMap  = new HashMap<>();
 
-        loadMap(lastPopulationMap, lastPopulation);
-        loadMap(currentPopulationMap, currentPopulation);
+        WarriorUtils.loadMap(lastPopulationMap, lastPopulation);
+        WarriorUtils.loadMap(currentPopulationMap, currentPopulation);
         double difference = 0;
 
         difference += getDifference(lastPopulationMap, currentPopulation);
         difference += getDifference(currentPopulationMap, lastPopulation);
 
         return  difference / totalSize;
-    }
-
-    private void loadMap(HashMap<Warrior, Integer> map, List<Warrior> population) {
-        for(Warrior w : population) {
-            if(map.containsKey(w)) {
-                Integer value = map.get(w);
-                map.put(w, value + 1);
-            }
-            else {
-                map.put(w, 1);
-            }
-        }
     }
 
     private int getDifference(HashMap<Warrior, Integer> map, List<Warrior> population) {

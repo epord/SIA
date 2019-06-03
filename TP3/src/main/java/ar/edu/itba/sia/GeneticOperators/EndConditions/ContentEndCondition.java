@@ -25,7 +25,11 @@ public class ContentEndCondition implements EndCondition {
             return false;
         }
         else {
-            return ++currentConsecutiveGenerations >= maxConsecutiveGenerations;
+            boolean ret = ++currentConsecutiveGenerations >= maxConsecutiveGenerations;
+            if (ret) {
+                System.out.println("Max fitness repeated " + maxConsecutiveGenerations + " times");
+            }
+            return ret;
         }
     }
 

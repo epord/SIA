@@ -136,6 +136,11 @@ public class BestWarriorFinder {
         while(!endCondition.test(population)) {
             population = geneticAlgorithm.evolve(population);
             MetricsGenerator.addGeneration(population);
+            if (currGeneration % (getInt(MAX_GENERATIONS) / 10) == 0) {
+                System.out.println("Current genreation: " + currGeneration);
+                EliteSelection selector = new EliteSelection();
+                System.out.println("Best warrior: " + selector.select(population, 1).get(0));
+            }
             currGeneration++;
         }
 
@@ -147,6 +152,8 @@ public class BestWarriorFinder {
         // Write visualization file
         fm.writeStringToFile("frontend/data.p5", MetricsGenerator.getVisualizationData());
         System.out.println("done");
+
+        System.out.println("Total generations: " + currGeneration);
 
         EliteSelection selector = new EliteSelection();
         return selector.select(population, 1).get(0);

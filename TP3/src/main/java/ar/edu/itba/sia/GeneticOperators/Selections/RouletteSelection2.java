@@ -2,7 +2,7 @@ package ar.edu.itba.sia.GeneticOperators.Selections;
 
 import ar.edu.itba.sia.GeneticOperators.Interfaces.CustomizableSelection;
 import ar.edu.itba.sia.Warriors.Warrior;
-import ar.edu.itba.sia.util.FitnessUtils;
+import ar.edu.itba.sia.util.WarriorUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class RouletteSelection2 implements CustomizableSelection {
     public List<Warrior> select(List<Warrior> warriors, int quantity, List<Double> customFitnesses) {
         List<Double> randoms = Stream.generate(Math::random).limit(quantity).collect(Collectors.toList());
         List<Warrior> selectedWarriors = new ArrayList<>(quantity);
-        double totalFitness = customFitnesses == null ? FitnessUtils.getTotalFitness(warriors) : FitnessUtils.getTotalCustomFitness(customFitnesses);
+        double totalFitness = customFitnesses == null ? WarriorUtils.getTotalFitness(warriors) : WarriorUtils.getTotalCustomFitness(customFitnesses);
         List<Double> relativeFitnesses =
                 (customFitnesses == null
                         ? warriors.stream().map(w -> w.getFitness() / totalFitness)

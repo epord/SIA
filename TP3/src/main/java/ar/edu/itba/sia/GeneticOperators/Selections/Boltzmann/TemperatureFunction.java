@@ -6,13 +6,25 @@ public enum TemperatureFunction {
     EXP {
         @Override
         public Function<Integer, Double> getTemperatureFunction() {
-            return generation -> Math.exp(-generation / 10.0);
+            return generation -> Math.exp(- (generation - 10000) / 1900.0);
         }
     },
     INVERSE {
         @Override
         public Function<Integer, Double> getTemperatureFunction() {
             return generation -> 1.0 / generation;
+        }
+    },
+    LINEAL {
+        @Override
+        public Function<Integer, Double> getTemperatureFunction() {
+            return generation -> - generation / 20.0 + 10000;
+        }
+    },
+    LINEAL_SPLIT {
+        @Override
+        public Function<Integer, Double> getTemperatureFunction() {
+            return generation -> Math.max(- generation * 3.0 + 1000, - generation / 12 + 240);
         }
     };
 

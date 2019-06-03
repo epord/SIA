@@ -41,6 +41,7 @@ const loadFrames = () => {
         };
         generations.push(generationData);
     }
+    console.log(generationsCount)
 };
 
 
@@ -53,7 +54,7 @@ function draw() {
     drawCommonItems();
     drawMeanItems();
 
-    ++currentGeneration;
+    currentGeneration = min(currentGeneration + 1, generationsCount);
 
 }
 const drawGenerationCounter = () => {
@@ -89,9 +90,9 @@ const drawCommonItems = () => {
     const generationData = generations[currentGeneration];
     const { commonHelmet, commonPlatebody, commonGloves, commonWeapon, commonBoots } = generationData;
     textSize(20);
-    textAlign(CENTER)
+    textAlign(CENTER);
     fill('black');
-    text("Most\ncommon", 40, 500)
+    text("Most\ncommon", 40, 500);
     drawCommonItem(100, 460, commonHelmet, 27);
     drawCommonItem(250, 460, commonPlatebody, 37);
     drawCommonItem(400, 460, commonGloves, 9);
@@ -125,9 +126,9 @@ const drawMeanItems = () => {
     const generationData = generations[currentGeneration];
     const { meanHelmet, meanPlatebody, meanGloves, meanWeapon, meanBoots } = generationData;
     textSize(20);
-    textAlign(CENTER)
+    textAlign(CENTER);
     fill('black');
-    text("Mean\nitems", 40, 640)
+    text("Mean\nitems", 40, 640);
     drawMeanItem(100, 600, meanHelmet, 27);
     drawMeanItem(250, 600, meanPlatebody, 37);
     drawMeanItem(400, 600, meanGloves, 9);

@@ -17,7 +17,11 @@ public class NearOptimalEndCondition implements EndCondition {
 
     public boolean test(List<Warrior> population) {
         double bestFitness = getBestFitness(population);
-        return Math.abs(optimalFitness - bestFitness) < delta || optimalFitness < bestFitness;
+        boolean ret = Math.abs(optimalFitness - bestFitness) < delta || optimalFitness < bestFitness;
+        if (ret) {
+            System.out.println("Master race almost reached: " + bestFitness + "/" + optimalFitness);
+        }
+        return ret;
     }
 
     private double getBestFitness(List<Warrior> population) {
