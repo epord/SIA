@@ -1,10 +1,11 @@
 package ar.edu.itba.sia.util;
 
+import ar.edu.itba.sia.GeneticOperators.Crossovers.AnnularCrossover;
+import ar.edu.itba.sia.GeneticOperators.Crossovers.OnePointCrossover;
+import ar.edu.itba.sia.GeneticOperators.Crossovers.TwoPointsCrossover;
+import ar.edu.itba.sia.GeneticOperators.Crossovers.UniformCrossover;
 import ar.edu.itba.sia.GeneticOperators.EndConditions.*;
-import ar.edu.itba.sia.GeneticOperators.Interfaces.CustomizableSelection;
-import ar.edu.itba.sia.GeneticOperators.Interfaces.EndCondition;
-import ar.edu.itba.sia.GeneticOperators.Interfaces.Mutation;
-import ar.edu.itba.sia.GeneticOperators.Interfaces.Selection;
+import ar.edu.itba.sia.GeneticOperators.Interfaces.*;
 import ar.edu.itba.sia.GeneticOperators.Mutations.MultiGeneMutation;
 import ar.edu.itba.sia.GeneticOperators.Mutations.SingleGeneMutation;
 import ar.edu.itba.sia.GeneticOperators.Selections.*;
@@ -148,6 +149,26 @@ public class Settings {
                 throw new IllegalArgumentException("Valid values are 1 through 4");
         }
         return result;
+    }
+
+    public static CrossOver getCrossoverMethod(int type) {
+        CrossOver crossovermethod = null;
+        switch(type) {
+            case 0:
+                crossovermethod = new OnePointCrossover();
+                break;
+            case 1:
+                crossovermethod = new TwoPointsCrossover();
+                break;
+            case 2:
+                crossovermethod = new AnnularCrossover();
+                break;
+            case 3:
+                crossovermethod = new UniformCrossover();
+                break;
+        }
+
+        return crossovermethod;
     }
 
     public static Mutation getMutationMethod(int type) {
