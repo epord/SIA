@@ -36,6 +36,8 @@ public class Algorithm1 extends GeneticAlgorithm {
 
             newGeneration.addAll(children);
         }
+        updateTemperature();
+
         return newGeneration;
     }
 }

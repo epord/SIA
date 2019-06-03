@@ -1,5 +1,6 @@
 package ar.edu.itba.sia.GeneticOperators.Interfaces;
 
+import ar.edu.itba.sia.GeneticOperators.Selections.Boltzmann.BoltzmannSelection;
 import ar.edu.itba.sia.Items.Item;
 import ar.edu.itba.sia.Warriors.Warrior;
 
@@ -37,5 +38,19 @@ public abstract class GeneticAlgorithm2 extends GeneticAlgorithm {
         result.addAll(replacementSelectionMethod2.select(population, individualsToSelect - numMethod1));
 
         return result;
+    }
+
+    /**
+     * Equivalent to {@link GeneticAlgorithm#updateTemperature()} and also with replacement selection methods.
+     */
+    @Override
+    protected void updateTemperature() {
+        super.updateTemperature();
+        if (replacementSelectionMethod1 instanceof BoltzmannSelection) {
+            ((BoltzmannSelection) replacementSelectionMethod1).onGenerationUpdated();
+        }
+        if (replacementSelectionMethod2 instanceof BoltzmannSelection) {
+            ((BoltzmannSelection) replacementSelectionMethod2).onGenerationUpdated();
+        }
     }
 }

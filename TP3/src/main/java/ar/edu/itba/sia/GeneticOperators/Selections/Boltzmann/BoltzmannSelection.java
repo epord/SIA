@@ -25,7 +25,7 @@ public class BoltzmannSelection implements Selection {
     @Override
     public List<Warrior> select(List<Warrior> warriors, int quantity) {
         List<Double> customFitnesses = new ArrayList<>(quantity);
-        double temperature = tempFunction.apply(currentGeneration++);
+        double temperature = tempFunction.apply(currentGeneration);
         double accumulatedExp = 0;
         for(int i = 0; i < quantity; i++) {
             double currentExp = Math.exp(warriors.get(i).getFitness() / temperature);
@@ -36,5 +36,12 @@ public class BoltzmannSelection implements Selection {
         customFitnesses = customFitnesses.stream().map(c -> c/meanExp).collect(Collectors.toList());
 
         return secondSelection.select(new ArrayList<>(warriors.subList(0, quantity)), quantity, customFitnesses);
+    }
+
+    /**
+     * To be called when the population advances one generation, so as to update temperature accordingly.
+     */
+    public void onGenerationUpdated() {
+        currentGeneration++;
     }
 }

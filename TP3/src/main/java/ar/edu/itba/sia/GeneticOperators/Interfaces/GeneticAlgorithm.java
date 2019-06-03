@@ -1,5 +1,6 @@
 package ar.edu.itba.sia.GeneticOperators.Interfaces;
 
+import ar.edu.itba.sia.GeneticOperators.Selections.Boltzmann.BoltzmannSelection;
 import ar.edu.itba.sia.Items.*;
 import ar.edu.itba.sia.Warriors.Warrior;
 
@@ -143,5 +144,17 @@ public abstract class GeneticAlgorithm {
                 return individual;
             }
         }).collect(Collectors.toList());
+    }
+
+    /**
+     * Calls {@link BoltzmannSelection#onGenerationUpdated()} for every crossover selection method that is Boltzmann.
+     */
+    protected void updateTemperature() {
+        if (crossOverSelectionMethod1 instanceof BoltzmannSelection) {
+            ((BoltzmannSelection) crossOverSelectionMethod1).onGenerationUpdated();
+        }
+        if (crossOverSelectionMethod2 instanceof BoltzmannSelection) {
+            ((BoltzmannSelection) crossOverSelectionMethod2).onGenerationUpdated();
+        }
     }
 }

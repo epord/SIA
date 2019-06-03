@@ -1,6 +1,9 @@
 package ar.edu.itba.sia.GeneticOperators.Algorithms;
 
-import ar.edu.itba.sia.GeneticOperators.Interfaces.*;
+import ar.edu.itba.sia.GeneticOperators.Interfaces.CrossOver;
+import ar.edu.itba.sia.GeneticOperators.Interfaces.GeneticAlgorithm2;
+import ar.edu.itba.sia.GeneticOperators.Interfaces.Mutation;
+import ar.edu.itba.sia.GeneticOperators.Interfaces.Selection;
 import ar.edu.itba.sia.Items.Item;
 import ar.edu.itba.sia.Warriors.Warrior;
 
@@ -22,6 +25,8 @@ public class Algorithm2 extends GeneticAlgorithm2 {
         // Select and pass N - k individuals from previous generation directly to new generation
         int k = numChildrenToCreate(population);
         newGeneration.addAll(selectForReplacement(population, N - k));
+
+        updateTemperature();
 
         return newGeneration;
     }

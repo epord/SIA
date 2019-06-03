@@ -29,6 +29,8 @@ public class Algorithm3 extends GeneticAlgorithm2 {
         oldPlusNew.addAll(children);
         newGeneration.addAll(selectForReplacement(oldPlusNew, k));
 
+        updateTemperature();
+
         return newGeneration;
     }
 }
