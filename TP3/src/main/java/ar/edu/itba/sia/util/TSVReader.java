@@ -12,12 +12,30 @@ import java.util.List;
 
 public class TSVReader {
     public static final String[] files = {"botas.tsv", "guantes.tsv", "pecheras.tsv", "cascos.tsv", "armas.tsv"};
+    private static final Path DEFAULT_DATA_DIR = Paths.get("Data");
 
+    /**
+     * Equivalent to {@link #loadItems(ItemType, Path, boolean)} with the data dir specified in settings, or {@link #DEFAULT_DATA_DIR}
+     * if not specified.
+     *
+     * @param type        Item type to load.
+     * @param useFullData Whether to read from the full or test data subdirectory.
+     * @return The loaded items
+     * @throws IOException On I/O errors.
+     */
     public static List<Item> loadItems(ItemType type, boolean useFullData) throws IOException {
-        Path fullPath = Paths.get("Data", useFullData ? "Full" : "Test", files[type.ordinal()]);
+        String specifiedPath = Settings.get(Constants.DATA_DIR);
+        Path path = specifiedPath == null || specifiedPath.isEmpty() ? DEFAULT_DATA_DIR : Paths.get(specifiedPath);
+
+        return loadItems(type, path, useFullData);
+    }
+
+    public static List<Item> loadItems(ItemType type, Path dataDir, boolean useFullData) throws IOException {
+        Path fullPath = dataDir.resolve(Paths.get(useFullData ? "Full" : "Test", files[type.ordinal()]));
         BufferedReader TSVFile = new BufferedReader(new FileReader(fullPath.toFile()));
 
         // Read first line with names
+        //noinspection UnusedAssignment, we use this to skip the first line
         String line = TSVFile.readLine();
         String[] stats;
         line = TSVFile.readLine();

@@ -60,6 +60,10 @@ public class Settings {
         // TODO more
     }
 
+    public static String get(String property) {
+        return properties.getProperty(property);
+    }
+
     public static int getInt(String property) {
         return Integer.parseInt(properties.getProperty(property));
     }

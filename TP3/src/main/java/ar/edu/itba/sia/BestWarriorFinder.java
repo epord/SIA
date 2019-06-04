@@ -19,8 +19,6 @@ import ar.edu.itba.sia.util.Settings;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -57,7 +55,7 @@ public class BestWarriorFinder {
     }
 
     public static Warrior findBestWarrior() throws IOException {
-        generateEquipment();
+        loadEquipment();
 
         Warrior masterRaceWarrior = MasterRaceFinder.find(WarriorType.ARCHER, Helmets, Platebodies, Gloves, Weapons, Boots);
         System.out.println("Best fitness according to master race finder: " + masterRaceWarrior.getFitness() + "\n");
@@ -68,7 +66,7 @@ public class BestWarriorFinder {
         return findBestWarrior(population, algorithm, endCondition);
     }
 
-    public static void generateEquipment() throws IOException {
+    public static void loadEquipment() throws IOException {
         System.out.print("Reading items from file...");
         boolean readFullData = Settings.getBoolean(Constants.READ_FULL_DATA);
 
