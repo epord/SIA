@@ -8,6 +8,9 @@ import ar.edu.itba.sia.Warriors.Warrior;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ar.edu.itba.sia.Warriors.WarriorBuilder.buildWarrior;
+import static ar.edu.itba.sia.util.Settings.getWarriorType;
+
 /**
  * Uniform crossover function. Each gene has a {@link #p} chance of being swapped.  Note that we don't exclude equal
  * alleles since swapping them is the same as not doing anything, and adding that logic adds unneeded complexity to the
@@ -45,8 +48,8 @@ public class UniformCrossover implements CrossOver {
         double height1 =  rand > p ? w1.getHeight() : w2.getHeight();
         double height2 =  rand <= p ? w2.getHeight() : w1.getHeight();
 
-        newWarrior1 =  new Archer(boots1, gloves1, platebody1, helmet1, weapon1, height1);
-        newWarrior2 =  new Archer(boots2, gloves2, platebody2, helmet2, weapon2, height2);
+        newWarrior1 =  buildWarrior(boots1, gloves1, platebody1, helmet1, weapon1, height1, getWarriorType());
+        newWarrior2 =  buildWarrior(boots2, gloves2, platebody2, helmet2, weapon2, height2, getWarriorType());
 
         newWarriors.add(newWarrior1);
         newWarriors.add(newWarrior2);

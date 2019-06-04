@@ -8,13 +8,16 @@ public class WarriorBuilder {
         Warrior newWarrior = null;
         switch(type) {
             case SOLDIER:
+                newWarrior = new Soldier(boots, gloves, platebody, helmet, weapon, height);
                 break;
             case ARCHER:
                 newWarrior = new Archer(boots, gloves, platebody, helmet, weapon, height);
                 break;
             case DEFENSOR:
+                newWarrior = new Defensor(boots, gloves, platebody, helmet, weapon, height);
                 break;
             case ASSASIN:
+                newWarrior = new Assasin(boots, gloves, platebody, helmet, weapon, height);
                 break;
 
         }

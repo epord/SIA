@@ -20,8 +20,8 @@ public class SingleGeneMutation extends GeneralMutation implements Mutation {
         Genes[] genes = Genes.values();
         int locus = (int) (Math.random() * genes.length);
         Genes crossGene = genes[locus];
-        Warrior newWarrior= new Archer(warrior.getBoots(), warrior.getGloves(), warrior.getPlatebody(),
-                warrior.getHelmet(), warrior.getWeapon(), warrior.getHeight());
+        Warrior newWarrior= buildWarrior(warrior.getBoots(), warrior.getGloves(), warrior.getPlatebody(),
+                warrior.getHelmet(), warrior.getWeapon(), warrior.getHeight(), getWarriortype());
         double probability = getProbability();
         double rand = Math.random();
         if(rand <= probability) {

@@ -5,9 +5,15 @@ import ar.edu.itba.sia.GeneticOperators.Interfaces.CrossOver;
 import ar.edu.itba.sia.Items.*;
 import ar.edu.itba.sia.Warriors.Archer;
 import ar.edu.itba.sia.Warriors.Warrior;
+import ar.edu.itba.sia.Warriors.WarriorType;
+import ar.edu.itba.sia.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static ar.edu.itba.sia.Warriors.WarriorBuilder.buildWarrior;
+import static ar.edu.itba.sia.util.Settings.getInt;
+import static ar.edu.itba.sia.util.Settings.getWarriorType;
 
 public class AnnularCrossover implements CrossOver {
 
@@ -71,8 +77,8 @@ public class AnnularCrossover implements CrossOver {
             }
             i = (i + 1) % genes.length;
         }
-        newWarrior1 =  new Archer(boots1, gloves1, platebody1, helmet1, weapon1, height1);
-        newWarrior2 =  new Archer(boots2, gloves2, platebody2, helmet2, weapon2, height2);
+        newWarrior1 =  buildWarrior(boots1, gloves1, platebody1, helmet1, weapon1, height1, getWarriorType());
+        newWarrior2 =  buildWarrior(boots2, gloves2, platebody2, helmet2, weapon2, height2, getWarriorType());
 
         newWarriors.add(newWarrior1);
         newWarriors.add(newWarrior2);

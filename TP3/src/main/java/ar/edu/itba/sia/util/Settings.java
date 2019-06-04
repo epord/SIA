@@ -229,6 +229,31 @@ public class Settings {
 
         return endCondition;
     }
+
+    public static WarriorType getWarriorType() {
+        int type = getInt(Constants.WARRIOR_TYPE);
+        WarriorType warriorType = null;
+
+        switch(type) {
+            case 0:
+                warriorType = WarriorType.SOLDIER;
+                break;
+
+            case 1:
+                warriorType = WarriorType.ARCHER;
+                break;
+
+            case 2:
+                warriorType = WarriorType.DEFENSOR;
+                break;
+
+            case 3:
+                warriorType = WarriorType.ASSASIN;
+                break;
+        }
+        return warriorType;
+    }
+
     private static void validateSelectionParams() {
         List<SelectionMethod> methodsThatNeedASecondMethod = new ArrayList<>();
         methodsThatNeedASecondMethod.add(SelectionMethod.RANKING);

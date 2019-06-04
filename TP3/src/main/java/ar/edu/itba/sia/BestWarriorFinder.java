@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static ar.edu.itba.sia.Warriors.WarriorBuilder.buildWarrior;
 import static ar.edu.itba.sia.util.Constants.*;
 import static ar.edu.itba.sia.util.Settings.*;
 import static ar.edu.itba.sia.util.TSVReader.loadItems;
@@ -100,15 +101,8 @@ public class BestWarriorFinder {
         Weapon warriorWeapon = (Weapon) Weapons.get((int) (Math.random() * Weapons.size()));
         double warriorHeight = Math.random() * (MAX_HEIGHT - MIN_HEIGHT) + MIN_HEIGHT;
 
-        switch (warriorType) {
-            case ARCHER:
-                return new Archer(warriorBoots, warriorGloves, warriorPlatebody, warriorHelmet, warriorWeapon, warriorHeight);
-            case SOLDIER:
-            case DEFENSOR:
-            case ASSASIN:
-                throw new UnsupportedOperationException(warriorType.name() + " not implemented yet");
-        }
-        return null;
+        return buildWarrior(warriorBoots, warriorGloves, warriorPlatebody, warriorHelmet, warriorWeapon, warriorHeight,
+                    getWarriorType());
     }
 
     private static Warrior findBestWarrior(List<Warrior> population, GeneticAlgorithm geneticAlgorithm,

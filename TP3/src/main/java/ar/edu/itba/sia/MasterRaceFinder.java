@@ -11,7 +11,9 @@ import ar.edu.itba.sia.util.TSVReader;
 import java.io.IOException;
 import java.util.List;
 
+import static ar.edu.itba.sia.Warriors.WarriorBuilder.buildWarrior;
 import static ar.edu.itba.sia.util.Settings.getDouble;
+import static ar.edu.itba.sia.util.Settings.getWarriorType;
 
 
 public class MasterRaceFinder {
@@ -68,8 +70,8 @@ public class MasterRaceFinder {
         Platebody bestPlatebody = (Platebody) findBestItem(MasterRaceFinder.platebodies, warriorType, ATM, DEM);
         Weapon bestWeapon = (Weapon) findBestItem(MasterRaceFinder.weapons, warriorType, ATM, DEM);
 
-        /// TODO: return appropriate class
-        return new Archer(bestBoots, bestGloves, bestPlatebody, bestHelmet, bestWeapon, bestHeight);
+        return buildWarrior(bestBoots, bestGloves, bestPlatebody, bestHelmet, bestWeapon, bestHeight,
+                            getWarriorType());
     }
 
     private static Item findBestItem(List<Item> items, WarriorType warriorType, double ATM, double DEM) {
