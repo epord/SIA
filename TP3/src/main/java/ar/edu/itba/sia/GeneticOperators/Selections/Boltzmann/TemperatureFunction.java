@@ -1,7 +1,5 @@
 package ar.edu.itba.sia.GeneticOperators.Selections.Boltzmann;
 
-import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
-
 import java.util.function.Function;
 
 public enum TemperatureFunction {
