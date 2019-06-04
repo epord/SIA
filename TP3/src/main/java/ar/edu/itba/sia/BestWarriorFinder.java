@@ -18,6 +18,8 @@ import ar.edu.itba.sia.util.MetricsGenerator;
 import ar.edu.itba.sia.util.Settings;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -130,8 +132,14 @@ public class BestWarriorFinder {
         FileManager fm = new FileManager();
         fm.writeStringToFile("out.m", MetricsGenerator.getOctaveCode());
 
-        // Write visualization file
-        fm.writeStringToFile("frontend/data.p5", MetricsGenerator.getVisualizationData());
+        // Write visualization file to frontend/data.p5 or directly to data.p5 if frontend directory does not exist
+        Path destPath = Paths.get("frontend");
+        if (destPath.toFile().exists()) {
+            destPath = destPath.resolve("data.p5");
+        } else {
+            destPath = Paths.get("data.p5");
+        }
+        fm.writeStringToFile(destPath.toString(), MetricsGenerator.getVisualizationData());
         System.out.println("done");
 
         System.out.println("Total generations: " + currGeneration);
