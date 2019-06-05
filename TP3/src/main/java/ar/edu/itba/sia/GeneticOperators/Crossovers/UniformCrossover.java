@@ -20,7 +20,7 @@ import static ar.edu.itba.sia.util.Settings.getWarriorType;
  */
 public class UniformCrossover implements CrossOver {
 
-    public static final double p = Settings.getInt(Constants.CROSSOVER_UNIFORM_PROBABILITY);
+    public static final double p = Settings.getDouble(Constants.CROSSOVER_UNIFORM_PROBABILITY);
 
     public List<Warrior> apply(Warrior w1, Warrior w2) {
         List<Warrior> newWarriors = new ArrayList<>();
