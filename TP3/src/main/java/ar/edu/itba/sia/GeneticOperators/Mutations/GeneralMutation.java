@@ -11,7 +11,7 @@ import static ar.edu.itba.sia.util.Settings.getType;
 public abstract class GeneralMutation implements Mutation {
     private static double probability = Settings.getDouble(Constants.MUTATION_PROBABILITY);
     private static WarriorType warriortype = getType(Settings.getInt(WARRIOR_TYPE));
-    private static double minProbability = Settings.getInt(Constants.MUTATION_MIN_PROBABILITY);
+    private static double minProbability = Settings.getDouble(Constants.MUTATION_MIN_PROBABILITY);
     private static boolean uniform = Settings.getBoolean(Constants.MUTATION_UNIFORMITY);
     private static int generations = Settings.getInt(Constants.MUTATION_UNIFORM_GENERATIONS); // Number of generations with constant probability
     private static int modifyingFunction = Settings.getInt(Constants.MUTATION_MODIFYING_FUNCTION);
