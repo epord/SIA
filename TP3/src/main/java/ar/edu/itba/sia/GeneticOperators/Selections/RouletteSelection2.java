@@ -40,8 +40,6 @@ public class RouletteSelection2 implements CustomizableSelection {
         int warriorIndex = 0;
         int randomIndex  = 0;
 
-        // maybe shuffle warrior collection? TODO
-
         while(selectedWarriors.size() < quantity) {
             if (accumulatedFitnesses.get(warriorIndex) < randoms.get(randomIndex) && randoms.get(randomIndex) < accumulatedFitnesses.get(warriorIndex+1)) {
                 selectedWarriors.add(warriors.get(warriorIndex));

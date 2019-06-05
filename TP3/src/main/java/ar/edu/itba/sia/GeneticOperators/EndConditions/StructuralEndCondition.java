@@ -57,8 +57,7 @@ public class StructuralEndCondition implements EndCondition {
 //
 //        return (double) difference.size() / totalSize;
 //
-//        // TODO try to use this code but instead of calculating whether population is different or not, compute HOW different they are
-////        Map<Warrior, Integer> currentPopulationMap = fillOccurrenceMap(currentPopulation); // This step is always required otherwise the map will get outdated
+//        // Map<Warrior, Integer> currentPopulationMap = fillOccurrenceMap(currentPopulation); // This step is always required otherwise the map will get outdated
 ////        if (currentPopulation.size() != lastPopulation.size()) {
 ////            lastPopulationMap = currentPopulationMap;
 ////            return false;

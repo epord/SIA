@@ -35,7 +35,6 @@ public class UniversalSelection implements CustomizableSelection {
         int warriorIndex = 0;
         int randomIndex  = 0;
         double totalFitness = customFitnesses == null ? WarriorUtils.getTotalFitness(warriors) : WarriorUtils.getTotalCustomFitness(customFitnesses);
-        //maybe shuffle warrior collection? TODO
         int selectedQuantity = 0;
         double accumulatedFitness = customFitnesses == null ? warriors.get(warriorIndex).getFitness() : customFitnesses.get(warriorIndex);
 
