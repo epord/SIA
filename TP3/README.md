@@ -24,3 +24,6 @@ See more details [here](https://stackoverflow.com/a/14763095/2333689).
 See the comments within `example.properties` which extensively document what each option does. **NOTE:** Not all settings
 are read for a particular run (eg. `*.selection.second.*` properties are only read when Boltzmann or
 Ranking is chosen as second method)
+
+# Output
+When the program reaches to an end, the console will show the best warrior's fitness found and will output two files:
