@@ -5,6 +5,7 @@ import ar.edu.itba.sia.GeneticOperators.Interfaces.Selection;
 import ar.edu.itba.sia.Warriors.Warrior;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -24,6 +25,9 @@ public class BoltzmannSelection implements Selection {
 
     @Override
     public List<Warrior> select(List<Warrior> warriors, int quantity) {
+        if (quantity == 0) {
+            return Collections.emptyList();
+        }
         List<Double> customFitnesses = new ArrayList<>(quantity);
         double temperature = tempFunction.apply(currentGeneration);
         double accumulatedExp = 0;

@@ -5,6 +5,7 @@ import ar.edu.itba.sia.Warriors.Warrior;
 import ar.edu.itba.sia.util.WarriorUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class UniversalSelection implements CustomizableSelection {
@@ -22,6 +23,9 @@ public class UniversalSelection implements CustomizableSelection {
     public List<Warrior> select(List<Warrior> warriors, int quantity, List<Double> customFitnesses) {
         if (customFitnesses != null && customFitnesses.size() != warriors.size()) {
             throw new IllegalArgumentException(String.format("Warriors and custom fitnesses must match in length. %d != %d", warriors.size(), customFitnesses.size()));
+        }
+        if (quantity == 0) {
+            return Collections.emptyList();
         }
 
         double r = Math.random();

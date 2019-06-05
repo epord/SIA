@@ -5,6 +5,7 @@ import ar.edu.itba.sia.GeneticOperators.Interfaces.Selection;
 import ar.edu.itba.sia.Warriors.Warrior;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -24,6 +25,9 @@ public class RankingSelection implements Selection {
 
     @Override
     public List<Warrior> select(List<Warrior> warriors, int quantity) {
+        if (quantity == 0) {
+            return Collections.emptyList();
+        }
         List<Warrior> sortedWarriors = new ArrayList<>(warriors);
         sortedWarriors.sort(Warrior.WORST_FITNESS_FIRST);
         double rankSum = (quantity+1) * quantity / 2.0; // 1 + 2 + ... + N = (N+1)* N / 2
