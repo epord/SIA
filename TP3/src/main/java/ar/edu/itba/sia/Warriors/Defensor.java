@@ -25,8 +25,8 @@ public class Defensor extends Warrior {
             return false;
         }
 
-        Archer archer = (Archer)o;
-        return archer.getFitness() == getFitness();
+        Defensor defensor = (Defensor) o;
+        return defensor.getFitness() == getFitness();
     }
 }
 

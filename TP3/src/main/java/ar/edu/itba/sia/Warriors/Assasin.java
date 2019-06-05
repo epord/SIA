@@ -25,8 +25,8 @@ public class Assasin extends Warrior {
             return false;
         }
 
-        Archer archer = (Archer)o;
-        return archer.getFitness() == getFitness();
+        Assasin assasin = (Assasin) o;
+        return assasin.getFitness() == getFitness();
     }
 }
 

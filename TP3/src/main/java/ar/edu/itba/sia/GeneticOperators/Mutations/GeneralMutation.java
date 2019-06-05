@@ -33,7 +33,7 @@ public abstract class GeneralMutation implements Mutation {
     }
 
     private void decreasingProbabilityFunction() {
-        probability = probability - (probability / 10);
+        probability = probability - (probability / 100);
 
         if(probability < minProbability) {
             probability = minProbability;
@@ -42,7 +42,7 @@ public abstract class GeneralMutation implements Mutation {
     }
 
     private void modifyingProbabilityFunction() {
-        double randomModifier = Math.random() / 10;
+        double randomModifier = Math.random() / 100;
         probability += randomModifier;
 
         if(probability < minProbability) {
