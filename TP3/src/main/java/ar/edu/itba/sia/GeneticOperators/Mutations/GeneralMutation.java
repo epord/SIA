@@ -42,7 +42,7 @@ public abstract class GeneralMutation implements Mutation {
     }
 
     private static void increasingProbabilityFunction() {
-        probability = probability * 1.01;
+        probability = probability * 1.1;
         if(probability > maxProbability) {
             probability = maxProbability;
         }
