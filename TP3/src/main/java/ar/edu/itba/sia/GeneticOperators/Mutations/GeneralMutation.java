@@ -11,10 +11,10 @@ import static ar.edu.itba.sia.util.Settings.getType;
 public abstract class GeneralMutation implements Mutation {
     private static double probability = Settings.getDouble(Constants.MUTATION_PROBABILITY);
     private static WarriorType warriortype = getType(Settings.getInt(WARRIOR_TYPE));
-    private static double minProbability = 0.04; //TODO read this from file
+    private static double minProbability = Settings.getInt(Constants.MUTATION_MIN_PROBABILITY);
     private static boolean uniform = Settings.getBoolean(Constants.MUTATION_UNIFORMITY);
     private static int generations = Settings.getInt(Constants.MUTATION_UNIFORM_GENERATIONS); // Number of generations with constant probability
-    private static int modifyingFunction = 0; //TODO read from file can be an enum
+    private static int modifyingFunction = Settings.getInt(Constants.MUTATION_MODIFYING_FUNCTION);
     private static int generationCounter = 0;
 
     public void modifyProbability() {

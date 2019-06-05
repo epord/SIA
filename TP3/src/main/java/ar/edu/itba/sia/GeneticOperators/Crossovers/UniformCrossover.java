@@ -4,6 +4,8 @@ import ar.edu.itba.sia.GeneticOperators.Interfaces.CrossOver;
 import ar.edu.itba.sia.Items.*;
 import ar.edu.itba.sia.Warriors.Archer;
 import ar.edu.itba.sia.Warriors.Warrior;
+import ar.edu.itba.sia.util.Constants;
+import ar.edu.itba.sia.util.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,7 @@ import static ar.edu.itba.sia.util.Settings.getWarriorType;
  */
 public class UniformCrossover implements CrossOver {
 
-    public static final double p = 0.5; // TODO read this from file
+    public static final double p = Settings.getInt(Constants.CROSSOVER_UNIFORM_PROBABILITY);
 
     public List<Warrior> apply(Warrior w1, Warrior w2) {
         List<Warrior> newWarriors = new ArrayList<>();

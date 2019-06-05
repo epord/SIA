@@ -34,6 +34,8 @@ public class Constants {
         MUTATION_PROBABILITY = "mutation.p",
         MUTATION_UNIFORMITY = "mutation.uniform",
         MUTATION_UNIFORM_GENERATIONS = "mutation.uniformGenerations",
+        MUTATION_MODIFYING_FUNCTION = "mutation.modifying.function",
+        MUTATION_MIN_PROBABILITY = "mutation.min.probability",
 
         REPLACEMENT_GENERATION_GAP = "replacement.generationGap",
         REPLACEMENT_B = "replacement.selection.B",
