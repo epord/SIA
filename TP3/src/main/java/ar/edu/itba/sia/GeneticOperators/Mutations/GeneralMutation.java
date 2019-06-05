@@ -12,6 +12,7 @@ public abstract class GeneralMutation implements Mutation {
     private static double probability = Settings.getDouble(Constants.MUTATION_PROBABILITY);
     private static WarriorType warriortype = getType(Settings.getInt(WARRIOR_TYPE));
     private static double minProbability = Settings.getDouble(Constants.MUTATION_MIN_PROBABILITY);
+    private static double maxProbability = Settings.getDouble(Constants.MUTATION_MAX_PROBABILITY);
     private static boolean uniform = Settings.getBoolean(Constants.MUTATION_UNIFORMITY);
     private static int generations = Settings.getInt(Constants.MUTATION_UNIFORM_GENERATIONS); // Number of generations with constant probability
     private static int modifyingFunction = Settings.getInt(Constants.MUTATION_MODIFYING_FUNCTION);
@@ -25,10 +26,7 @@ public abstract class GeneralMutation implements Mutation {
                     decreasingProbabilityFunction();
                     break;
                 case 1:
-                    modifyingProbabilityFunction();
-                    break;
-                case 2:
-                    linearLecreasingProbabilityFunction();
+                    increasingProbabilityFunction();
                     break;
             }
             generationCounter = 0;
@@ -37,20 +35,17 @@ public abstract class GeneralMutation implements Mutation {
     }
 
     private static void decreasingProbabilityFunction() {
-        probability = probability - (probability / 100);
-
+        probability = probability * 0.99;
         if(probability < minProbability) {
             probability = minProbability;
         }
     }
 
-    private static void linearLecreasingProbabilityFunction() {
-        probability = probability - 0.01;
-
-        if(probability < minProbability) {
-            probability = minProbability;
+    private static void increasingProbabilityFunction() {
+        probability = probability * 1.01;
+        if(probability > maxProbability) {
+            probability = maxProbability;
         }
-
     }
 
     private static void modifyingProbabilityFunction() {

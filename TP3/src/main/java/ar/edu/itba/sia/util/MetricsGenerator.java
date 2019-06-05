@@ -228,7 +228,7 @@ public class MetricsGenerator {
         sb.append("ylabel(\"Simpson index\");\n");
 
         sb.append("mutation = [");
-        simpsonIndex.forEach(f -> sb.append(f).append(' '));
+        mutationProbability.forEach(f -> sb.append(f).append(' '));
         sb.append("];\n");
         sb.append("subplot(5, 1, 5);\n");
         sb.append("plot([1:").append(mutationProbability.size()).append("], mutation, \"color\", \"blue\");\n");
