@@ -4,6 +4,7 @@ import ar.edu.itba.sia.GeneticOperators.Interfaces.CrossOver;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.GeneticAlgorithm2;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.Mutation;
 import ar.edu.itba.sia.GeneticOperators.Interfaces.Selection;
+import ar.edu.itba.sia.GeneticOperators.Mutations.GeneralMutation;
 import ar.edu.itba.sia.Items.Item;
 import ar.edu.itba.sia.Warriors.Warrior;
 
@@ -27,6 +28,10 @@ public class Algorithm2 extends GeneticAlgorithm2 {
         newGeneration.addAll(selectForReplacement(population, N - k));
 
         updateTemperature();
+
+        if(!GeneralMutation.isUniform()) {
+            GeneralMutation.modifyProbability();
+        }
 
         return newGeneration;
     }

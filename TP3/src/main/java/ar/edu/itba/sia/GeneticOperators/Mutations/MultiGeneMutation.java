@@ -36,10 +36,6 @@ public class MultiGeneMutation extends GeneralMutation implements Mutation {
         rand = Math.random();
         double newHeight = rand <= currentProbability ? Math.random() * (maxHeight - minHeight) + minHeight : warrior.getHeight();
 
-        if(!isUniform()) {
-            modifyProbability();
-        }
-
         return buildWarrior(newBoots, newGloves, newPlatebody, newHelmet, newWeapon, newHeight, getWarriortype());
     }
 

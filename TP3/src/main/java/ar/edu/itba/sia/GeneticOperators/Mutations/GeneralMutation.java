@@ -17,7 +17,7 @@ public abstract class GeneralMutation implements Mutation {
     private static int modifyingFunction = Settings.getInt(Constants.MUTATION_MODIFYING_FUNCTION);
     private static int generationCounter = 0;
 
-    public void modifyProbability() {
+    public static void modifyProbability() {
         generationCounter ++;
         if(generationCounter == generations) {
             switch(modifyingFunction) {
@@ -26,14 +26,26 @@ public abstract class GeneralMutation implements Mutation {
                     break;
                 case 1:
                     modifyingProbabilityFunction();
+                    break;
+                case 2:
+                    linearLecreasingProbabilityFunction();
+                    break;
             }
             generationCounter = 0;
         }
 
     }
 
-    private void decreasingProbabilityFunction() {
+    private static void decreasingProbabilityFunction() {
         probability = probability - (probability / 100);
+
+        if(probability < minProbability) {
+            probability = minProbability;
+        }
+    }
+
+    private static void linearLecreasingProbabilityFunction() {
+        probability = probability - 0.01;
 
         if(probability < minProbability) {
             probability = minProbability;
@@ -41,8 +53,8 @@ public abstract class GeneralMutation implements Mutation {
 
     }
 
-    private void modifyingProbabilityFunction() {
-        double randomModifier = Math.random() / 100;
+    private static void modifyingProbabilityFunction() {
+        double randomModifier = (Math.random() - 0.5) / 5;
         probability += randomModifier;
 
         if(probability < minProbability) {
@@ -50,11 +62,11 @@ public abstract class GeneralMutation implements Mutation {
         }
     }
 
-    public double getProbability() {
+    public static double getProbability() {
         return probability;
     }
 
-    public boolean isUniform() {
+    public static boolean isUniform() {
         return uniform;
     }
 

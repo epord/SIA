@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.util;
 
 import ar.edu.itba.sia.GeneticOperators.Interfaces.EndCondition;
+import ar.edu.itba.sia.GeneticOperators.Mutations.GeneralMutation;
 import ar.edu.itba.sia.Items.*;
 import ar.edu.itba.sia.Warriors.Warrior;
 
@@ -15,6 +16,7 @@ public class MetricsGenerator {
     private static List<List<Warrior>> generations = new ArrayList<>();
     private static List<Integer> biodiversityIndex = new ArrayList<>();
     private static List<Double> simpsonIndex = new ArrayList<>();
+    private static List<Double> mutationProbability = new ArrayList<>();
 
     public static void addGeneration(List<Warrior> warriors) {
         if (warriors.size() == 0) return;
@@ -36,6 +38,9 @@ public class MetricsGenerator {
             accumulatedRelativeDiversity += Math.pow(entry.getValue().doubleValue() / warriors.size(), 2);
         }
         simpsonIndex.add(1 - accumulatedRelativeDiversity);
+
+        // Add mutation probability
+        mutationProbability.add(GeneralMutation.getProbability());
     }
 
     public static void clearData() {
@@ -181,16 +186,15 @@ public class MetricsGenerator {
         sb.append("bestFitnesses = [");
         bestFitnesses.forEach(f -> sb.append(f).append(' '));
         sb.append("];\n");
-        sb.append("subplot(4, 1, 1);\n");
+        sb.append("subplot(5, 1, 1);\n");
         sb.append("plot([1:").append(bestFitnesses.size()).append("], bestFitnesses, \"color\", \"red\");\n");
         sb.append("hold on;\n");
 
         sb.append("meanFitnesses = [");
         meanFitnesses.forEach(f -> sb.append(f).append(' '));
         sb.append("];\n");
-        sb.append("subplot(4, 1, 1);\n");
+        sb.append("subplot(5, 1, 1);\n");
         sb.append("plot([1:").append(meanFitnesses.size()).append("], meanFitnesses, \"color\", \"blue\");\n");
-
         sb.append("title(\"Fitness over generations\", 'fontsize',14);\n");
         sb.append("xlabel(\"generations\");\n");
         sb.append("ylabel(\"fitness\");\n");
@@ -199,9 +203,8 @@ public class MetricsGenerator {
         sb.append("meanHeights = [");
         meanHeights.forEach(f -> sb.append(f).append(' '));
         sb.append("];\n");
-        sb.append("subplot(4, 1, 2);\n");
+        sb.append("subplot(5, 1, 2);\n");
         sb.append("plot([1:").append(meanHeights.size()).append("], meanHeights, \"color\", \"blue\");\n");
-
         sb.append("title(\"Mean height over generations\", 'fontsize',14);\n");
         sb.append("xlabel(\"generations\");\n");
         sb.append("ylabel(\"height (m)\");\n");
@@ -209,9 +212,8 @@ public class MetricsGenerator {
         sb.append("diversity = [");
         biodiversityIndex.forEach(f -> sb.append(f).append(' '));
         sb.append("];\n");
-        sb.append("subplot(4, 1, 3);\n");
+        sb.append("subplot(5, 1, 3);\n");
         sb.append("plot([1:").append(biodiversityIndex.size()).append("], diversity, \"color\", \"blue\");\n");
-
         sb.append("title(\"Biodiversity over generations\", 'fontsize',14);\n");
         sb.append("xlabel(\"generations\");\n");
         sb.append("ylabel(\"biodiversity index\");\n");
@@ -219,12 +221,20 @@ public class MetricsGenerator {
         sb.append("simpson = [");
         simpsonIndex.forEach(f -> sb.append(f).append(' '));
         sb.append("];\n");
-        sb.append("subplot(4, 1, 4);\n");
+        sb.append("subplot(5, 1, 4);\n");
         sb.append("plot([1:").append(simpsonIndex.size()).append("], simpson, \"color\", \"blue\");\n");
-
         sb.append("title(\"Simpson index over generations\", 'fontsize',14);\n");
         sb.append("xlabel(\"generations\");\n");
         sb.append("ylabel(\"Simpson index\");\n");
+
+        sb.append("mutation = [");
+        simpsonIndex.forEach(f -> sb.append(f).append(' '));
+        sb.append("];\n");
+        sb.append("subplot(5, 1, 5);\n");
+        sb.append("plot([1:").append(mutationProbability.size()).append("], mutation, \"color\", \"blue\");\n");
+        sb.append("title(\"Mutation Probability\", 'fontsize',14);\n");
+        sb.append("xlabel(\"generations\");\n");
+        sb.append("ylabel(\"Mutation probability\");\n");
 
         return sb.toString();
     }

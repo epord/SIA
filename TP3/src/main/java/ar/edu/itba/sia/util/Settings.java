@@ -46,7 +46,7 @@ public class Settings {
         }
 
         if (!getBoolean(Constants.MUTATION_UNIFORMITY)) {
-            if (!properties.contains(Constants.MUTATION_UNIFORM_GENERATIONS)) {
+            if (!properties.containsKey(Constants.MUTATION_UNIFORM_GENERATIONS)) {
                 throw new IllegalArgumentException(String.format("%s=0, but %s is not set", Constants.MUTATION_UNIFORMITY, Constants.MUTATION_UNIFORM_GENERATIONS));
             } else if (getInt(Constants.MUTATION_UNIFORM_GENERATIONS) <= 0) {
                 throw new IllegalArgumentException(Constants.MUTATION_UNIFORM_GENERATIONS + " must be > 0");

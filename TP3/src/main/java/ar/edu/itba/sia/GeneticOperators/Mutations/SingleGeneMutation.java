@@ -65,10 +65,6 @@ public class SingleGeneMutation extends GeneralMutation implements Mutation {
             }
         }
 
-        if(!isUniform()) {
-            modifyProbability();
-        }
-
         return newWarrior;
     }
 
