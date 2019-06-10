@@ -27,3 +27,12 @@ Ranking is chosen as second method)
 
 # Output
 When the program reaches to an end, the console will show the best warrior's fitness found and will output two files:
+
+- `out.m` Octave file that generates the graphs showing the evolution of the population
+- `frontend/data.p5` (if `frontend` subdirectory exists, otherwise outputs to same directory) Animation file used in `frontend/index.html`
+to visualize the evolution of stats and diversity in the population.
+
+# Visualization
+1. Run the program (see [Running](#running))
+1. Open `frontend/index.html` in your browser
+1. Animation should start automatically
